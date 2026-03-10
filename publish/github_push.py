@@ -9,6 +9,15 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parents[1]
 
 
+def safe_print(text: str) -> None:
+    if not text:
+        return
+    try:
+        print(text, end="")
+    except UnicodeEncodeError:
+        enc = sys.stdout.encoding or "cp1251"
+        print(text.encode(enc, errors="replace").decode(enc, errors="replace"), end="")
+
 
 def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
     cwd = cwd or ROOT_DIR
@@ -23,10 +32,11 @@ def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subproce
         errors="replace",
     )
 
-   if proc.stdout:
-    safe_print(proc.stdout)
-if proc.stderr:
-    safe_print(proc.stderr)
+    if proc.stdout:
+        safe_print(proc.stdout)
+
+    if proc.stderr:
+        safe_print(proc.stderr)
 
     if check and proc.returncode != 0:
         raise RuntimeError(
@@ -72,13 +82,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nERROR: {e}")
         raise
-
-
-    def safe_print(text: str) -> None:
-    if not text:
-        return
-    try:
-        print(text, end="")
-    except UnicodeEncodeError:
-        enc = sys.stdout.encoding or "cp1251"
-        print(text.encode(enc, errors="replace").decode(enc, errors="replace"), end="")
