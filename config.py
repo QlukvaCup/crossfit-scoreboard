@@ -5,6 +5,19 @@ DATA_DIR = Path("data")
 PUBLIC_DIR = Path("public")
 PUBLISH_DIR = Path("publish")
 
+# Папка для GitHub Pages
+DOCS_DIR = Path("docs")
+
+# Файлы
+DB_FILE = DATA_DIR / "db.json"
+DATA_FLAGS_DIR = DATA_DIR / "flags"
+
+PUBLIC_RESULTS_FILE = PUBLIC_DIR / "results.json"
+PUBLIC_FLAGS_DIR = PUBLIC_DIR / "flags"
+
+DOCS_RESULTS_FILE = DOCS_DIR / "results.json"
+DOCS_FLAGS_DIR = DOCS_DIR / "flags"
+
 # Файлы
 DB_FILE = DATA_DIR / "db.json"
 DATA_FLAGS_DIR = DATA_DIR / "flags"
