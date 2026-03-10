@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-03-09T13:25:58.531766+00:00",
+  "generated_at": "2026-03-10T14:14:08.428177+00:00",
   "divisions": {
     "BEGSCAL_F": {
-      "title": "BEG/SCAL — Women",
+      "title": "Beginners/Scaled — Women",
       "rows": [
         {
           "place": 1,
@@ -21,7 +21,7 @@
                 "status": "ok",
                 "value": 70.0
               },
-              "result_text": "70"
+              "result_text": "{'status': 'ok', 'value': 70.0}"
             },
             "WOD2A": {
               "points": 100.0,
@@ -29,7 +29,7 @@
                 "status": "ok",
                 "value": 58
               },
-              "result_text": "58"
+              "result_text": "{'status': 'ok', 'value': 58}"
             },
             "WOD2B": {
               "points": 100.0,
@@ -37,7 +37,7 @@
                 "status": "ok",
                 "value": 171
               },
-              "result_text": "171"
+              "result_text": "{'status': 'ok', 'value': 171}"
             },
             "WOD3": {
               "points": 85.71,
@@ -45,7 +45,7 @@
                 "status": "ok",
                 "value": 385
               },
-              "result_text": "6:25"
+              "result_text": "{'status': 'ok', 'value': 385}"
             }
           },
           "total": 357.14
@@ -67,7 +67,7 @@
                 "status": "ok",
                 "value": 65.0
               },
-              "result_text": "65"
+              "result_text": "{'status': 'ok', 'value': 65.0}"
             },
             "WOD2A": {
               "points": 100.0,
@@ -75,7 +75,7 @@
                 "status": "ok",
                 "value": 58
               },
-              "result_text": "58"
+              "result_text": "{'status': 'ok', 'value': 58}"
             },
             "WOD2B": {
               "points": 100.0,
@@ -83,7 +83,7 @@
                 "status": "ok",
                 "value": 171
               },
-              "result_text": "171"
+              "result_text": "{'status': 'ok', 'value': 171}"
             },
             "WOD3": {
               "points": 71.43,
@@ -91,7 +91,7 @@
                 "status": "ok",
                 "value": 423
               },
-              "result_text": "7:03"
+              "result_text": "{'status': 'ok', 'value': 423}"
             }
           },
           "total": 314.29
@@ -113,7 +113,7 @@
                 "status": "ok",
                 "value": 70.0
               },
-              "result_text": "70"
+              "result_text": "{'status': 'ok', 'value': 70.0}"
             },
             "WOD2A": {
               "points": 57.14,
@@ -121,7 +121,7 @@
                 "status": "ok",
                 "value": 48
               },
-              "result_text": "48"
+              "result_text": "{'status': 'ok', 'value': 48}"
             },
             "WOD2B": {
               "points": 71.43,
@@ -129,7 +129,7 @@
                 "status": "ok",
                 "value": 167
               },
-              "result_text": "167"
+              "result_text": "{'status': 'ok', 'value': 167}"
             },
             "WOD3": {
               "points": 100.0,
@@ -137,7 +137,7 @@
                 "status": "ok",
                 "value": 362
               },
-              "result_text": "6:02"
+              "result_text": "{'status': 'ok', 'value': 362}"
             }
           },
           "total": 300.0
@@ -159,7 +159,7 @@
                 "status": "ok",
                 "value": 90.0
               },
-              "result_text": "90"
+              "result_text": "{'status': 'ok', 'value': 90.0}"
             },
             "WOD2A": {
               "points": 71.43,
@@ -167,7 +167,7 @@
                 "status": "ok",
                 "value": 49
               },
-              "result_text": "49"
+              "result_text": "{'status': 'ok', 'value': 49}"
             },
             "WOD2B": {
               "points": 42.86,
@@ -175,7 +175,7 @@
                 "status": "ok",
                 "value": 153
               },
-              "result_text": "153"
+              "result_text": "{'status': 'ok', 'value': 153}"
             },
             "WOD3": {
               "points": 42.86,
@@ -183,7 +183,7 @@
                 "status": "ok",
                 "value": 436
               },
-              "result_text": "7:16"
+              "result_text": "{'status': 'ok', 'value': 436}"
             }
           },
           "total": 257.15
@@ -205,7 +205,7 @@
                 "status": "ok",
                 "value": 85.0
               },
-              "result_text": "85"
+              "result_text": "{'status': 'ok', 'value': 85.0}"
             },
             "WOD2A": {
               "points": 42.86,
@@ -213,7 +213,7 @@
                 "status": "ok",
                 "value": 47
               },
-              "result_text": "47"
+              "result_text": "{'status': 'ok', 'value': 47}"
             },
             "WOD2B": {
               "points": 57.14,
@@ -221,7 +221,7 @@
                 "status": "ok",
                 "value": 163
               },
-              "result_text": "163"
+              "result_text": "{'status': 'ok', 'value': 163}"
             },
             "WOD3": {
               "points": 57.14,
@@ -229,7 +229,7 @@
                 "status": "ok",
                 "value": 433
               },
-              "result_text": "7:13"
+              "result_text": "{'status': 'ok', 'value': 433}"
             }
           },
           "total": 242.85
@@ -251,7 +251,7 @@
                 "status": "ok",
                 "value": 65.0
               },
-              "result_text": "65"
+              "result_text": "{'status': 'ok', 'value': 65.0}"
             },
             "WOD2A": {
               "points": 14.29,
@@ -259,7 +259,7 @@
                 "status": "ok",
                 "value": 40
               },
-              "result_text": "40"
+              "result_text": "{'status': 'ok', 'value': 40}"
             },
             "WOD2B": {
               "points": 28.57,
@@ -267,7 +267,7 @@
                 "status": "ok",
                 "value": 126
               },
-              "result_text": "126"
+              "result_text": "{'status': 'ok', 'value': 126}"
             },
             "WOD3": {
               "points": 14.29,
@@ -275,7 +275,7 @@
                 "status": "capped",
                 "value": 148
               },
-              "result_text": "CAP 148 reps"
+              "result_text": "{'status': 'capped', 'value': 148}"
             }
           },
           "total": 100.01
@@ -297,7 +297,7 @@
                 "status": "ok",
                 "value": 55.0
               },
-              "result_text": "55"
+              "result_text": "{'status': 'ok', 'value': 55.0}"
             },
             "WOD2A": {
               "points": 28.57,
@@ -305,7 +305,7 @@
                 "status": "ok",
                 "value": 43
               },
-              "result_text": "43"
+              "result_text": "{'status': 'ok', 'value': 43}"
             },
             "WOD2B": {
               "points": 14.29,
@@ -313,7 +313,7 @@
                 "status": "ok",
                 "value": 121
               },
-              "result_text": "121"
+              "result_text": "{'status': 'ok', 'value': 121}"
             },
             "WOD3": {
               "points": 28.57,
@@ -321,7 +321,7 @@
                 "status": "ok",
                 "value": 553
               },
-              "result_text": "9:13"
+              "result_text": "{'status': 'ok', 'value': 553}"
             }
           },
           "total": 85.72
@@ -329,7 +329,7 @@
       ]
     },
     "BEGSCAL_M": {
-      "title": "BEG/SCAL — Men",
+      "title": "Beginners/Scaled — Men",
       "rows": [
         {
           "place": 1,
@@ -343,27 +343,30 @@
           "flag": null,
           "scores": {
             "WOD1": {
-              "points": null,
-              "result": null,
-              "result_text": "—"
+              "points": 100.0,
+              "result": {
+                "status": "ok",
+                "value": 21.0
+              },
+              "result_text": "{'status': 'ok', 'value': 21.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
-          "total": 0.0
+          "total": 100.0
         }
       ]
     },
@@ -391,22 +394,22 @@
                 "status": "ok",
                 "value": 222.0
               },
-              "result_text": "222"
+              "result_text": "{'status': 'ok', 'value': 222.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 100.0
@@ -428,22 +431,22 @@
                 "status": "ok",
                 "value": 145.0
               },
-              "result_text": "145"
+              "result_text": "{'status': 'ok', 'value': 145.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 93.75
@@ -465,22 +468,22 @@
                 "status": "ok",
                 "value": 142.0
               },
-              "result_text": "142"
+              "result_text": "{'status': 'ok', 'value': 142.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 87.5
@@ -502,22 +505,22 @@
                 "status": "ok",
                 "value": 131.0
               },
-              "result_text": "131"
+              "result_text": "{'status': 'ok', 'value': 131.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 81.25
@@ -539,22 +542,22 @@
                 "status": "ok",
                 "value": 131.0
               },
-              "result_text": "131"
+              "result_text": "{'status': 'ok', 'value': 131.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 81.25
@@ -576,22 +579,22 @@
                 "status": "ok",
                 "value": 123.0
               },
-              "result_text": "123"
+              "result_text": "{'status': 'ok', 'value': 123.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 68.75
@@ -613,22 +616,22 @@
                 "status": "ok",
                 "value": 121.0
               },
-              "result_text": "121"
+              "result_text": "{'status': 'ok', 'value': 121.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 62.5
@@ -650,22 +653,22 @@
                 "status": "ok",
                 "value": 120.0
               },
-              "result_text": "120"
+              "result_text": "{'status': 'ok', 'value': 120.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 56.25
@@ -687,22 +690,22 @@
                 "status": "ok",
                 "value": 100.0
               },
-              "result_text": "100"
+              "result_text": "{'status': 'ok', 'value': 100.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 50.0
@@ -724,22 +727,22 @@
                 "status": "ok",
                 "value": 95.0
               },
-              "result_text": "95"
+              "result_text": "{'status': 'ok', 'value': 95.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 43.75
@@ -761,22 +764,22 @@
                 "status": "ok",
                 "value": 83.0
               },
-              "result_text": "83"
+              "result_text": "{'status': 'ok', 'value': 83.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 37.5
@@ -798,22 +801,22 @@
                 "status": "ok",
                 "value": 50.0
               },
-              "result_text": "50"
+              "result_text": "{'status': 'ok', 'value': 50.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 31.25
@@ -835,22 +838,22 @@
                 "status": "ok",
                 "value": 45.0
               },
-              "result_text": "45"
+              "result_text": "{'status': 'ok', 'value': 45.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 25.0
@@ -872,22 +875,22 @@
                 "status": "ok",
                 "value": 34.0
               },
-              "result_text": "34"
+              "result_text": "{'status': 'ok', 'value': 34.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 18.75
@@ -909,22 +912,22 @@
                 "status": "ok",
                 "value": 14.0
               },
-              "result_text": "14"
+              "result_text": "{'status': 'ok', 'value': 14.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 12.5
@@ -946,22 +949,22 @@
                 "status": "ok",
                 "value": 0.0
               },
-              "result_text": "0"
+              "result_text": "{'status': 'ok', 'value': 0.0}"
             },
             "WOD2A": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD2B": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             },
             "WOD3": {
               "points": null,
               "result": null,
-              "result_text": "—"
+              "result_text": ""
             }
           },
           "total": 6.25
@@ -996,524 +999,8 @@
     }
   ],
   "heats": {
-    "WOD1": {
-      "title": "Комплекс 1",
-      "divisions": {
-        "INT_M": [
-          {
-            "heat": 1,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 13,
-                "full_name": "Индиго Гиго",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 18,
-                "full_name": "ввввясвясяч",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 17,
-                "full_name": "йцуйцйййй",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 20,
-                "full_name": "ясячсячсяч",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 2,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 26,
-                "full_name": "сячсфвы",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 16,
-                "full_name": "фыввфв",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 25,
-                "full_name": "фывйвая",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 15,
-                "full_name": "ццйвцв",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 3,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 19,
-                "full_name": "ывфвячс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 28,
-                "full_name": "ыфвфычс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 23,
-                "full_name": "ясчячсячсячс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 24,
-                "full_name": "ясячсячсчя",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 4,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 12,
-                "full_name": "Санек Сашок",
-                "club": "Urban",
-                "city": "Волгоград",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 27,
-                "full_name": "ячсвыявчс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 22,
-                "full_name": "ячсммаымв",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 21,
-                "full_name": "ячсчясяя",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          }
-        ],
-        "BEGSCAL_F": [
-          {
-            "heat": 1,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 7,
-                "full_name": "Авакова Кристина",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 4,
-                "full_name": "Воронкина Влада",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 6,
-                "full_name": "Жегулева Ксения",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 9,
-                "full_name": "Лукьяненко Виктория",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 2,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 11,
-                "full_name": "Мелкумова Яна",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 5,
-                "full_name": "Постникова Юлия",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 10,
-                "full_name": "Тедеева Моника",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "WOD2": {
-      "title": "Комплекс 2",
-      "divisions": {
-        "INT_M": [
-          {
-            "heat": 1,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 16,
-                "full_name": "фыввфв",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 17,
-                "full_name": "йцуйцйййй",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 19,
-                "full_name": "ывфвячс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 15,
-                "full_name": "ццйвцв",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 2,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 18,
-                "full_name": "ввввясвясяч",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 22,
-                "full_name": "ячсммаымв",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 27,
-                "full_name": "ячсвыявчс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 13,
-                "full_name": "Индиго Гиго",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 3,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 12,
-                "full_name": "Санек Сашок",
-                "club": "Urban",
-                "city": "Волгоград",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 20,
-                "full_name": "ясячсячсяч",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 24,
-                "full_name": "ясячсячсчя",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 28,
-                "full_name": "ыфвфычс",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 4,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 21,
-                "full_name": "ячсчясяя",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 26,
-                "full_name": "сячсфвы",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 23,
-                "full_name": "ясчячсячсячс",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 25,
-                "full_name": "фывйвая",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          }
-        ],
-        "BEGSCAL_F": [
-          {
-            "heat": 1,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 11,
-                "full_name": "Мелкумова Яна",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 10,
-                "full_name": "Тедеева Моника",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 6,
-                "full_name": "Жегулева Ксения",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 5,
-                "full_name": "Постникова Юлия",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 2,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 4,
-                "full_name": "Воронкина Влада",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 9,
-                "full_name": "Лукьяненко Виктория",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 7,
-                "full_name": "Авакова Кристина",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "WOD3": {
-      "title": "Комплекс 3",
-      "divisions": {
-        "BEGSCAL_F": [
-          {
-            "heat": 1,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 11,
-                "full_name": "Мелкумова Яна",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 10,
-                "full_name": "Тедеева Моника",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 9,
-                "full_name": "Лукьяненко Виктория",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 4,
-                "athlete_id": 5,
-                "full_name": "Постникова Юлия",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          },
-          {
-            "heat": 2,
-            "assignments": [
-              {
-                "lane": 1,
-                "athlete_id": 7,
-                "full_name": "Авакова Кристина",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 2,
-                "athlete_id": 6,
-                "full_name": "Жегулева Ксения",
-                "club": "",
-                "city": "",
-                "flag": null
-              },
-              {
-                "lane": 3,
-                "athlete_id": 4,
-                "full_name": "Воронкина Влада",
-                "club": "",
-                "city": "",
-                "flag": null
-              }
-            ]
-          }
-        ]
-      }
-    }
+    "WOD1": [],
+    "WOD2": [],
+    "WOD3": []
   }
 }
