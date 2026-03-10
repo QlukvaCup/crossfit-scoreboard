@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-10T14:56:27.508910+00:00",
+  "generated_at": "2026-03-10T15:15:43.087530+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -1151,7 +1151,8 @@
               }
             ]
           }
-        ]
+        ],
+        "BEGSCAL_F": []
       }
     },
     "WOD2": {
@@ -1311,6 +1312,10 @@
     },
     "WOD3": {
       "title": "Комплекс 3",
+      "divisions": {}
+    },
+    "WOD4": {
+      "title": "WOD4",
       "divisions": {}
     }
   }
