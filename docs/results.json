@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-10T14:19:23.138004+00:00",
+  "generated_at": "2026-03-10T14:56:27.508910+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -21,7 +21,7 @@
                 "status": "ok",
                 "value": 70.0
               },
-              "result_text": "{'status': 'ok', 'value': 70.0}"
+              "result_text": "70"
             },
             "WOD2A": {
               "points": 100.0,
@@ -29,7 +29,7 @@
                 "status": "ok",
                 "value": 58
               },
-              "result_text": "{'status': 'ok', 'value': 58}"
+              "result_text": "58"
             },
             "WOD2B": {
               "points": 100.0,
@@ -37,7 +37,7 @@
                 "status": "ok",
                 "value": 171
               },
-              "result_text": "{'status': 'ok', 'value': 171}"
+              "result_text": "171"
             },
             "WOD3": {
               "points": 85.71,
@@ -45,7 +45,7 @@
                 "status": "ok",
                 "value": 385
               },
-              "result_text": "{'status': 'ok', 'value': 385}"
+              "result_text": "6:25"
             }
           },
           "total": 357.14
@@ -67,7 +67,7 @@
                 "status": "ok",
                 "value": 65.0
               },
-              "result_text": "{'status': 'ok', 'value': 65.0}"
+              "result_text": "65"
             },
             "WOD2A": {
               "points": 100.0,
@@ -75,7 +75,7 @@
                 "status": "ok",
                 "value": 58
               },
-              "result_text": "{'status': 'ok', 'value': 58}"
+              "result_text": "58"
             },
             "WOD2B": {
               "points": 100.0,
@@ -83,7 +83,7 @@
                 "status": "ok",
                 "value": 171
               },
-              "result_text": "{'status': 'ok', 'value': 171}"
+              "result_text": "171"
             },
             "WOD3": {
               "points": 71.43,
@@ -91,7 +91,7 @@
                 "status": "ok",
                 "value": 423
               },
-              "result_text": "{'status': 'ok', 'value': 423}"
+              "result_text": "7:03"
             }
           },
           "total": 314.29
@@ -113,7 +113,7 @@
                 "status": "ok",
                 "value": 70.0
               },
-              "result_text": "{'status': 'ok', 'value': 70.0}"
+              "result_text": "70"
             },
             "WOD2A": {
               "points": 57.14,
@@ -121,7 +121,7 @@
                 "status": "ok",
                 "value": 48
               },
-              "result_text": "{'status': 'ok', 'value': 48}"
+              "result_text": "48"
             },
             "WOD2B": {
               "points": 71.43,
@@ -129,7 +129,7 @@
                 "status": "ok",
                 "value": 167
               },
-              "result_text": "{'status': 'ok', 'value': 167}"
+              "result_text": "167"
             },
             "WOD3": {
               "points": 100.0,
@@ -137,7 +137,7 @@
                 "status": "ok",
                 "value": 362
               },
-              "result_text": "{'status': 'ok', 'value': 362}"
+              "result_text": "6:02"
             }
           },
           "total": 300.0
@@ -159,7 +159,7 @@
                 "status": "ok",
                 "value": 90.0
               },
-              "result_text": "{'status': 'ok', 'value': 90.0}"
+              "result_text": "90"
             },
             "WOD2A": {
               "points": 71.43,
@@ -167,7 +167,7 @@
                 "status": "ok",
                 "value": 49
               },
-              "result_text": "{'status': 'ok', 'value': 49}"
+              "result_text": "49"
             },
             "WOD2B": {
               "points": 42.86,
@@ -175,7 +175,7 @@
                 "status": "ok",
                 "value": 153
               },
-              "result_text": "{'status': 'ok', 'value': 153}"
+              "result_text": "153"
             },
             "WOD3": {
               "points": 42.86,
@@ -183,7 +183,7 @@
                 "status": "ok",
                 "value": 436
               },
-              "result_text": "{'status': 'ok', 'value': 436}"
+              "result_text": "7:16"
             }
           },
           "total": 257.15
@@ -205,7 +205,7 @@
                 "status": "ok",
                 "value": 85.0
               },
-              "result_text": "{'status': 'ok', 'value': 85.0}"
+              "result_text": "85"
             },
             "WOD2A": {
               "points": 42.86,
@@ -213,7 +213,7 @@
                 "status": "ok",
                 "value": 47
               },
-              "result_text": "{'status': 'ok', 'value': 47}"
+              "result_text": "47"
             },
             "WOD2B": {
               "points": 57.14,
@@ -221,7 +221,7 @@
                 "status": "ok",
                 "value": 163
               },
-              "result_text": "{'status': 'ok', 'value': 163}"
+              "result_text": "163"
             },
             "WOD3": {
               "points": 57.14,
@@ -229,7 +229,7 @@
                 "status": "ok",
                 "value": 433
               },
-              "result_text": "{'status': 'ok', 'value': 433}"
+              "result_text": "7:13"
             }
           },
           "total": 242.85
@@ -251,7 +251,7 @@
                 "status": "ok",
                 "value": 65.0
               },
-              "result_text": "{'status': 'ok', 'value': 65.0}"
+              "result_text": "65"
             },
             "WOD2A": {
               "points": 14.29,
@@ -259,7 +259,7 @@
                 "status": "ok",
                 "value": 40
               },
-              "result_text": "{'status': 'ok', 'value': 40}"
+              "result_text": "40"
             },
             "WOD2B": {
               "points": 28.57,
@@ -267,7 +267,7 @@
                 "status": "ok",
                 "value": 126
               },
-              "result_text": "{'status': 'ok', 'value': 126}"
+              "result_text": "126"
             },
             "WOD3": {
               "points": 14.29,
@@ -275,7 +275,7 @@
                 "status": "capped",
                 "value": 148
               },
-              "result_text": "{'status': 'capped', 'value': 148}"
+              "result_text": "CAP 2:28"
             }
           },
           "total": 100.01
@@ -297,7 +297,7 @@
                 "status": "ok",
                 "value": 55.0
               },
-              "result_text": "{'status': 'ok', 'value': 55.0}"
+              "result_text": "55"
             },
             "WOD2A": {
               "points": 28.57,
@@ -305,7 +305,7 @@
                 "status": "ok",
                 "value": 43
               },
-              "result_text": "{'status': 'ok', 'value': 43}"
+              "result_text": "43"
             },
             "WOD2B": {
               "points": 14.29,
@@ -313,7 +313,7 @@
                 "status": "ok",
                 "value": 121
               },
-              "result_text": "{'status': 'ok', 'value': 121}"
+              "result_text": "121"
             },
             "WOD3": {
               "points": 28.57,
@@ -321,7 +321,7 @@
                 "status": "ok",
                 "value": 553
               },
-              "result_text": "{'status': 'ok', 'value': 553}"
+              "result_text": "9:13"
             }
           },
           "total": 85.72
@@ -348,7 +348,7 @@
                 "status": "ok",
                 "value": 21.0
               },
-              "result_text": "{'status': 'ok', 'value': 21.0}"
+              "result_text": "21"
             },
             "WOD2A": {
               "points": null,
@@ -394,7 +394,7 @@
                 "status": "ok",
                 "value": 222.0
               },
-              "result_text": "{'status': 'ok', 'value': 222.0}"
+              "result_text": "222"
             },
             "WOD2A": {
               "points": null,
@@ -431,7 +431,7 @@
                 "status": "ok",
                 "value": 145.0
               },
-              "result_text": "{'status': 'ok', 'value': 145.0}"
+              "result_text": "145"
             },
             "WOD2A": {
               "points": null,
@@ -468,7 +468,7 @@
                 "status": "ok",
                 "value": 142.0
               },
-              "result_text": "{'status': 'ok', 'value': 142.0}"
+              "result_text": "142"
             },
             "WOD2A": {
               "points": null,
@@ -505,7 +505,7 @@
                 "status": "ok",
                 "value": 131.0
               },
-              "result_text": "{'status': 'ok', 'value': 131.0}"
+              "result_text": "131"
             },
             "WOD2A": {
               "points": null,
@@ -526,7 +526,7 @@
           "total": 81.25
         },
         {
-          "place": 5,
+          "place": 4,
           "id": 21,
           "full_name": "ячсчясяя",
           "age": 25,
@@ -542,7 +542,7 @@
                 "status": "ok",
                 "value": 131.0
               },
-              "result_text": "{'status': 'ok', 'value': 131.0}"
+              "result_text": "131"
             },
             "WOD2A": {
               "points": null,
@@ -579,7 +579,7 @@
                 "status": "ok",
                 "value": 123.0
               },
-              "result_text": "{'status': 'ok', 'value': 123.0}"
+              "result_text": "123"
             },
             "WOD2A": {
               "points": null,
@@ -616,7 +616,7 @@
                 "status": "ok",
                 "value": 121.0
               },
-              "result_text": "{'status': 'ok', 'value': 121.0}"
+              "result_text": "121"
             },
             "WOD2A": {
               "points": null,
@@ -653,7 +653,7 @@
                 "status": "ok",
                 "value": 120.0
               },
-              "result_text": "{'status': 'ok', 'value': 120.0}"
+              "result_text": "120"
             },
             "WOD2A": {
               "points": null,
@@ -690,7 +690,7 @@
                 "status": "ok",
                 "value": 100.0
               },
-              "result_text": "{'status': 'ok', 'value': 100.0}"
+              "result_text": "100"
             },
             "WOD2A": {
               "points": null,
@@ -727,7 +727,7 @@
                 "status": "ok",
                 "value": 95.0
               },
-              "result_text": "{'status': 'ok', 'value': 95.0}"
+              "result_text": "95"
             },
             "WOD2A": {
               "points": null,
@@ -764,7 +764,7 @@
                 "status": "ok",
                 "value": 83.0
               },
-              "result_text": "{'status': 'ok', 'value': 83.0}"
+              "result_text": "83"
             },
             "WOD2A": {
               "points": null,
@@ -801,7 +801,7 @@
                 "status": "ok",
                 "value": 50.0
               },
-              "result_text": "{'status': 'ok', 'value': 50.0}"
+              "result_text": "50"
             },
             "WOD2A": {
               "points": null,
@@ -838,7 +838,7 @@
                 "status": "ok",
                 "value": 45.0
               },
-              "result_text": "{'status': 'ok', 'value': 45.0}"
+              "result_text": "45"
             },
             "WOD2A": {
               "points": null,
@@ -875,7 +875,7 @@
                 "status": "ok",
                 "value": 34.0
               },
-              "result_text": "{'status': 'ok', 'value': 34.0}"
+              "result_text": "34"
             },
             "WOD2A": {
               "points": null,
@@ -912,7 +912,7 @@
                 "status": "ok",
                 "value": 14.0
               },
-              "result_text": "{'status': 'ok', 'value': 14.0}"
+              "result_text": "14"
             },
             "WOD2A": {
               "points": null,
@@ -949,7 +949,7 @@
                 "status": "ok",
                 "value": 0.0
               },
-              "result_text": "{'status': 'ok', 'value': 0.0}"
+              "result_text": "0"
             },
             "WOD2A": {
               "points": null,
@@ -999,8 +999,319 @@
     }
   ],
   "heats": {
-    "WOD1": [],
-    "WOD2": [],
-    "WOD3": []
+    "WOD1": {
+      "title": "Комплекс 1",
+      "divisions": {
+        "INT_M": [
+          {
+            "heat": 1,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 13,
+                "full_name": "Индиго Гиго",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 18,
+                "full_name": "ввввясвясяч",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 17,
+                "full_name": "йцуйцйййй",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 20,
+                "full_name": "ясячсячсяч",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          },
+          {
+            "heat": 2,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 26,
+                "full_name": "сячсфвы",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 16,
+                "full_name": "фыввфв",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 25,
+                "full_name": "фывйвая",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 15,
+                "full_name": "ццйвцв",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          },
+          {
+            "heat": 3,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 19,
+                "full_name": "ывфвячс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 28,
+                "full_name": "ыфвфычс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 23,
+                "full_name": "ясчячсячсячс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 24,
+                "full_name": "ясячсячсчя",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          },
+          {
+            "heat": 4,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 12,
+                "full_name": "Санек Сашок",
+                "club": "Urban",
+                "city": "Волгоград",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 27,
+                "full_name": "ячсвыявчс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 22,
+                "full_name": "ячсммаымв",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 21,
+                "full_name": "ячсчясяя",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WOD2": {
+      "title": "Комплекс 2",
+      "divisions": {
+        "INT_M": [
+          {
+            "heat": 1,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 16,
+                "full_name": "фыввфв",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 17,
+                "full_name": "йцуйцйййй",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 19,
+                "full_name": "ывфвячс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 15,
+                "full_name": "ццйвцв",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          },
+          {
+            "heat": 2,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 18,
+                "full_name": "ввввясвясяч",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 22,
+                "full_name": "ячсммаымв",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 27,
+                "full_name": "ячсвыявчс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 13,
+                "full_name": "Индиго Гиго",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          },
+          {
+            "heat": 3,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 12,
+                "full_name": "Санек Сашок",
+                "club": "Urban",
+                "city": "Волгоград",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 20,
+                "full_name": "ясячсячсяч",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 24,
+                "full_name": "ясячсячсчя",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 28,
+                "full_name": "ыфвфычс",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          },
+          {
+            "heat": 4,
+            "assignments": [
+              {
+                "lane": 1,
+                "athlete_id": 21,
+                "full_name": "ячсчясяя",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 2,
+                "athlete_id": 26,
+                "full_name": "сячсфвы",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 3,
+                "athlete_id": 23,
+                "full_name": "ясчячсячсячс",
+                "club": "",
+                "city": "",
+                "flag": null
+              },
+              {
+                "lane": 4,
+                "athlete_id": 25,
+                "full_name": "фывйвая",
+                "club": "",
+                "city": "",
+                "flag": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WOD3": {
+      "title": "Комплекс 3",
+      "divisions": {}
+    }
   }
 }
