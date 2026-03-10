@@ -1,88 +1,73 @@
+from __future__ import annotations
+
 import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
-import shutil
-
-from publish.build_public import build_all
 
 
-def find_git_exe():
-    git = shutil.which("git")
-    if git:
-        return git
-    candidates = [
-        r"C:\Program Files\Git\cmd\git.exe",
-        r"C:\Program Files\Git\bin\git.exe",
-        r"C:\Program Files (x86)\Git\cmd\git.exe",
-        r"C:\Program Files (x86)\Git\bin\git.exe",
-    ]
-    for c in candidates:
-        if Path(c).exists():
-            return c
-    raise RuntimeError("Git не найден. Установи Git for Windows.")
+ROOT_DIR = Path(__file__).resolve().parents[1]
 
 
-def run(cmd, check=True):
-    proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
+    cwd = cwd or ROOT_DIR
     print(f"$ {' '.join(str(x) for x in cmd)}")
-    if proc.stdout.strip():
-        print(proc.stdout.strip())
-    if proc.stderr.strip():
-        print(proc.stderr.strip())
+
+    proc = subprocess.run(
+        cmd,
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+
+    if proc.stdout:
+        print(proc.stdout, end="")
+    if proc.stderr:
+        print(proc.stderr, end="")
+
     if check and proc.returncode != 0:
-        raise RuntimeError(f"Команда завершилась с кодом {proc.returncode}: {' '.join(str(x) for x in cmd)}")
+        raise RuntimeError(
+            f"Command failed with code {proc.returncode}: {' '.join(str(x) for x in cmd)}"
+        )
+
     return proc
 
 
-def main():
-    git = find_git_exe()
+def main() -> None:
+    git = r"C:\Program Files\Git\cmd\git.EXE"
+
     print("=== BUILD ===")
-    build_all()
+    run([sys.executable, "-m", "publish.build_public"])
 
     print("=== GIT ADD ===")
     run([git, "add", "-A", "docs"])
 
-    print("=== GIT STATUS ===")
-    status = run([git, "status", "--porcelain"], check=False)
-    has_changes = bool(status.stdout.strip())
+    print("=== STAGED CHECK ===")
+    staged = run([git, "diff", "--cached", "--quiet"], check=False)
 
-    if has_changes:
-        msg = f"Publish results {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    print("=== GIT STATUS ===")
+    run([git, "status", "--porcelain"])
+
+    if staged.returncode == 1:
         print("=== GIT COMMIT ===")
+        msg = f"Publish results {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
         run([git, "commit", "-m", msg])
     else:
-        print("Изменений для commit нет. Пропускаю commit.")
+        print("=== GIT COMMIT ===")
+        print("No staged docs changes to commit.")
 
     print("=== REMOTE CHECK ===")
-    remote = run([git, "remote", "get-url", "origin"], check=False)
-    if remote.returncode != 0:
-        raise RuntimeError(
-            "Remote origin не настроен.\n"
-            "Выполни в PowerShell:\n"
-            "git remote add origin https://github.com/GabuIgor/crossfit-scoreboard.git\n"
-            "git push -u origin main"
-        )
+    run([git, "remote", "get-url", "origin"])
 
     print("=== GIT PUSH ===")
-    last_error = None
-    for attempt in range(1, 3):
-        try:
-            run([git, "push"])
-            print("✅ Publish OK")
-            return
-        except Exception as e:
-            last_error = e
-            print(f"Push attempt {attempt} failed: {e}")
-            if attempt < 2:
-                time.sleep(2)
-    raise last_error
+    run([git, "push", "origin", "main"])
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        print(f"\n❌ {e}")
-        sys.exit(1)
+        print(f"\nERROR: {e}")
+        raise
