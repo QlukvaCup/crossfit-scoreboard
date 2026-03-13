@@ -8,8 +8,11 @@ st.title("🚀 Publish (GitHub Pages)")
 st.write(
     "Эта страница:\n"
     "1) Соберёт docs/results.json и docs/flags\n"
-    "2) Сделает git add/commit/push\n"
-    "3) Покажет подробный лог публикации\n"
+    "2) Закоммитит только папку docs\n"
+    "3) Проверит, что Git не завис в merge/rebase\n"
+    "4) Сделает fetch и push только если это безопасно\n"
+    "5) Покажет подробный лог публикации\n\n"
+    "Важно: страница не делает pull/rebase автоматически, чтобы не откатить рабочий проект."
 )
 
 if "publish_log" not in st.session_state:
@@ -28,7 +31,7 @@ if st.button("🚀 Publish now", type="primary"):
         if proc.returncode == 0:
             st.success("Опубликовано. GitHub Pages обновится через несколько секунд или минуту.")
         else:
-            st.error("Ошибка публикации. Ниже подробный лог — теперь видно, на каком шаге падает.")
+            st.error("Публикация остановлена. Причина ниже в логе. Сам проект при этом не откатывается.")
 
 st.subheader("Лог публикации")
 st.code(st.session_state.publish_log or "Лог пока пуст.", language="bash")

@@ -8,12 +8,15 @@
     body { font-family: Arial, sans-serif; margin: 12px; }
     .box { border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin-bottom: 12px; }
     .muted { color: #777; font-size: 12px; }
-    .flag { width: 18px; height: 12px; object-fit: cover; border: 1px solid #ddd; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
+    .flag { width: 18px; height: 12px; object-fit: cover; border: 1px solid #ddd; border-radius: 3px; vertical-align: middle; margin-left: 4px; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
     th, td { border-bottom: 1px solid #eee; padding: 6px 4px; text-align: left; vertical-align: top; }
     th.points, td.points { background: #eef5ff; }
     .meta2 { color:#666; font-size: 11px; line-height: 1.25; }
     .res { display:block; color:#666; font-size:10px; }
+    .heats-row { display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; }
+    .heat-col { min-width: 180px; flex:0 0 180px; border:1px solid #eee; border-radius:8px; padding:8px; }
+    .heat-title { margin-bottom:6px; font-weight:700; }
     .lane { display:grid; grid-template-columns: 24px 1fr; gap:8px; padding:4px 0; border-bottom:1px dashed #eee; }
     .lane:last-child { border-bottom:none; }
   </style>
@@ -40,7 +43,7 @@ function renderTable(){
   (div.rows||[]).forEach(r => {
     const flag = r.flag ? `<img class="flag" src="${r.flag}" />` : '';
     const meta = [r.age ? `${r.age}` : '', r.club || '', r.city || ''].filter(Boolean).join(' · ');
-    html += `<tr><td>${fmt(r.place)}</td><td>${flag}${safe(r.full_name)}<div class="meta2">${safe(meta)}</div></td>` +
+    html += `<tr><td>${fmt(r.place)}</td><td>${safe(r.full_name)}${flag}<div class="meta2">${safe(meta)}</div></td>` +
       `<td class="points">${fmt(r.scores?.WOD1?.points)}<span class="res">${safe(r.scores?.WOD1?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.scores?.WOD2A?.points)}<span class="res">${safe(r.scores?.WOD2A?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.scores?.WOD2B?.points)}<span class="res">${safe(r.scores?.WOD2B?.result_text)}</span></td>` +
@@ -52,12 +55,15 @@ function renderTable(){
 function renderHeats(){
   const divId = divSel.value; const wodId = wodSel.value; const heats = cache.heats?.[wodId]?.divisions?.[divId] || [];
   let html = `<h3>${safe(cache.heats?.[wodId]?.title || wodId)} — заходы</h3>`;
+  if(!heats.length){ document.getElementById('heatsBox').innerHTML = html + 'Нет заходов'; return; }
+  html += `<div class="heats-row">`;
   heats.forEach(h => {
-    html += `<div><strong>Заход ${h.heat}</strong>`;
-    (h.assignments||[]).forEach(a => { const flag = a.flag ? `<img class="flag" src="${a.flag}" />` : ''; html += `<div class="lane"><div>${a.lane}</div><div>${flag}${safe(a.full_name)}</div></div>`; });
-    html += `</div><hr/>`;
+    html += `<div class="heat-col"><div class="heat-title">Заход ${h.heat}</div>`;
+    (h.assignments||[]).forEach(a => { const flag = a.flag ? `<img class="flag" src="${a.flag}" />` : ''; html += `<div class="lane"><div>${a.lane}</div><div>${safe(a.full_name)}${flag}</div></div>`; });
+    html += `</div>`;
   });
-  document.getElementById('heatsBox').innerHTML = html || 'Нет заходов';
+  html += `</div>`;
+  document.getElementById('heatsBox').innerHTML = html;
 }
 async function load(){
   const res = await fetch(`results.json?ts=${Date.now()}`); cache = await res.json();

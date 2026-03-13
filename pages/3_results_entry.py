@@ -2,6 +2,31 @@ import streamlit as st
 from storage import load_db, save_db
 from config import DIVISIONS
 
+
+def parse_mmss_to_seconds(raw: str) -> int:
+    raw = str(raw or '').strip()
+    if not raw:
+        return 0
+    if ':' not in raw:
+        try:
+            return max(0, int(float(raw)))
+        except (TypeError, ValueError):
+            return 0
+    try:
+        minutes, seconds = raw.split(':', 1)
+        minutes_i = int(minutes)
+        seconds_i = int(seconds)
+        if minutes_i < 0 or seconds_i < 0:
+            return 0
+        return minutes_i * 60 + seconds_i
+    except (TypeError, ValueError):
+        return 0
+
+
+def format_seconds_to_mmss(total_seconds: int) -> str:
+    total_seconds = max(0, int(total_seconds or 0))
+    return f"{total_seconds // 60}:{total_seconds % 60:02d}"
+
 st.set_page_config(page_title="Results Entry", layout="wide")
 st.title("🧾 Results Entry")
 
@@ -74,7 +99,13 @@ if stype == "time":
     if capped and cap_enabled:
         value = st.number_input("Повторы при time cap (чем больше, тем лучше, но хуже любого времени)", min_value=0, step=1, value=0, disabled=disabled_input)
     else:
-        value = st.number_input("Время (секунды, чем меньше тем лучше)", min_value=0, step=1, value=0, disabled=disabled_input)
+        time_input = st.text_input(
+            "Время (мм:сс, чем меньше тем лучше)",
+            value=format_seconds_to_mmss(0),
+            disabled=disabled_input,
+            help="Например: 1:32",
+        )
+        value = parse_mmss_to_seconds(time_input)
 elif stype == "reps":
     value = st.number_input("Повторы (чем больше тем лучше)", min_value=0, step=1, value=0, disabled=disabled_input)
 elif stype == "weight":
