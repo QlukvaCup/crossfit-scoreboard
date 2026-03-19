@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-19T17:57:25.217235+00:00",
+  "generated_at": "2026-03-19T18:13:10.704404+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -51,6 +51,7 @@
               "result_text": "6:25"
             }
           },
+          "priority_points": 85.71,
           "total": 357.14
         },
         {
@@ -100,6 +101,7 @@
               "result_text": "7:03"
             }
           },
+          "priority_points": 71.43,
           "total": 314.29
         },
         {
@@ -149,6 +151,7 @@
               "result_text": "6:02"
             }
           },
+          "priority_points": 100.0,
           "total": 300.0
         },
         {
@@ -198,6 +201,7 @@
               "result_text": "7:16"
             }
           },
+          "priority_points": 42.86,
           "total": 257.15
         },
         {
@@ -247,6 +251,7 @@
               "result_text": "7:13"
             }
           },
+          "priority_points": 57.14,
           "total": 242.85
         },
         {
@@ -296,6 +301,7 @@
               "result_text": "CAP 2:28"
             }
           },
+          "priority_points": 14.29,
           "total": 100.01
         },
         {
@@ -345,6 +351,7 @@
               "result_text": "9:13"
             }
           },
+          "priority_points": 28.57,
           "total": 85.72
         }
       ]
@@ -390,6 +397,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 100.0
         }
       ]
@@ -439,6 +447,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 100.0
         },
         {
@@ -479,6 +488,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 93.75
         },
         {
@@ -519,6 +529,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 87.5
         },
         {
@@ -559,6 +570,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 81.25
         },
         {
@@ -599,6 +611,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 81.25
         },
         {
@@ -639,6 +652,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 68.75
         },
         {
@@ -679,6 +693,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 62.5
         },
         {
@@ -719,6 +734,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 56.25
         },
         {
@@ -759,6 +775,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 50.0
         },
         {
@@ -799,6 +816,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 43.75
         },
         {
@@ -839,6 +857,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 37.5
         },
         {
@@ -879,6 +898,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 31.25
         },
         {
@@ -919,6 +939,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 25.0
         },
         {
@@ -959,6 +980,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 18.75
         },
         {
@@ -999,6 +1021,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 12.5
         },
         {
@@ -1039,6 +1062,7 @@
               "result_text": ""
             }
           },
+          "priority_points": null,
           "total": 6.25
         }
       ]
@@ -1831,118 +1855,174 @@
   },
   "display": {
     "main": {
-      "section_title_size": 30,
-      "card_title_size": 24,
-      "table_text_size": 18,
-      "meta_text_size": 14,
-      "row_height": 36,
-      "block_gap": 12,
+      "section_title_size": 18,
+      "card_title_size": 16,
+      "table_text_size": 11,
+      "meta_text_size": 10,
+      "row_height": 4,
+      "block_gap": 8,
       "container_scale": 1.0
     },
     "mobile": {
-      "section_title_size": 18,
-      "card_title_size": 16,
+      "section_title_size": 22,
+      "card_title_size": 18,
       "table_text_size": 12,
       "meta_text_size": 11,
-      "row_height": 28,
-      "block_gap": 8,
-      "container_scale": 1.0,
-      "heat_title_font_size": 16,
-      "heat_name_font_size": 13,
-      "heat_lane_font_size": 13,
-      "heat_card_width": 180
+      "row_height": 6,
+      "block_gap": 12,
+      "container_scale": 1.0
     }
   },
+  "tie_break_mode": "priority_score",
+  "priority_score_id": "WOD3",
   "clubs": {
     "rows": [
       {
+        "club_name": "Ава",
+        "team_name": "Ава",
+        "points": 0.0,
+        "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 1
+      },
+      {
+        "club_name": "Байрон",
+        "team_name": "Байрон",
+        "points": 0.0,
+        "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 2
+      },
+      {
+        "club_name": "Чунька",
+        "team_name": "Чунька",
+        "points": 0.0,
+        "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 3
+      },
+      {
         "club_name": "QLUKVA",
         "team_name": "QLUKVA",
-        "club": "QLUKVA",
-        "points": 100.01,
+        "points": 0.0,
         "participants_count": 1,
-        "contributors": 1,
+        "contributors": 0,
         "first_places": 0,
-        "breakdown": [
-          {
-            "athlete_id": 10,
-            "full_name": "Тедеева Моника",
-            "division_id": "BEGSCAL_F",
-            "division_title": "Beginners/Scaled — Women",
-            "place": 6,
-            "place_label": "6",
-            "awarded_points": 100.01
-          }
-        ],
-        "place": 1
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 4
       },
       {
         "club_name": "Urban",
         "team_name": "Urban",
-        "club": "Urban",
-        "points": 56.25,
+        "points": 0.0,
         "participants_count": 1,
-        "contributors": 1,
+        "contributors": 0,
         "first_places": 0,
-        "breakdown": [
-          {
-            "athlete_id": 12,
-            "full_name": "Санек Сашок",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 8,
-            "place_label": "8",
-            "awarded_points": 56.25
-          }
-        ],
-        "place": 2
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 5
       }
+    ],
+    "priority_score_id": "WOD3",
+    "places": [
+      1,
+      2,
+      3
     ]
   },
   "teams": {
     "rows": [
       {
+        "club_name": "Ава",
+        "team_name": "Ава",
+        "points": 0.0,
+        "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 1
+      },
+      {
+        "club_name": "Байрон",
+        "team_name": "Байрон",
+        "points": 0.0,
+        "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 2
+      },
+      {
+        "club_name": "Чунька",
+        "team_name": "Чунька",
+        "points": 0.0,
+        "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 3
+      },
+      {
         "club_name": "QLUKVA",
         "team_name": "QLUKVA",
-        "club": "QLUKVA",
-        "points": 100.01,
+        "points": 0.0,
         "participants_count": 1,
-        "contributors": 1,
+        "contributors": 0,
         "first_places": 0,
-        "breakdown": [
-          {
-            "athlete_id": 10,
-            "full_name": "Тедеева Моника",
-            "division_id": "BEGSCAL_F",
-            "division_title": "Beginners/Scaled — Women",
-            "place": 6,
-            "place_label": "6",
-            "awarded_points": 100.01
-          }
-        ],
-        "place": 1
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 4
       },
       {
         "club_name": "Urban",
         "team_name": "Urban",
-        "club": "Urban",
-        "points": 56.25,
+        "points": 0.0,
         "participants_count": 1,
-        "contributors": 1,
+        "contributors": 0,
         "first_places": 0,
-        "breakdown": [
-          {
-            "athlete_id": 12,
-            "full_name": "Санек Сашок",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 8,
-            "place_label": "8",
-            "awarded_points": 56.25
-          }
-        ],
-        "place": 2
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 5
       }
+    ],
+    "priority_score_id": "WOD3",
+    "places": [
+      1,
+      2,
+      3
     ]
   }
 }
