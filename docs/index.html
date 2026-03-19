@@ -65,6 +65,9 @@
     .heat-column { min-width: 0; display: flex; flex-direction: column; gap: max(4px, calc(var(--block-gap) * 0.65)); min-height: 0; }
     .heat-column-title { font-size: calc(var(--card-title-size) - 1px); font-weight: 700; padding: 5px 8px; border-radius: 10px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
     .heat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: max(4px, calc(var(--block-gap) * 0.65)); align-content: start; }
+    .workout-group { border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,0.72); padding: 6px; box-shadow: var(--shadow); }
+    .workout-group + .workout-group { margin-top: max(6px, calc(var(--block-gap) * 0.7)); }
+    .workout-group-title { font-size: calc(var(--card-title-size) - 2px); font-weight: 700; margin: 0 0 6px 0; padding: 2px 4px 6px; border-bottom: 1px solid var(--line); color: var(--ink); }
     .heat-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); min-width: 0; }
     .heat-card-head { display: flex; justify-content: space-between; gap: 6px; align-items: center; padding: 5px 7px; background: #fff; border-bottom: 1px solid var(--line); }
     .heat-card-head strong { font-size: calc(var(--card-title-size) - 2px); line-height: 1.05; }
@@ -248,32 +251,40 @@ function heatAthleteCell(a) {
 function buildWorkoutNameMap() {
   return { WOD1: cache?.heats?.WOD1?.title || 'Комплекс 1', WOD2: cache?.heats?.WOD2?.title || 'Комплекс 2', WOD3: cache?.heats?.WOD3?.title || 'Комплекс 3' };
 }
-function shortWorkoutLabel(workoutId, workoutNames) {
+function workoutGroupLabel(workoutId, workoutNames) {
   const name = safe(workoutNames[workoutId] || workoutId);
   const match = name.match(/(\d+)/);
-  return match ? `К${match[1]}` : name;
+  return match ? `Комплекс ${match[1]}` : name;
+}
+function heatCardLabel(workoutId, heat, workoutNames) {
+  const name = safe(workoutNames[workoutId] || workoutId);
+  const match = name.match(/(\d+)/);
+  const workoutLabel = match ? `Комплекс ${match[1]}` : name;
+  return `${workoutLabel} — Заход ${fmt(heat)}`;
 }
 function renderHeatsScene() {
   const root = document.getElementById('scene-heats');
   const workoutNames = buildWorkoutNameMap();
   const columns = ['BEGSCAL_F', 'BEGSCAL_M', 'INT_F', 'INT_M'].map(divId => {
-    const cards = ['WOD1', 'WOD2', 'WOD3'].flatMap(workoutId => {
+    const groups = ['WOD1', 'WOD2', 'WOD3'].map(workoutId => {
       const heats = cache?.heats?.[workoutId]?.divisions?.[divId] || [];
-      return heats.map(h => `
+      if (!heats.length) return '';
+      const cards = heats.map(h => `
         <div class="heat-card">
           <div class="heat-card-head">
-            <strong>${shortWorkoutLabel(workoutId, workoutNames)} · З${fmt(h.heat)}</strong>
+            <strong>${heatCardLabel(workoutId, h.heat, workoutNames)}</strong>
             <span>${safe(DIV_SHORT[divId])}</span>
           </div>
           <table class="heat-table"><tbody>
             ${(h.assignments || []).map(a => `<tr><td class="lane-col">${fmt(a.lane)}</td><td>${heatAthleteCell(a)}</td></tr>`).join('')}
           </tbody></table>
-        </div>`);
-    }).join('');
-    const content = cards ? `<div class="heat-grid">${cards}</div>` : '<div class="empty">Заходы ещё не сформированы</div>';
+        </div>`).join('');
+      return `<div class="workout-group"><div class="workout-group-title">${workoutGroupLabel(workoutId, workoutNames)}</div><div class="heat-grid">${cards}</div></div>`;
+    }).filter(Boolean).join('');
+    const content = groups || '<div class="empty">Заходы ещё не сформированы</div>';
     return `<div class="heat-column"><div class="heat-column-title">${safe(DIV_SHORT[divId])}</div>${content}</div>`;
   }).join('');
-  root.innerHTML = `<div class="scene-header"><h2>Заходы</h2><div class="scene-sub">Компактная сетка по категориям</div></div><div class="heats-layout">${columns}</div>`;
+  root.innerHTML = `<div class="scene-header"><h2>Заходы</h2><div class="scene-sub">Комплексы разделены по группам</div></div><div class="heats-layout">${columns}</div>`;
 }
 
 function applyDisplaySettings() {
