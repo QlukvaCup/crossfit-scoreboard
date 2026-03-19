@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-19T18:13:23.432532+00:00",
+  "generated_at": "2026-03-19T18:20:06.274205+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -1857,11 +1857,11 @@
     "main": {
       "section_title_size": 18,
       "card_title_size": 16,
-      "table_text_size": 11,
+      "table_text_size": 9,
       "meta_text_size": 10,
-      "row_height": 4,
+      "row_height": 2,
       "block_gap": 8,
-      "container_scale": 1.0
+      "container_scale": 0.9
     },
     "mobile": {
       "section_title_size": 22,
