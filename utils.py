@@ -51,15 +51,11 @@ def compact_page_style() -> None:
             padding-bottom: 1.2rem;
             max-width: 1500px;
         }
-        h1, h2, h3 {
-            line-height: 1.28 !important;
-            overflow: visible !important;
-            padding-top: 0.06rem !important;
-            padding-bottom: 0.06rem !important;
-        }
-        h1 { font-size: 1.55rem !important; margin-bottom: 0.45rem !important; }
-        h2 { font-size: 1.2rem !important; margin-bottom: 0.35rem !important; }
-        h3 { font-size: 1.0rem !important; margin-bottom: 0.25rem !important; }
+        h1, h2, h3 { line-height: 1.25 !important; overflow: visible !important; white-space: normal !important; }
+        h1 { font-size: 1.55rem !important; margin-bottom: 0.4rem !important; }
+        h2 { font-size: 1.2rem !important; margin-bottom: 0.3rem !important; }
+        h3 { font-size: 1.0rem !important; margin-bottom: 0.2rem !important; }
+        [data-testid="stSidebarNav"] a, [data-testid="stSidebarNav"] a * { white-space: normal !important; overflow: visible !important; text-overflow: unset !important; line-height: 1.2 !important; }
         p, li, label, .stCaption, .stMarkdown, .stTextInput, .stSelectbox, .stNumberInput {
             font-size: 0.92rem !important;
         }

@@ -10,6 +10,33 @@ def ensure_dirs() -> None:
     DATA_FLAGS_DIR.mkdir(parents=True, exist_ok=True)
 
 
+def default_display_settings() -> Dict[str, Any]:
+    return {
+        "main": {
+            "section_title_size": 30,
+            "card_title_size": 24,
+            "table_text_size": 18,
+            "meta_text_size": 14,
+            "row_height": 36,
+            "block_gap": 12,
+            "container_scale": 1.0,
+        },
+        "mobile": {
+            "section_title_size": 18,
+            "card_title_size": 16,
+            "table_text_size": 12,
+            "meta_text_size": 11,
+            "row_height": 28,
+            "block_gap": 8,
+            "container_scale": 1.0,
+            "heat_title_font_size": 16,
+            "heat_name_font_size": 13,
+            "heat_lane_font_size": 13,
+            "heat_card_width": 180,
+        },
+    }
+
+
 def default_db() -> Dict[str, Any]:
     return {
         "settings": {
@@ -20,32 +47,13 @@ def default_db() -> Dict[str, Any]:
                 "INT_F": 8,
             },
             "scores": DEFAULT_SCORES,
-            "display": {
-                "main": {
-                    "page_title_font_size": 22,
-                    "section_title_font_size": 18,
-                    "card_title_font_size": 16,
-                    "table_font_size": 11,
-                    "athlete_font_size": 13,
-                    "meta_font_size": 11,
-                    "heat_title_font_size": 16,
-                    "heat_text_font_size": 12,
-                },
-                "mobile": {
-                    "table_font_size": 12,
-                    "secondary_font_size": 11,
-                    "heat_title_font_size": 16,
-                    "heat_text_font_size": 14,
-                    "heat_lane_font_size": 13,
-                    "heat_card_width": 180,
-                },
-            },
+            "display": default_display_settings(),
         },
         "participants": [],
         "results": {},
         "heats": {},
         "meta": {
-            "version": 3,
+            "version": 4,
         },
     }
 
@@ -97,6 +105,22 @@ def _normalize_participant(raw: Any) -> Dict[str, Any] | None:
     }
 
 
+def _merged_display_settings(raw_display: Any) -> Dict[str, Any]:
+    base = default_display_settings()
+    if not isinstance(raw_display, dict):
+        return base
+
+    result: Dict[str, Any] = {}
+    for area, defaults in base.items():
+        current = raw_display.get(area) if isinstance(raw_display.get(area), dict) else {}
+        merged = dict(defaults)
+        for key, value in current.items():
+            if key in defaults:
+                merged[key] = value
+        result[area] = merged
+    return result
+
+
 def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
     base = default_db()
     if not isinstance(db, dict):
@@ -105,6 +129,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
     settings = db.get("settings") if isinstance(db.get("settings"), dict) else {}
     division_limits = settings.get("division_limits") if isinstance(settings.get("division_limits"), dict) else {}
     scores = settings.get("scores") if isinstance(settings.get("scores"), list) and settings.get("scores") else DEFAULT_SCORES
+    display = _merged_display_settings(settings.get("display"))
 
     participants_raw = db.get("participants") if isinstance(db.get("participants"), list) else []
     participants = []
@@ -113,19 +138,11 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
         if normalized is not None:
             participants.append(normalized)
 
-    display_settings = settings.get("display") if isinstance(settings.get("display"), dict) else {}
-    base_display = base["settings"].get("display", {})
-    main_display = display_settings.get("main") if isinstance(display_settings.get("main"), dict) else {}
-    mobile_display = display_settings.get("mobile") if isinstance(display_settings.get("mobile"), dict) else {}
-
     normalized = {
         "settings": {
             "division_limits": {**base["settings"]["division_limits"], **division_limits},
             "scores": scores,
-            "display": {
-                "main": {**base_display.get("main", {}), **main_display},
-                "mobile": {**base_display.get("mobile", {}), **mobile_display},
-            },
+            "display": display,
         },
         "participants": participants,
         "results": db.get("results") if isinstance(db.get("results"), dict) else {},
@@ -133,7 +150,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
         "meta": db.get("meta") if isinstance(db.get("meta"), dict) else {},
     }
 
-    normalized["meta"].setdefault("version", 3)
+    normalized["meta"].setdefault("version", 4)
     return normalized
 
 
@@ -161,6 +178,19 @@ def save_db(db: Dict[str, Any]) -> None:
         f.flush()
         os.fsync(f.fileno())
     os.replace(tmp_file, DB_FILE)
+
+
+def clear_results(db: Dict[str, Any]) -> Dict[str, Any]:
+    db = _normalize_db(db)
+    db["results"] = {}
+    return db
+
+
+def clear_all_data(db: Dict[str, Any]) -> Dict[str, Any]:
+    fresh = default_db()
+    # сохраняем пользовательские настройки очков/лимитов/отображения
+    fresh["settings"] = _normalize_db(db)["settings"]
+    return fresh
 
 
 def next_participant_id(db: Dict[str, Any]) -> int:
