@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-19T18:24:08.976218+00:00",
+  "generated_at": "2026-03-19T18:30:34.890721+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -1864,13 +1864,13 @@
       "container_scale": 0.8
     },
     "mobile": {
-      "section_title_size": 14,
-      "card_title_size": 12,
-      "table_text_size": 9,
-      "meta_text_size": 8,
-      "row_height": 2,
-      "block_gap": 4,
-      "container_scale": 0.8
+      "section_title_size": 22,
+      "card_title_size": 18,
+      "table_text_size": 12,
+      "meta_text_size": 11,
+      "row_height": 6,
+      "block_gap": 12,
+      "container_scale": 1.0
     }
   },
   "tie_break_mode": "priority_score",

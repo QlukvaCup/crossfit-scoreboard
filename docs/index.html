@@ -66,9 +66,11 @@
     .heat-column-title { font-size: calc(var(--card-title-size) - 1px); font-weight: 700; padding: 6px 8px; border-radius: 10px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
     .heat-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
     .heat-card-head { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 6px 8px; background: #fff; border-bottom: 1px solid var(--line); }
-    .heat-card-head strong { font-size: var(--card-title-size); }
+    .heat-card-head strong { font-size: var(--card-title-size); line-height: 1.1; }
     .heat-card-head span { color: var(--muted); font-size: var(--meta-text-size); }
     .heat-table { font-size: var(--table-text-size); }
+    .heat-table .athlete-line { font-size: calc(var(--table-text-size) + 1px); }
+    .heat-table .athlete-meta { font-size: var(--meta-text-size); }
     .lane-col { width: 42px; text-align: center; font-weight: 700; }
     .empty { color: var(--muted); font-size: 16px; display: flex; align-items: center; justify-content: center; height: 100%; border: 1px dashed var(--line); border-radius: 12px; background: #fff; }
     .breakdown-list { padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
@@ -280,6 +282,7 @@ function applyDisplaySettings() {
 
 function renderAll() {
   if (!cache) return;
+  applyDisplaySettings();
   document.getElementById('meta').textContent = `Обновлено: ${cache.generated_at}`;
   renderSceneTables('scene-begscal', 'BEG/SCAL', ['BEGSCAL_F', 'BEGSCAL_M']);
   renderSceneTables('scene-int', 'Intermediate', ['INT_F', 'INT_M']);
