@@ -35,6 +35,14 @@ const divSel = document.getElementById('divSel');
 const wodSel = document.getElementById('wodSel');
 function fmt(v){ if(v===null||v===undefined||v==='') return '—'; return (typeof v==='number') ? String(Number(v.toFixed ? v.toFixed(2) : v)).replace(/\.00$/,'') : String(v); }
 function safe(s){ return s===null||s===undefined ? '' : String(s); }
+function pluralResults(n){
+  const v = Math.abs(Number(n) || 0) % 100;
+  const n1 = v % 10;
+  if (v > 10 && v < 20) return 'зачётных результатов';
+  if (n1 > 1 && n1 < 5) return 'зачётных результата';
+  if (n1 === 1) return 'зачётный результат';
+  return 'зачётных результатов';
+}
 DIVS.forEach(id => { const opt=document.createElement('option'); opt.value=id; opt.textContent=id; divSel.appendChild(opt); });
 ['WOD1','WOD2','WOD3'].forEach(id => { const opt=document.createElement('option'); opt.value=id; opt.textContent=id; wodSel.appendChild(opt); });
 function renderTable(){
@@ -45,7 +53,7 @@ function renderTable(){
   let html = `<h3>${safe(div.title)}</h3><div class="muted">ПР — место определено по приоритетному комплексу (${safe(cache.priority_score_id)})</div><table><thead><tr><th>#</th><th>Атлет</th><th class="points">W1</th><th class="points">W2A</th><th class="points">W2B</th><th class="points">W3</th><th class="points">Σ</th></tr></thead><tbody>`;
   (div.rows||[]).forEach(r => {
     const flag = r.flag ? `<img class="flag" src="${r.flag}" />` : '';
-    const meta = [r.age ? `${r.age}` : '', r.club || '', r.city || '', r.team_name && r.team_name !== '--' ? r.team_name : ''].filter(Boolean).join(' · ');
+    const meta = [r.age ? `${r.age}` : '', r.club || '', r.region || r.city || '', r.team_name && r.team_name !== '--' ? r.team_name : ''].filter(Boolean).join(' · ');
     html += `<tr><td>${safe(r.place_label || fmt(r.place))}</td><td>${safe(r.full_name)}${flag}<div class="meta2">${safe(meta)}</div></td>` +
       `<td class="points">${fmt(r.scores?.WOD1?.points)}<span class="res">${safe(r.scores?.WOD1?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.scores?.WOD2A?.points)}<span class="res">${safe(r.scores?.WOD2A?.result_text)}</span></td>` +
@@ -59,11 +67,14 @@ function renderTeamsInline(){
   const rows = cache.clubs?.rows || cache.teams?.rows || [];
   let html = `<h3>Клубный зачёт</h3><table><thead><tr><th>#</th><th>Клуб</th><th class="points">Очки</th><th class="points">Участ.</th><th class="points">1х</th></tr></thead><tbody>`;
   rows.forEach(r => {
-    html += `<tr><td>${fmt(r.place)}</td><td>${safe(r.team_name)}<div class="meta2">${fmt(r.contributors)} зачётных результата</div></td><td class="points">${fmt(r.points)}</td><td class="points">${fmt(r.participants_count)}</td><td class="points">${fmt(r.first_places)}</td></tr>`;
+    const clubName = safe(r.club_name || r.team_name || r.club || '—');
+    const contributors = Number(r.contributors) || 0;
+    const contributorsText = contributors ? `${contributors} ${pluralResults(contributors)}` : '';
+    html += `<tr><td>${fmt(r.place)}</td><td>${clubName}${contributorsText ? `<div class="meta2">${contributorsText}</div>` : ''}</td><td class="points">${fmt(r.points)}</td><td class="points">${fmt(r.participants_count)}</td><td class="points">${fmt(r.first_places)}</td></tr>`;
   });
   html += `</tbody></table>`;
   if(rows[0]?.breakdown?.length){
-    html += `<div class="muted" style="margin-top:8px;">Топ-клуб: ${safe(rows[0].team_name)}</div>`;
+    html += `<div class="muted" style="margin-top:8px;">Топ-клуб: ${safe(rows[0].club_name || rows[0].team_name || rows[0].club || '—')}</div>`;
     rows[0].breakdown.slice(0,5).forEach(item => {
       html += `<div class="meta2" style="margin-top:4px;">${safe(item.full_name)} · ${safe(item.division_title)} · место ${safe(item.place_label)} · +${fmt(item.awarded_points)}</div>`;
     });
