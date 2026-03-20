@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-20T14:21:03.769327+00:00",
+  "generated_at": "2026-03-20T14:30:46.079353+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -19,6 +19,120 @@
         {
           "place": 1,
           "place_label": "1",
+          "id": 3,
+          "full_name": "Базиев Хетаг",
+          "age": 33,
+          "club": "Qlukva",
+          "team_name": "Qlukva",
+          "region": "РСО-А, Владикавказ",
+          "city": "",
+          "category": "INT",
+          "division_id": "INT_M",
+          "flag": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAYAAABgD7XPAAAByUlEQVR42u3YwQ2AMAwEwTMKfdB/DTRDE3x4mDYieaaEe6ycVHd3AAY5TAAIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfIDwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABwgcgfADCByB8AMIHIHwAG6o7aTMAk6wzlxUAT10A4QMQPgDhAxA+AOEDED4A4QMQPgDhAxA+AOEDED4A4QOEzwSA8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAcIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcIH4DwAQgfgPABCB/A9taXsgIwSvWTNgMw6uLLawQg/vgAhA9A+ACED0D4AIQPQPgAhA9A+ACED0D4AIQPQPgAhA8QPhMAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCBwgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB8gfADCByB8AMIHIHwAwgewmx/brAvv84fFugAAAABJRU5ErkJggg==",
+          "scores": {
+            "WOD1": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2A": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2B": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD3": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            }
+          },
+          "priority_points": null,
+          "total": 0.0
+        },
+        {
+          "place": 1,
+          "place_label": "1",
+          "id": 7,
+          "full_name": "Бестаев Одиссей",
+          "age": 23,
+          "club": "Bunker",
+          "team_name": "Bunker",
+          "region": "РСО-А, Владикавказ",
+          "city": "",
+          "category": "INT",
+          "division_id": "INT_M",
+          "flag": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAYAAABgD7XPAAAByUlEQVR42u3YwQ2AMAwEwTMKfdB/DTRDE3x4mDYieaaEe6ycVHd3AAY5TAAIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfIDwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABwgcgfADCByB8AMIHIHwAG6o7aTMAk6wzlxUAT10A4QMQPgDhAxA+AOEDED4A4QMQPgDhAxA+AOEDED4A4QOEzwSA8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAcIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcIH4DwAQgfgPABCB/A9taXsgIwSvWTNgMw6uLLawQg/vgAhA9A+ACED0D4AIQPQPgAhA9A+ACED0D4AIQPQPgAhA8QPhMAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCBwgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB8gfADCByB8AMIHIHwAwgewmx/brAvv84fFugAAAABJRU5ErkJggg==",
+          "scores": {
+            "WOD1": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2A": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2B": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD3": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            }
+          },
+          "priority_points": null,
+          "total": 0.0
+        },
+        {
+          "place": 1,
+          "place_label": "1",
+          "id": 2,
+          "full_name": "Битаров Батраз",
+          "age": 29,
+          "club": "Bunker",
+          "team_name": "Bunker",
+          "region": "РСО-А, Владикавказ",
+          "city": "",
+          "category": "INT",
+          "division_id": "INT_M",
+          "flag": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAYAAABgD7XPAAAByUlEQVR42u3YwQ2AMAwEwTMKfdB/DTRDE3x4mDYieaaEe6ycVHd3AAY5TAAIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfIDwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABwgcgfADCByB8AMIHIHwAG6o7aTMAk6wzlxUAT10A4QMQPgDhAxA+AOEDED4A4QMQPgDhAxA+AOEDED4A4QOEzwSA8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAcIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcIH4DwAQgfgPABCB/A9taXsgIwSvWTNgMw6uLLawQg/vgAhA9A+ACED0D4AIQPQPgAhA9A+ACED0D4AIQPQPgAhA8QPhMAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCBwgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB8gfADCByB8AMIHIHwAwgewmx/brAvv84fFugAAAABJRU5ErkJggg==",
+          "scores": {
+            "WOD1": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2A": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2B": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD3": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            }
+          },
+          "priority_points": null,
+          "total": 0.0
+        },
+        {
+          "place": 1,
+          "place_label": "1",
           "id": 1,
           "full_name": "Габуаев Игорь",
           "age": 32,
@@ -29,6 +143,82 @@
           "category": "INT",
           "division_id": "INT_M",
           "flag": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAYAAABgD7XPAAAByUlEQVR42u3YwQ2AMAwEwTMKfdB/DTRDE3x4mDYieaaEe6ycVHd3AAY5TAAIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfIDwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABwgcgfADCByB8AMIHIHwAG6o7aTMAk6wzlxUAT10A4QMQPgDhAxA+AOEDED4A4QMQPgDhAxA+AOEDED4A4QOEzwSA8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAcIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcIH4DwAQgfgPABCB/A9taXsgIwSvWTNgMw6uLLawQg/vgAhA9A+ACED0D4AIQPQPgAhA9A+ACED0D4AIQPQPgAhA8QPhMAwgcgfADCByB8AMIHIHwAwgcgfADCByB8AMIHIHwAwgcgfADCBwgfgPABCB+A8AEIH4DwAQgfgPABCB+A8AEIH4DwAQgfgPABCB8gfADCByB8AMIHIHwAwgewmx/brAvv84fFugAAAABJRU5ErkJggg==",
+          "scores": {
+            "WOD1": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2A": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2B": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD3": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            }
+          },
+          "priority_points": null,
+          "total": 0.0
+        },
+        {
+          "place": 1,
+          "place_label": "1",
+          "id": 6,
+          "full_name": "Нигматуллин Айгиз",
+          "age": 39,
+          "club": "Crossline",
+          "team_name": "Crossline",
+          "region": "БАШ - Октябрьский",
+          "city": "",
+          "category": "INT",
+          "division_id": "INT_M",
+          "flag": "data:image/png;base64,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",
+          "scores": {
+            "WOD1": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2A": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD2B": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            },
+            "WOD3": {
+              "points": null,
+              "result": null,
+              "result_text": ""
+            }
+          },
+          "priority_points": null,
+          "total": 0.0
+        },
+        {
+          "place": 1,
+          "place_label": "1",
+          "id": 4,
+          "full_name": "Хафизов Роберт",
+          "age": 41,
+          "club": "Crossline",
+          "team_name": "Crossline",
+          "region": "БАШ - Октябрьский",
+          "city": "",
+          "category": "INT",
+          "division_id": "INT_M",
+          "flag": "data:image/png;base64,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",
           "scores": {
             "WOD1": {
               "points": null,
@@ -109,19 +299,29 @@
   "clubs": {
     "rows": [
       {
-        "club_name": "Qlukva",
-        "team_name": "Qlukva",
-        "points": 10.0,
-        "participants_count": 1,
-        "contributors": 1,
-        "first_places": 1,
+        "club_name": "Bunker",
+        "team_name": "Bunker",
+        "points": 20.0,
+        "participants_count": 2,
+        "contributors": 2,
+        "first_places": 2,
         "second_places": 0,
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [
           {
-            "athlete_id": 1,
-            "full_name": "Габуаев Игорь",
+            "athlete_id": 7,
+            "full_name": "Бестаев Одиссей",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          },
+          {
+            "athlete_id": 2,
+            "full_name": "Битаров Батраз",
             "division_id": "INT_M",
             "division_title": "Intermediate — Men",
             "place": 1,
@@ -133,34 +333,76 @@
         "place": 1
       },
       {
-        "club_name": "Boroda Crossfit",
-        "team_name": "Boroda Crossfit",
-        "points": 0.0,
-        "participants_count": 0,
-        "contributors": 0,
-        "first_places": 0,
+        "club_name": "Crossline",
+        "team_name": "Crossline",
+        "points": 20.0,
+        "participants_count": 2,
+        "contributors": 2,
+        "first_places": 2,
         "second_places": 0,
         "third_places": 0,
         "priority_sum": 0.0,
-        "breakdown": [],
+        "breakdown": [
+          {
+            "athlete_id": 6,
+            "full_name": "Нигматуллин Айгиз",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          },
+          {
+            "athlete_id": 4,
+            "full_name": "Хафизов Роберт",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          }
+        ],
         "place": 2
       },
       {
-        "club_name": "Bunker",
-        "team_name": "Bunker",
-        "points": 0.0,
-        "participants_count": 0,
-        "contributors": 0,
-        "first_places": 0,
+        "club_name": "Qlukva",
+        "team_name": "Qlukva",
+        "points": 20.0,
+        "participants_count": 2,
+        "contributors": 2,
+        "first_places": 2,
         "second_places": 0,
         "third_places": 0,
         "priority_sum": 0.0,
-        "breakdown": [],
+        "breakdown": [
+          {
+            "athlete_id": 3,
+            "full_name": "Базиев Хетаг",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          },
+          {
+            "athlete_id": 1,
+            "full_name": "Габуаев Игорь",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          }
+        ],
         "place": 3
       },
       {
-        "club_name": "Crossline",
-        "team_name": "Crossline",
+        "club_name": "Boroda Crossfit",
+        "team_name": "Boroda Crossfit",
         "points": 0.0,
         "participants_count": 0,
         "contributors": 0,
@@ -221,19 +463,29 @@
   "teams": {
     "rows": [
       {
-        "club_name": "Qlukva",
-        "team_name": "Qlukva",
-        "points": 10.0,
-        "participants_count": 1,
-        "contributors": 1,
-        "first_places": 1,
+        "club_name": "Bunker",
+        "team_name": "Bunker",
+        "points": 20.0,
+        "participants_count": 2,
+        "contributors": 2,
+        "first_places": 2,
         "second_places": 0,
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [
           {
-            "athlete_id": 1,
-            "full_name": "Габуаев Игорь",
+            "athlete_id": 7,
+            "full_name": "Бестаев Одиссей",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          },
+          {
+            "athlete_id": 2,
+            "full_name": "Битаров Батраз",
             "division_id": "INT_M",
             "division_title": "Intermediate — Men",
             "place": 1,
@@ -245,34 +497,76 @@
         "place": 1
       },
       {
-        "club_name": "Boroda Crossfit",
-        "team_name": "Boroda Crossfit",
-        "points": 0.0,
-        "participants_count": 0,
-        "contributors": 0,
-        "first_places": 0,
+        "club_name": "Crossline",
+        "team_name": "Crossline",
+        "points": 20.0,
+        "participants_count": 2,
+        "contributors": 2,
+        "first_places": 2,
         "second_places": 0,
         "third_places": 0,
         "priority_sum": 0.0,
-        "breakdown": [],
+        "breakdown": [
+          {
+            "athlete_id": 6,
+            "full_name": "Нигматуллин Айгиз",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          },
+          {
+            "athlete_id": 4,
+            "full_name": "Хафизов Роберт",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          }
+        ],
         "place": 2
       },
       {
-        "club_name": "Bunker",
-        "team_name": "Bunker",
-        "points": 0.0,
-        "participants_count": 0,
-        "contributors": 0,
-        "first_places": 0,
+        "club_name": "Qlukva",
+        "team_name": "Qlukva",
+        "points": 20.0,
+        "participants_count": 2,
+        "contributors": 2,
+        "first_places": 2,
         "second_places": 0,
         "third_places": 0,
         "priority_sum": 0.0,
-        "breakdown": [],
+        "breakdown": [
+          {
+            "athlete_id": 3,
+            "full_name": "Базиев Хетаг",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          },
+          {
+            "athlete_id": 1,
+            "full_name": "Габуаев Игорь",
+            "division_id": "INT_M",
+            "division_title": "Intermediate — Men",
+            "place": 1,
+            "place_label": "1",
+            "awarded_points": 10.0,
+            "priority_points": null
+          }
+        ],
         "place": 3
       },
       {
-        "club_name": "Crossline",
-        "team_name": "Crossline",
+        "club_name": "Boroda Crossfit",
+        "team_name": "Boroda Crossfit",
         "points": 0.0,
         "participants_count": 0,
         "contributors": 0,
