@@ -38,6 +38,7 @@
     .scene-header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 6px; }
     .scene-header h2 { margin: 0; font-size: var(--scene-title-size); }
     .scene-sub { color: var(--muted); font-size: var(--meta-text-size); }
+    .scene-split { height: calc(100% - 28px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.95fr); gap: max(4px, calc(var(--block-gap) * 0.75)); }
     .two-col { height: calc(100% - 28px); display: grid; grid-template-columns: 1fr 1fr; gap: max(4px, calc(var(--block-gap) * 0.75)); }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
     .card-head { padding: calc(8px * var(--container-scale)) calc(10px * var(--container-scale)) calc(7px * var(--container-scale)); border-bottom: 1px solid var(--line); background: #fff; }
@@ -61,11 +62,8 @@
     .score-main { font-weight: 700; font-size: var(--table-text-size); line-height: 1.1; }
     .score-sub { margin-top: 3px; color: var(--muted); font-size: var(--meta-text-size); line-height: 1.1; min-height: 11px; }
     .note { padding: 6px 10px; font-size: var(--meta-text-size); color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
-    .heats-layout { height: calc(100% - 28px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: max(4px, calc(var(--block-gap) * 0.9)); align-items: start; }
-    .heat-column { min-width: 0; display: flex; flex-direction: column; gap: max(4px, calc(var(--block-gap) * 0.55)); min-height: 0; }
-    .heat-column-title { font-size: calc(var(--card-title-size) - 2px); font-weight: 700; padding: 4px 7px; border-radius: 9px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .division-heats { padding: 6px; display: grid; grid-template-columns: 1fr; gap: max(4px, calc(var(--block-gap) * 0.5)); overflow: hidden; }
     .workout-group { border: 2px solid var(--line); border-radius: 12px; padding: 5px; background: #fff; }
-    .workout-group + .workout-group { margin-top: max(4px, calc(var(--block-gap) * 0.5)); }
     .workout-group.wod1 { border-color: #cfe2ff; background: #f7fbff; }
     .workout-group.wod2 { border-color: #d6f5dd; background: #f7fdf8; }
     .workout-group.wod3 { border-color: #ffe2c6; background: #fffaf5; }
@@ -77,7 +75,6 @@
     .heat-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); min-width: 0; }
     .heat-card-head { display: flex; justify-content: space-between; gap: 4px; align-items: center; padding: 3px 5px; background: #fff; border-bottom: 1px solid var(--line); }
     .heat-card-head strong { font-size: calc(var(--table-text-size) - 1px); line-height: 1.02; font-weight: 800; }
-    .heat-card-head span { color: var(--muted); font-size: calc(var(--meta-text-size) - 2px); display: none; }
     .heat-table { font-size: calc(var(--table-text-size) - 3px); }
     .heat-table td { padding: 1px 3px; }
     .heat-table .athlete-line { font-size: calc(var(--table-text-size) - 2px); line-height: 1.02; }
@@ -98,23 +95,25 @@
     </div>
     <div class="topbar">
       <div class="scene-indicator" id="sceneIndicator"></div>
-      <div class="meta" id="sceneMeta">Экран 1 из 4</div>
+      <div class="meta" id="sceneMeta">Экран 1 из 5</div>
     </div>
 
-    <section class="scene active" id="scene-begscal"></section>
-    <section class="scene" id="scene-int"></section>
+    <section class="scene active" id="scene-begscal-f"></section>
+    <section class="scene" id="scene-begscal-m"></section>
+    <section class="scene" id="scene-int-f"></section>
+    <section class="scene" id="scene-int-m"></section>
     <section class="scene" id="scene-teams"></section>
-    <section class="scene" id="scene-heats"></section>
   </div>
 
 <script>
 const SCENE_DURATION_MS = 10000;
 const DATA_REFRESH_MS = 5000;
 const SCENES = [
-  { id: 'scene-begscal', label: 'BEG/SCAL' },
-  { id: 'scene-int', label: 'Intermediate' },
-  { id: 'scene-teams', label: 'Клубы' },
-  { id: 'scene-heats', label: 'Заходы' },
+  { id: 'scene-begscal-f', label: 'Women BEG/SCAL', divId: 'BEGSCAL_F' },
+  { id: 'scene-begscal-m', label: 'Men BEG/SCAL', divId: 'BEGSCAL_M' },
+  { id: 'scene-int-f', label: 'Women Intermediate', divId: 'INT_F' },
+  { id: 'scene-int-m', label: 'Men Intermediate', divId: 'INT_M' },
+  { id: 'scene-teams', label: 'Командный зачёт' },
 ];
 const DIV_SHORT = {
   BEGSCAL_F: 'BEG/SCAL — Women',
@@ -136,11 +135,25 @@ function athleteCell(r) {
   const meta = metaLine([r.age ? `${r.age}` : '', r.club || '', r.city || '', r.team_name && r.team_name !== '--' ? r.team_name : '']);
   return `<div class="athlete-line"><span>${safe(r.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
 }
+function heatAthleteCell(a) {
+  const flag = a.flag ? `<img class="flag" src="${a.flag}" alt="flag" />` : '';
+  const meta = metaLine([a.club || '', a.city || '']);
+  return `<div class="athlete-line"><span>${safe(a.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
+}
 function scoreCell(scoreObj) {
   return `<div class="score-main">${fmt(scoreObj?.points)}</div><div class="score-sub">${safe(scoreObj?.result_text || '')}</div>`;
 }
+function buildWorkoutNameMap() {
+  return {
+    WOD1: cache?.heats?.WOD1?.title || 'Комплекс 1',
+    WOD2: cache?.heats?.WOD2?.title || 'Комплекс 2',
+    WOD3: cache?.heats?.WOD3?.title || 'Комплекс 3'
+  };
+}
 function renderDivisionTable(div) {
-  const note = cache?.tie_break_mode === 'priority_score' ? `ПР — место определено по приоритетному комплексу (${safe(cache?.priority_score_id)})` : 'Одинаковые суммы остаются на одинаковом месте';
+  const note = cache?.tie_break_mode === 'priority_score'
+    ? `ПР — место определено по приоритетному комплексу (${safe(cache?.priority_score_id)})`
+    : 'Одинаковые суммы остаются на одинаковом месте';
   return `
     <div class="card">
       <div class="card-head">
@@ -178,15 +191,54 @@ function renderDivisionTable(div) {
       <div class="note">${note}</div>
     </div>`;
 }
-function renderSceneTables(sceneId, sceneTitle, divIds) {
+function renderDivisionHeats(divId) {
+  const workoutNames = buildWorkoutNameMap();
+  const groups = ['WOD1', 'WOD2', 'WOD3'].map(workoutId => {
+    const heats = cache?.heats?.[workoutId]?.divisions?.[divId] || [];
+    if (!heats.length) return '';
+    const name = safe(workoutNames[workoutId] || workoutId);
+    const match = name.match(/(\d+)/);
+    const workoutNum = match ? match[1] : workoutId;
+    const cards = heats.map(h => `
+      <div class="heat-card">
+        <div class="heat-card-head">
+          <strong>Заход ${fmt(h.heat)}</strong>
+        </div>
+        <table class="heat-table"><tbody>
+          ${(h.assignments || []).map(a => `<tr><td class="lane-col">${fmt(a.lane)}</td><td>${heatAthleteCell(a)}</td></tr>`).join('')}
+        </tbody></table>
+      </div>`).join('');
+    return `<div class="workout-group ${workoutId.toLowerCase()}">
+      <div class="workout-group-title">Комплекс ${workoutNum}</div>
+      <div class="heat-grid">${cards}</div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="card">
+      <div class="card-head">
+        <h3>Заходы</h3>
+        <div class="caption">Группы оставлены по цветам</div>
+      </div>
+      <div class="table-wrap division-heats">
+        ${groups || '<div class="empty">Заходы ещё не сформированы</div>'}
+      </div>
+      <div class="note">Показаны только заходы текущей категории.</div>
+    </div>`;
+}
+function renderDivisionScene(sceneId, divId) {
   const root = document.getElementById(sceneId);
-  const cards = divIds.map(divId => cache?.divisions?.[divId] ? renderDivisionTable(cache.divisions[divId]) : '').join('');
+  const div = cache?.divisions?.[divId];
+  if (!div) {
+    root.innerHTML = `<div class="scene-header"><h2>${safe(DIV_SHORT[divId] || divId)}</h2><div class="scene-sub">Нет данных</div></div><div class="empty">Нет данных по категории</div>`;
+    return;
+  }
   root.innerHTML = `
     <div class="scene-header">
-      <h2>${sceneTitle}</h2>
-      <div class="scene-sub">Лидеры по категориям</div>
+      <h2>${safe(DIV_SHORT[divId])}</h2>
+      <div class="scene-sub">Таблица слева, заходы справа</div>
     </div>
-    <div class="two-col">${cards || '<div class="empty">Нет данных</div>'}</div>`;
+    <div class="scene-split">${renderDivisionTable(div)}${renderDivisionHeats(divId)}</div>`;
 }
 function renderTeamsScene() {
   const root = document.getElementById('scene-teams');
@@ -245,58 +297,10 @@ function renderTeamsScene() {
   root.innerHTML = `
     <div class="scene-header">
       <h2>Клубный зачёт</h2>
-      <div class="scene-sub">Текущий рейтинг и вклад атлетов</div>
+      <div class="scene-sub">Пятый отдельный экран</div>
     </div>
     <div class="two-col">${left}${right}</div>`;
 }
-function heatAthleteCell(a) {
-  const flag = a.flag ? `<img class="flag" src="${a.flag}" alt="flag" />` : '';
-  const meta = metaLine([a.club || '', a.city || '']);
-  return `<div class="athlete-line"><span>${safe(a.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
-}
-function buildWorkoutNameMap() {
-  return { WOD1: cache?.heats?.WOD1?.title || 'Комплекс 1', WOD2: cache?.heats?.WOD2?.title || 'Комплекс 2', WOD3: cache?.heats?.WOD3?.title || 'Комплекс 3' };
-}
-function workoutGroupLabel(workoutId, workoutNames) {
-  const name = safe(workoutNames[workoutId] || workoutId);
-  const match = name.match(/(\d+)/);
-  return match ? `Комплекс ${match[1]}` : name;
-}
-function heatCardLabel(workoutId, heat, workoutNames) {
-  const name = safe(workoutNames[workoutId] || workoutId);
-  const match = name.match(/(\d+)/);
-  const workoutLabel = match ? `Комплекс ${match[1]}` : name;
-  return `${workoutLabel} — Заход ${fmt(heat)}`;
-}
-function renderHeatsScene() {
-  const root = document.getElementById('scene-heats');
-  const workoutNames = buildWorkoutNameMap();
-  const columns = ['BEGSCAL_F', 'BEGSCAL_M', 'INT_F', 'INT_M'].map(divId => {
-    const groups = ['WOD1', 'WOD2', 'WOD3'].map(workoutId => {
-      const heats = cache?.heats?.[workoutId]?.divisions?.[divId] || [];
-      if (!heats.length) return '';
-      const match = safe(workoutNames[workoutId] || workoutId).match(/(\d+)/);
-      const workoutNum = match ? match[1] : workoutId;
-      const cards = heats.map(h => `
-        <div class="heat-card">
-          <div class="heat-card-head">
-            <strong>Заход ${fmt(h.heat)}</strong>
-            <span>${safe(DIV_SHORT[divId])}</span>
-          </div>
-          <table class="heat-table"><tbody>
-            ${(h.assignments || []).map(a => `<tr><td class="lane-col">${fmt(a.lane)}</td><td>${heatAthleteCell(a)}</td></tr>`).join('')}
-          </tbody></table>
-        </div>`).join('');
-      return `<div class="workout-group ${workoutId.toLowerCase()}">
-        <div class="workout-group-title">Комплекс ${workoutNum}</div>
-        <div class="heat-grid">${cards}</div>
-      </div>`;
-    }).join('');
-    return `<div class="heat-column"><div class="heat-column-title">${safe(DIV_SHORT[divId])}</div>${groups || '<div class="empty">Заходы ещё не сформированы</div>'}</div>`;
-  }).join('');
-  root.innerHTML = `<div class="scene-header"><h2>Заходы</h2><div class="scene-sub">Комплексы выделены по цветам и уменьшены отдельно</div></div><div class="heats-layout">${columns}</div>`;
-}
-
 function applyDisplaySettings() {
   const display = cache?.display?.main || {};
   const root = document.documentElement;
@@ -308,15 +312,15 @@ function applyDisplaySettings() {
   root.style.setProperty('--block-gap', `${display.block_gap || 8}px`);
   root.style.setProperty('--container-scale', `${display.container_scale || 1}`);
 }
-
 function renderAll() {
   if (!cache) return;
   applyDisplaySettings();
   document.getElementById('meta').textContent = `Обновлено: ${cache.generated_at}`;
-  renderSceneTables('scene-begscal', 'BEG/SCAL', ['BEGSCAL_F', 'BEGSCAL_M']);
-  renderSceneTables('scene-int', 'Intermediate', ['INT_F', 'INT_M']);
+  renderDivisionScene('scene-begscal-f', 'BEGSCAL_F');
+  renderDivisionScene('scene-begscal-m', 'BEGSCAL_M');
+  renderDivisionScene('scene-int-f', 'INT_F');
+  renderDivisionScene('scene-int-m', 'INT_M');
   renderTeamsScene();
-  renderHeatsScene();
   renderSceneState();
 }
 function renderSceneState() {
