@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-26T16:44:19.578553+00:00",
+  "generated_at": "2026-03-26T17:43:48.062940+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -19,6 +19,8 @@
         {
           "place": 1,
           "place_label": "1",
+          "sport_place": null,
+          "sport_place_label": null,
           "id": 3,
           "full_name": "Базиев Хетаг",
           "age": 33,
@@ -52,11 +54,13 @@
             }
           },
           "priority_points": null,
-          "total": 0.0
+          "total": null
         },
         {
-          "place": 1,
-          "place_label": "1",
+          "place": 2,
+          "place_label": "2",
+          "sport_place": null,
+          "sport_place_label": null,
           "id": 7,
           "full_name": "Бестаев Одиссей",
           "age": 23,
@@ -90,11 +94,13 @@
             }
           },
           "priority_points": null,
-          "total": 0.0
+          "total": null
         },
         {
-          "place": 1,
-          "place_label": "1",
+          "place": 3,
+          "place_label": "3",
+          "sport_place": null,
+          "sport_place_label": null,
           "id": 2,
           "full_name": "Битаров Батраз",
           "age": 29,
@@ -128,11 +134,13 @@
             }
           },
           "priority_points": null,
-          "total": 0.0
+          "total": null
         },
         {
-          "place": 1,
-          "place_label": "1",
+          "place": 4,
+          "place_label": "4",
+          "sport_place": null,
+          "sport_place_label": null,
           "id": 1,
           "full_name": "Габуаев Игорь",
           "age": 32,
@@ -166,11 +174,13 @@
             }
           },
           "priority_points": null,
-          "total": 0.0
+          "total": null
         },
         {
-          "place": 1,
-          "place_label": "1",
+          "place": 5,
+          "place_label": "5",
+          "sport_place": null,
+          "sport_place_label": null,
           "id": 6,
           "full_name": "Нигматуллин Айгиз",
           "age": 39,
@@ -204,11 +214,13 @@
             }
           },
           "priority_points": null,
-          "total": 0.0
+          "total": null
         },
         {
-          "place": 1,
-          "place_label": "1",
+          "place": 6,
+          "place_label": "6",
+          "sport_place": null,
+          "sport_place_label": null,
           "id": 4,
           "full_name": "Хафизов Роберт",
           "age": 41,
@@ -242,7 +254,7 @@
             }
           },
           "priority_points": null,
-          "total": 0.0
+          "total": null
         }
       ]
     }
@@ -299,108 +311,6 @@
   "clubs": {
     "rows": [
       {
-        "club_name": "Bunker",
-        "team_name": "Bunker",
-        "points": 20.0,
-        "participants_count": 2,
-        "contributors": 2,
-        "first_places": 2,
-        "second_places": 0,
-        "third_places": 0,
-        "priority_sum": 0.0,
-        "breakdown": [
-          {
-            "athlete_id": 7,
-            "full_name": "Бестаев Одиссей",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          },
-          {
-            "athlete_id": 2,
-            "full_name": "Битаров Батраз",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          }
-        ],
-        "place": 1
-      },
-      {
-        "club_name": "Crossline",
-        "team_name": "Crossline",
-        "points": 20.0,
-        "participants_count": 2,
-        "contributors": 2,
-        "first_places": 2,
-        "second_places": 0,
-        "third_places": 0,
-        "priority_sum": 0.0,
-        "breakdown": [
-          {
-            "athlete_id": 6,
-            "full_name": "Нигматуллин Айгиз",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          },
-          {
-            "athlete_id": 4,
-            "full_name": "Хафизов Роберт",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          }
-        ],
-        "place": 2
-      },
-      {
-        "club_name": "Qlukva",
-        "team_name": "Qlukva",
-        "points": 20.0,
-        "participants_count": 2,
-        "contributors": 2,
-        "first_places": 2,
-        "second_places": 0,
-        "third_places": 0,
-        "priority_sum": 0.0,
-        "breakdown": [
-          {
-            "athlete_id": 3,
-            "full_name": "Базиев Хетаг",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          },
-          {
-            "athlete_id": 1,
-            "full_name": "Габуаев Игорь",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          }
-        ],
-        "place": 3
-      },
-      {
         "club_name": "Boroda Crossfit",
         "team_name": "Boroda Crossfit",
         "points": 0.0,
@@ -411,7 +321,7 @@
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [],
-        "place": 4
+        "place": 1
       },
       {
         "club_name": "Iron heart",
@@ -424,7 +334,7 @@
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [],
-        "place": 5
+        "place": 2
       },
       {
         "club_name": "Rise up",
@@ -437,13 +347,52 @@
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [],
-        "place": 6
+        "place": 3
       },
       {
         "club_name": "БК Патриот",
         "team_name": "БК Патриот",
         "points": 0.0,
         "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 4
+      },
+      {
+        "club_name": "Bunker",
+        "team_name": "Bunker",
+        "points": 0.0,
+        "participants_count": 2,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 5
+      },
+      {
+        "club_name": "Crossline",
+        "team_name": "Crossline",
+        "points": 0.0,
+        "participants_count": 2,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 6
+      },
+      {
+        "club_name": "Qlukva",
+        "team_name": "Qlukva",
+        "points": 0.0,
+        "participants_count": 2,
         "contributors": 0,
         "first_places": 0,
         "second_places": 0,
@@ -463,108 +412,6 @@
   "teams": {
     "rows": [
       {
-        "club_name": "Bunker",
-        "team_name": "Bunker",
-        "points": 20.0,
-        "participants_count": 2,
-        "contributors": 2,
-        "first_places": 2,
-        "second_places": 0,
-        "third_places": 0,
-        "priority_sum": 0.0,
-        "breakdown": [
-          {
-            "athlete_id": 7,
-            "full_name": "Бестаев Одиссей",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          },
-          {
-            "athlete_id": 2,
-            "full_name": "Битаров Батраз",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          }
-        ],
-        "place": 1
-      },
-      {
-        "club_name": "Crossline",
-        "team_name": "Crossline",
-        "points": 20.0,
-        "participants_count": 2,
-        "contributors": 2,
-        "first_places": 2,
-        "second_places": 0,
-        "third_places": 0,
-        "priority_sum": 0.0,
-        "breakdown": [
-          {
-            "athlete_id": 6,
-            "full_name": "Нигматуллин Айгиз",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          },
-          {
-            "athlete_id": 4,
-            "full_name": "Хафизов Роберт",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          }
-        ],
-        "place": 2
-      },
-      {
-        "club_name": "Qlukva",
-        "team_name": "Qlukva",
-        "points": 20.0,
-        "participants_count": 2,
-        "contributors": 2,
-        "first_places": 2,
-        "second_places": 0,
-        "third_places": 0,
-        "priority_sum": 0.0,
-        "breakdown": [
-          {
-            "athlete_id": 3,
-            "full_name": "Базиев Хетаг",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          },
-          {
-            "athlete_id": 1,
-            "full_name": "Габуаев Игорь",
-            "division_id": "INT_M",
-            "division_title": "Intermediate — Men",
-            "place": 1,
-            "place_label": "1",
-            "awarded_points": 10.0,
-            "priority_points": null
-          }
-        ],
-        "place": 3
-      },
-      {
         "club_name": "Boroda Crossfit",
         "team_name": "Boroda Crossfit",
         "points": 0.0,
@@ -575,7 +422,7 @@
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [],
-        "place": 4
+        "place": 1
       },
       {
         "club_name": "Iron heart",
@@ -588,7 +435,7 @@
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [],
-        "place": 5
+        "place": 2
       },
       {
         "club_name": "Rise up",
@@ -601,13 +448,52 @@
         "third_places": 0,
         "priority_sum": 0.0,
         "breakdown": [],
-        "place": 6
+        "place": 3
       },
       {
         "club_name": "БК Патриот",
         "team_name": "БК Патриот",
         "points": 0.0,
         "participants_count": 0,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 4
+      },
+      {
+        "club_name": "Bunker",
+        "team_name": "Bunker",
+        "points": 0.0,
+        "participants_count": 2,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 5
+      },
+      {
+        "club_name": "Crossline",
+        "team_name": "Crossline",
+        "points": 0.0,
+        "participants_count": 2,
+        "contributors": 0,
+        "first_places": 0,
+        "second_places": 0,
+        "third_places": 0,
+        "priority_sum": 0.0,
+        "breakdown": [],
+        "place": 6
+      },
+      {
+        "club_name": "Qlukva",
+        "team_name": "Qlukva",
+        "points": 0.0,
+        "participants_count": 2,
         "contributors": 0,
         "first_places": 0,
         "second_places": 0,
