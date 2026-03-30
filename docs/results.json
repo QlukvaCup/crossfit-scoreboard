@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30T09:31:30.711191+00:00",
+  "generated_at": "2026-03-30T09:41:12.638739+00:00",
   "divisions": {
     "BEGSCAL_F": {
       "title": "Beginners/Scaled — Women",
@@ -3084,7 +3084,7 @@
       {
         "club_name": "Rise up",
         "team_name": "Rise up",
-        "points": 10.0,
+        "points": 8.0,
         "participants_count": 10,
         "contributors": 2,
         "first_places": 1,
@@ -3109,7 +3109,7 @@
             "division_title": "Beginners/Scaled — Women",
             "place": 3,
             "place_label": "3",
-            "awarded_points": 3.0,
+            "awarded_points": 1.0,
             "priority_points": null
           }
         ],
@@ -3118,7 +3118,7 @@
       {
         "club_name": "Qlukva",
         "team_name": "Qlukva",
-        "points": 10.0,
+        "points": 8.0,
         "participants_count": 12,
         "contributors": 2,
         "first_places": 1,
@@ -3133,7 +3133,7 @@
             "division_title": "Beginners/Scaled — Women",
             "place": 1,
             "place_label": "1",
-            "awarded_points": 7.0,
+            "awarded_points": 5.0,
             "priority_points": null
           },
           {
@@ -3176,7 +3176,7 @@
       {
         "club_name": "Bunker",
         "team_name": "Bunker",
-        "points": 5.0,
+        "points": 3.0,
         "participants_count": 12,
         "contributors": 1,
         "first_places": 0,
@@ -3191,7 +3191,7 @@
             "division_title": "Beginners/Scaled — Women",
             "place": 2,
             "place_label": "2",
-            "awarded_points": 5.0,
+            "awarded_points": 3.0,
             "priority_points": null
           }
         ],
@@ -3275,7 +3275,7 @@
       {
         "club_name": "Rise up",
         "team_name": "Rise up",
-        "points": 10.0,
+        "points": 8.0,
         "participants_count": 10,
         "contributors": 2,
         "first_places": 1,
@@ -3300,7 +3300,7 @@
             "division_title": "Beginners/Scaled — Women",
             "place": 3,
             "place_label": "3",
-            "awarded_points": 3.0,
+            "awarded_points": 1.0,
             "priority_points": null
           }
         ],
@@ -3309,7 +3309,7 @@
       {
         "club_name": "Qlukva",
         "team_name": "Qlukva",
-        "points": 10.0,
+        "points": 8.0,
         "participants_count": 12,
         "contributors": 2,
         "first_places": 1,
@@ -3324,7 +3324,7 @@
             "division_title": "Beginners/Scaled — Women",
             "place": 1,
             "place_label": "1",
-            "awarded_points": 7.0,
+            "awarded_points": 5.0,
             "priority_points": null
           },
           {
@@ -3367,7 +3367,7 @@
       {
         "club_name": "Bunker",
         "team_name": "Bunker",
-        "points": 5.0,
+        "points": 3.0,
         "participants_count": 12,
         "contributors": 1,
         "first_places": 0,
@@ -3382,7 +3382,7 @@
             "division_title": "Beginners/Scaled — Women",
             "place": 2,
             "place_label": "2",
-            "awarded_points": 5.0,
+            "awarded_points": 3.0,
             "priority_points": null
           }
         ],
