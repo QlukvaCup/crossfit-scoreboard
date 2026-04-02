@@ -13,6 +13,7 @@ st.title("📊 Tables (админ-панель)")
 db = load_db()
 settings = db["settings"]
 scores = settings["scores"]
+club_settings = settings.get("club_settings", {}) if isinstance(settings.get("club_settings"), dict) else {}
 team_scoring = settings.get("team_scoring", {})
 
 
@@ -22,9 +23,9 @@ def display_value_for_public(sdef, res):
     status = res.get("status")
     val = res.get("value")
     if status == "wd":
-        return "WD"
+        return "Снялся"
     if status == "capped":
-        pretty = display_result_value(sdef, val)
+        pretty = display_result_value({"type": "reps"}, val)
         return f"CAP {pretty}" if pretty else "CAP"
     return display_result_value(sdef, val)
 
@@ -40,16 +41,7 @@ def render_admin_table(rows, score_ids):
         st.info("Нет данных")
         return
 
-    head = [
-        "<tr>",
-        "<th>Место</th>",
-        "<th>ФИО</th>",
-        "<th>Возраст</th>",
-        "<th>DIV</th>",
-        "<th>Регион</th>",
-        "<th>Клуб</th>",
-        "<th>Флаг</th>",
-    ]
+    head = ["<tr>", "<th>Место</th>", "<th>ФИО</th>", "<th>Возраст</th>", "<th>DIV</th>", "<th>Регион</th>", "<th>Клуб</th>", "<th>Флаг</th>"]
     for sid in score_ids:
         head.append(f"<th>{esc(sid)}</th>")
         head.append(f"<th>{esc(sid)} рез.</th>")
@@ -77,8 +69,7 @@ def render_admin_table(rows, score_ids):
         parts.append("</tr>")
         body_rows.append(''.join(parts))
 
-    st.markdown(
-        """
+    st.markdown("""
         <style>
         .admin-results-table-wrap{overflow-x:auto;margin-bottom:8px;}
         .admin-results-table{width:100%;border-collapse:collapse;font-size:14px;}
@@ -87,28 +78,16 @@ def render_admin_table(rows, score_ids):
         .admin-results-table tbody tr:hover{background:#fafcff;}
         .admin-results-table td:nth-child(7){font-weight:700;color:#111827;}
         </style>
-        """,
-        unsafe_allow_html=True,
-    )
+        """, unsafe_allow_html=True)
 
-    html_table = (
-        '<div class="admin-results-table-wrap"><table class="admin-results-table"><thead>'
-        + ''.join(head)
-        + '</thead><tbody>'
-        + ''.join(body_rows)
-        + '</tbody></table></div>'
-    )
+    html_table = '<div class="admin-results-table-wrap"><table class="admin-results-table"><thead>' + ''.join(head) + '</thead><tbody>' + ''.join(body_rows) + '</tbody></table></div>'
     st.markdown(html_table, unsafe_allow_html=True)
 
 
 for div in DIVISIONS:
     div_id = div["id"]
     st.subheader(div["title"])
-
-    participants = [
-        p for p in db.get("participants", [])
-        if p.get("division_id") == div_id and not p.get("deleted", False)
-    ]
+    participants = [p for p in db.get("participants", []) if p.get("division_id") == div_id and not p.get("deleted", False)]
 
     points_maps = {}
     result_maps = {}
@@ -119,7 +98,6 @@ for div in DIVISIONS:
 
     overall_rows = build_division_overall(db, div_id)
     overall_map = {int(r["athlete_id"]): r for r in overall_rows}
-
     has_live_places = any(r.get("place") is not None for r in overall_rows)
 
     table_rows = []
@@ -148,14 +126,7 @@ for div in DIVISIONS:
         table_rows.append(row)
 
     if has_live_places:
-        table_rows.sort(
-            key=lambda r: (
-                0 if isinstance(r["ИТОГО"], (int, float)) else 1,
-                -float(r["ИТОГО"] if isinstance(r["ИТОГО"], (int, float)) else 0.0),
-                -float(r["Приоритет"]) if isinstance(r["Приоритет"], (int, float)) else 1,
-                r["ФИО"].lower(),
-            )
-        )
+        table_rows.sort(key=lambda r: (0 if isinstance(r["ИТОГО"], (int, float)) else 1, -float(r["ИТОГО"] if isinstance(r["ИТОГО"], (int, float)) else 0.0), -float(r["Приоритет"]) if isinstance(r["Приоритет"], (int, float)) else 1, r["ФИО"].lower()))
     else:
         table_rows.sort(key=lambda r: r["ФИО"].lower())
 
@@ -168,20 +139,33 @@ club_rows = []
 for row in club_payload.get("rows", []):
     club_rows.append({
         "Место": row.get("place"),
-        "Клуб": row.get("team_name"),
+        "Клуб": row.get("club_name"),
+        "Город": row.get("club_city", ""),
+        "Флаг": "✅" if row.get("club_flag") else "—",
         "Очки": row.get("points"),
         "Участников": row.get("participants_count"),
         "Зачётных мест": row.get("contributors"),
         "1 мест": row.get("first_places"),
         "2 мест": row.get("second_places"),
         "3 мест": row.get("third_places"),
-        "Приоритетный комплекс": row.get("priority_sum"),
+        "Приоритет": row.get("priority_sum"),
     })
 if club_rows:
     st.dataframe(club_rows, use_container_width=True, hide_index=True)
 else:
     st.info("Клубный зачёт появится после полного ввода хотя бы одного комплекса в зачётном дивизионе.")
 
-st.caption(
-    f"Командный зачёт обновляется после полного закрытия комплекса в дивизионе. Приоритетный комплекс для тай-брейка: {team_scoring.get('priority_score_id', '—')}."
-)
+scored_clubs = [row for row in club_payload.get("rows", []) if float(row.get("points") or 0) > 0]
+if scored_clubs:
+    st.markdown("### Детализация по клубам")
+    for row in scored_clubs:
+        city = str(row.get("club_city") or "").strip()
+        title = row.get("club_name") or "Клуб"
+        if city:
+            title += f" — {city}"
+        st.markdown(f"**{title}**")
+        for item in row.get("breakdown", []):
+            st.write(f"- {item.get('full_name', '')} · {item.get('division_title', '')} · место {item.get('place_label', '—')} · {item.get('awarded_points', 0)} очк.")
+        st.divider()
+
+st.caption(f"Клубный зачёт обновляется после полного закрытия комплекса в дивизионе. Приоритетный комплекс для тай-брейка: {team_scoring.get('priority_score_id', '—')}.")

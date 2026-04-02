@@ -1,11 +1,45 @@
+import hashlib
+
 import streamlit as st
+from PIL import Image
+
 from storage import load_db, save_db, default_display_settings, clear_results, clear_all_data, default_team_scoring
-from config import DIVISIONS
+from config import DIVISIONS, DATA_FLAGS_DIR, MAX_FLAG_UPLOAD_BYTES, MAX_FLAG_DIMENSION
 from utils import compact_page_style
 
 st.set_page_config(page_title="Settings", layout="wide")
 compact_page_style()
 st.title("⚙️ Settings")
+
+
+def save_club_flag_image(flag_file, club_name: str) -> str:
+    img_bytes = flag_file.read()
+    if not img_bytes:
+        raise ValueError("Файл флага пустой.")
+    if len(img_bytes) > MAX_FLAG_UPLOAD_BYTES:
+        raise ValueError(f"Файл слишком большой. Максимум {MAX_FLAG_UPLOAD_BYTES // 1024 // 1024} MB.")
+
+    flag_file.seek(0)
+    try:
+        img = Image.open(flag_file)
+        img.load()
+    except Exception as exc:
+        raise ValueError(f"Не удалось прочитать изображение: {exc}") from exc
+
+    img = img.convert("RGBA")
+    img.thumbnail((MAX_FLAG_DIMENSION, MAX_FLAG_DIMENSION))
+    DATA_FLAGS_DIR.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.md5(club_name.encode("utf-8")).hexdigest()[:12]
+    out_path = DATA_FLAGS_DIR / f"club_{digest}.png"
+    img.save(out_path, format="PNG")
+    return str(out_path)
+
+
+def club_option_label(club_name: str, club_settings: dict) -> str:
+    info = club_settings.get(club_name, {}) if isinstance(club_settings, dict) else {}
+    city = str(info.get("city") or "").strip()
+    return f"{club_name} — {city}" if city else club_name
+
 
 db = load_db()
 settings = db["settings"]
@@ -17,11 +51,11 @@ if "confirm_clear_all" not in st.session_state:
 
 settings.setdefault("display", default_display_settings())
 settings.setdefault("clubs", [])
+settings.setdefault("club_settings", {})
 settings.setdefault("team_scoring", default_team_scoring())
 settings.setdefault("tv_scene_duration_sec", 10)
 
 st.subheader("Лимиты участников по дивизионам")
-
 limits = settings["division_limits"]
 changed = False
 
@@ -36,8 +70,7 @@ for i, d in enumerate(DIVISIONS):
             changed = True
 
 st.divider()
-st.subheader("Клубы и командный зачёт")
-
+st.subheader("Клубы")
 club_list = settings.setdefault("clubs", [])
 club_text = st.text_area(
     "Список клубов",
@@ -61,6 +94,64 @@ if parsed_clubs != club_list:
     settings["clubs"] = parsed_clubs
     changed = True
 
+club_settings = settings.setdefault("club_settings", {})
+for club_name in settings["clubs"]:
+    club_settings.setdefault(club_name, {"city": "", "flag_path": None})
+for club_name in list(club_settings.keys()):
+    if club_name not in settings["clubs"]:
+        club_settings.pop(club_name, None)
+        changed = True
+
+st.markdown("### Настройки введённых клубов")
+if settings["clubs"]:
+    selected_club = st.selectbox(
+        "Выбери клуб",
+        settings["clubs"],
+        format_func=lambda name: club_option_label(name, club_settings),
+    )
+    club_info = club_settings.setdefault(selected_club, {"city": "", "flag_path": None})
+
+    c1, c2 = st.columns([1.3, 1.0])
+    with c1:
+        club_city = st.text_input("Город / регион клуба", value=club_info.get("city", ""))
+        if club_city != club_info.get("city", ""):
+            club_info["city"] = club_city.strip()
+            changed = True
+    with c2:
+        club_flag_file = st.file_uploader(
+            "Флаг клуба",
+            type=["png", "jpg", "jpeg"],
+            key="club_flag_uploader",
+        )
+        if club_info.get("flag_path"):
+            try:
+                st.image(club_info["flag_path"], width=52)
+            except Exception:
+                st.caption("Текущий флаг недоступен")
+        else:
+            st.caption("Флаг пока не загружен")
+
+    action_cols = st.columns(2)
+    if action_cols[0].button("Сохранить настройки клуба", type="secondary"):
+        if club_flag_file is not None:
+            try:
+                club_info["flag_path"] = save_club_flag_image(club_flag_file, selected_club)
+            except ValueError as exc:
+                st.error(str(exc))
+                st.stop()
+        save_db(db)
+        st.success("Настройки клуба обновлены.")
+        st.rerun()
+    if action_cols[1].button("Удалить флаг клуба"):
+        club_info["flag_path"] = None
+        save_db(db)
+        st.warning("Флаг клуба удалён.")
+        st.rerun()
+else:
+    st.info("Сначала добавь хотя бы один клуб в список выше.")
+
+st.divider()
+st.subheader("Клубный зачёт")
 team_scoring = settings.setdefault("team_scoring", default_team_scoring())
 priority_score_id = str(team_scoring.get("priority_score_id") or "WOD3")
 score_ids = [s["id"] for s in settings.get("scores", [])]
@@ -71,7 +162,7 @@ if priority_score_id not in score_ids and score_ids:
 
 c1, c2 = st.columns([1, 1])
 with c1:
-    new_enabled = st.checkbox("Включить командный зачёт", value=bool(team_scoring.get("enabled", True)))
+    new_enabled = st.checkbox("Включить клубный зачёт", value=bool(team_scoring.get("enabled", True)))
     if new_enabled != bool(team_scoring.get("enabled", True)):
         team_scoring["enabled"] = new_enabled
         changed = True
@@ -111,7 +202,6 @@ for div in DIVISIONS:
 
 st.divider()
 st.subheader("Настройка зачётов")
-
 score_rows = settings["scores"]
 for s in score_rows:
     st.markdown(f"### {s['id']} — {s['title']}")
@@ -239,8 +329,8 @@ with right:
             st.rerun()
 
 st.divider()
-if st.button("💾 Save Settings", type="primary"):
+if st.button("💾 Сохранить настройки", type="primary"):
     save_db(db)
-    st.success("Сохранено.")
+    st.success("Настройки сохранены.")
 elif changed:
-    st.warning("Есть изменения. Нажми Save Settings.")
+    st.warning("Есть изменения. Нажми 'Сохранить настройки'.")

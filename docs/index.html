@@ -117,10 +117,10 @@ const SCENES = [
   { id: 'scene-teams', label: 'Командный зачёт' },
 ];
 const DIV_SHORT = {
-  BEGSCAL_F: 'BEG/SCAL — Women',
-  BEGSCAL_M: 'BEG/SCAL — Men',
-  INT_F: 'Intermediate — Women',
-  INT_M: 'Intermediate — Men'
+  BEGSCAL_F: 'Beginners/Scaled — ЖЕНЩИНЫ',
+  BEGSCAL_M: 'Beginners/Scaled — МУЖЧИНЫ',
+  INT_F: 'Intermediate — ЖЕНЩИНЫ',
+  INT_M: 'Intermediate — МУЖЧИНЫ'
 };
 let cache = null;
 let sceneIndex = 0;
@@ -136,9 +136,8 @@ function athleteCell(r) {
   const club = (r.club || '').trim();
   const meta = [
     r.age ? `${r.age}` : '',
-    club ? `<span class="club-pill">${safe(club)}</span>` : '',
-    safe(r.city || ''),
-    r.team_name && r.team_name !== '--' ? safe(r.team_name) : ''
+    safe(r.region || r.city || ''),
+    club ? safe(club) : ''
   ].filter(Boolean).join(' · ');
   return `<div class="athlete-line"><span>${safe(r.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
 }
@@ -146,8 +145,8 @@ function heatAthleteCell(a) {
   const flag = a.flag ? `<img class="flag" src="${a.flag}" alt="flag" />` : '';
   const club = (a.club || '').trim();
   const meta = [
-    club ? `<span class="club-pill">${safe(club)}</span>` : '',
-    safe(a.city || '')
+    safe(a.region || a.city || ''),
+    club ? safe(club) : ''
   ].filter(Boolean).join(' · ');
   return `<div class="athlete-line"><span>${safe(a.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
 }
@@ -169,7 +168,7 @@ function renderDivisionTable(div) {
     <div class="card">
       <div class="card-head">
         <h3>${safe(div.title)}</h3>
-        <div class="caption">Флаг · возраст · клуб · город</div>
+        <div class="caption">Флаг · возраст · регион · клуб</div>
       </div>
       <div class="table-wrap">
         <table class="score-table">
@@ -253,7 +252,8 @@ function renderDivisionScene(sceneId, divId) {
 }
 function renderTeamsScene() {
   const root = document.getElementById('scene-teams');
-  const rows = cache?.clubs?.rows || cache?.teams?.rows || [];
+  const rows = cache?.clubs?.rows || [];
+  const scored = rows.filter(r => Number(r.points || 0) > 0);
   const left = `
     <div class="card">
       <div class="card-head">
@@ -272,15 +272,16 @@ function renderTeamsScene() {
             </tr>
           </thead>
           <tbody>
-            ${rows.map(r => `
-              <tr>
+            ${rows.map(r => {
+              const flag = r.club_flag ? `<img class="flag" src="${r.club_flag}" alt="flag" />` : '';
+              return `<tr>
                 <td class="col-place">${fmt(r.place)}</td>
-                <td class="col-team"><div class="athlete-line"><span>${safe(r.team_name)}</span></div><div class="athlete-meta">${fmt(r.contributors)} зачётных результата</div></td>
+                <td class="col-team"><div class="athlete-line"><span>${safe(r.club_name || r.club || '—')}</span>${flag}</div><div class="athlete-meta">${safe(r.club_city || '')}</div></td>
                 <td class="col-team-small points"><div class="score-main">${fmt(r.points)}</div></td>
                 <td class="col-team-small points"><div class="score-main">${fmt(r.participants_count)}</div></td>
                 <td class="col-team-small points"><div class="score-main">${fmt(r.first_places)}</div></td>
-              </tr>
-            `).join('')}
+              </tr>`;
+            }).join('')}
           </tbody>
         </table>
       </div>
@@ -291,18 +292,17 @@ function renderTeamsScene() {
     <div class="card">
       <div class="card-head">
         <h3>Кто принёс очки</h3>
-        <div class="caption">Расшифровка командного зачёта</div>
+        <div class="caption">Показаны только клубы с зачётными очками</div>
       </div>
       <div class="table-wrap breakdown-list">
-        ${rows.map(team => {
-          const top = (team.breakdown || []).slice(0, 4);
-          const body = top.length
-            ? top.map(item => `<div class="breakdown-item"><strong>${safe(team.team_name)}</strong><div class="meta2">${safe(item.full_name)} · ${safe(item.division_title)} · место ${safe(item.place_label)} · +${fmt(item.awarded_points)} очк.</div></div>`).join('')
-            : `<div class="breakdown-item"><strong>${safe(team.team_name)}</strong><div class="meta2">Пока без зачётных баллов</div></div>`;
-          return body;
+        ${scored.map(team => {
+          const flag = team.club_flag ? `<img class="flag" src="${team.club_flag}" alt="flag" />` : '';
+          const heading = `<div class="breakdown-item"><strong>${safe(team.club_name)}</strong>${flag}<div class="meta2">${safe(team.club_city || '')}</div></div>`;
+          const items = (team.breakdown || []).map(item => `<div class="breakdown-item"><div class="meta2">${safe(item.full_name)} · ${safe(item.division_title)} · место ${safe(item.place_label)} · +${fmt(item.awarded_points)} очк.</div></div>`).join('');
+          return `<div class="breakdown-group">${heading}${items}</div>`;
         }).join('')}
       </div>
-      <div class="note">ПР — место определено через приоритетный комплекс при равенстве суммы очков.</div>
+      <div class="note">Клубы без очков в детализацию не выводятся.</div>
     </div>`;
 
   root.innerHTML = `

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Dict, Any, List, Optional, Tuple
 
+from config import DIVISIONS
 from utils import participant_age
 
 
@@ -322,10 +323,13 @@ def build_club_ranking(db: Dict[str, Any]) -> Dict[str, Any]:
             all_club_names.append(club_name)
             seen.add(club_name.casefold())
 
+    club_settings = settings.get("club_settings", {}) if isinstance(settings.get("club_settings"), dict) else {}
+
     club_rows: Dict[str, Dict[str, Any]] = {
         name: {
             "club_name": name,
-            "team_name": name,
+            "club_city": str((club_settings.get(name) or {}).get("city") or "").strip(),
+            "club_flag": (club_settings.get(name) or {}).get("flag_path"),
             "points": 0.0,
             "participants_count": 0,
             "contributors": 0,
@@ -343,7 +347,8 @@ def build_club_ranking(db: Dict[str, Any]) -> Dict[str, Any]:
         if club_name:
             club_rows.setdefault(club_name, {
                 "club_name": club_name,
-                "team_name": club_name,
+                "club_city": str((club_settings.get(club_name) or {}).get("city") or "").strip(),
+                "club_flag": (club_settings.get(club_name) or {}).get("flag_path"),
                 "points": 0.0,
                 "participants_count": 0,
                 "contributors": 0,
@@ -369,7 +374,8 @@ def build_club_ranking(db: Dict[str, Any]) -> Dict[str, Any]:
                 continue
             club_row = club_rows.setdefault(club_name, {
                 "club_name": club_name,
-                "team_name": club_name,
+                "club_city": str((club_settings.get(club_name) or {}).get("city") or "").strip(),
+                "club_flag": (club_settings.get(club_name) or {}).get("flag_path"),
                 "points": 0.0,
                 "participants_count": 0,
                 "contributors": 0,
@@ -401,7 +407,7 @@ def build_club_ranking(db: Dict[str, Any]) -> Dict[str, Any]:
                 "priority_points": round(priority_pts, 2) if priority_pts >= 0 else None,
             })
 
-    division_title_map = {d["id"]: d["title"] for d in db.get("settings", {}).get("_divisions", [])}
+    division_title_map = {d["id"]: d["title"] for d in DIVISIONS}
     rows = list(club_rows.values())
     for row in rows:
         row["points"] = round(float(row["points"]), 2)

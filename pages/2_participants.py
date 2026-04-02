@@ -84,7 +84,7 @@ with st.form("add_participant"):
     c1, c2, c3 = st.columns(3)
     with c1:
         full_name = st.text_input("Фамилия Имя")
-        sex = st.selectbox("Пол", ["M", "F"])
+        sex = st.selectbox("Пол", ["M", "F"], format_func=lambda x: "МУЖЧИНЫ" if x == "M" else "ЖЕНЩИНЫ")
         birth_date = st.date_input(
             "Дата рождения",
             format="DD.MM.YYYY",
@@ -163,7 +163,7 @@ if edit_id is not None:
             c1, c2, c3 = st.columns(3)
             with c1:
                 edit_name = st.text_input("Фамилия Имя", value=target.get("full_name", ""))
-                edit_sex = st.selectbox("Пол", ["M", "F"], index=["M", "F"].index(target.get("sex", "M")))
+                edit_sex = st.selectbox("Пол", ["M", "F"], index=["M", "F"].index(target.get("sex", "M")), format_func=lambda x: "МУЖЧИНЫ" if x == "M" else "ЖЕНЩИНЫ")
                 edit_birth_date = st.date_input(
                     "Дата рождения",
                     format="DD.MM.YYYY",
@@ -276,7 +276,7 @@ else:
             st.session_state.edit_participant_id = int(p["id"])
             st.rerun()
         cols[2].write(p.get("full_name", ""))
-        cols[3].write(p.get("sex", ""))
+        cols[3].write("МУЖЧИНЫ" if p.get("sex", "") == "M" else "ЖЕНЩИНЫ")
         cols[4].write(display_birth_date(p.get("birth_date")) or "—")
         cols[5].write(p.get("division_id", ""))
         cols[6].write(p.get("region", "") or p.get("city", ""))

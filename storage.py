@@ -63,6 +63,7 @@ def default_db() -> Dict[str, Any]:
             "scores": DEFAULT_SCORES,
             "display": default_display_settings(),
             "clubs": [],
+            "club_settings": {},
             "team_scoring": default_team_scoring(),
             "tv_scene_duration_sec": 10,
         },
@@ -70,7 +71,7 @@ def default_db() -> Dict[str, Any]:
         "results": {},
         "heats": {},
         "meta": {
-            "version": 6,
+            "version": 7,
         },
     }
 
@@ -90,6 +91,18 @@ def _normalize_clubs(raw: Any) -> List[str]:
         cleaned.append(name)
     cleaned.sort(key=lambda x: x.casefold())
     return cleaned
+
+
+def _normalize_club_settings(raw: Any, clubs: List[str]) -> Dict[str, Dict[str, Any]]:
+    raw = raw if isinstance(raw, dict) else {}
+    result: Dict[str, Dict[str, Any]] = {}
+    for club_name in clubs:
+        current = raw.get(club_name) if isinstance(raw.get(club_name), dict) else {}
+        result[club_name] = {
+            "city": str(current.get("city") or current.get("region") or "").strip(),
+            "flag_path": current.get("flag_path") or None,
+        }
+    return result
 
 
 def _normalize_division_points(raw: Any) -> Dict[str, Dict[str, int]]:
@@ -204,14 +217,17 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
 
     participants_raw = db.get("participants") if isinstance(db.get("participants"), list) else []
     participants = []
+    seen_clubs = {x.casefold() for x in clubs}
     for item in participants_raw:
         normalized = _normalize_participant(item)
         if normalized is not None:
             participants.append(normalized)
             club_name = normalized.get("club", "").strip()
-            if club_name and club_name.casefold() not in {x.casefold() for x in clubs}:
+            if club_name and club_name.casefold() not in seen_clubs:
                 clubs.append(club_name)
+                seen_clubs.add(club_name.casefold())
     clubs = _normalize_clubs(clubs)
+    club_settings = _normalize_club_settings(settings.get("club_settings"), clubs)
 
     merged_display = default_display_settings()
     for screen_key, screen_defaults in merged_display.items():
@@ -224,6 +240,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
             "scores": scores,
             "display": merged_display,
             "clubs": clubs,
+            "club_settings": club_settings,
             "team_scoring": team_scoring,
             "tv_scene_duration_sec": tv_scene_duration_sec,
         },
@@ -233,7 +250,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
         "meta": db.get("meta") if isinstance(db.get("meta"), dict) else {},
     }
 
-    normalized["meta"].setdefault("version", 6)
+    normalized["meta"].setdefault("version", 7)
     return normalized
 
 
@@ -296,3 +313,5 @@ def clear_all_data(db: Dict[str, Any]) -> None:
     db["participants"] = []
     db["results"] = {}
     db["heats"] = {}
+    db.setdefault("settings", {})["clubs"] = []
+    db["settings"]["club_settings"] = {}

@@ -95,18 +95,11 @@ function renderTable(){
 
   (div.rows||[]).forEach(r => {
     const flag = r.flag ? `<img class="flag" src="${r.flag}" />` : '';
-    const meta = [
-      r.age ? `${r.age}` : '',
-      r.club || r.club_name || '',
-      r.region || r.city || '',
-      r.team_name && r.team_name !== '--' ? r.team_name : ''
-    ].filter(Boolean).join(' · ');
     const club = (r.club || r.club_name || '').trim();
     const metaHtml = [
       r.age ? `${r.age}` : '',
-      club ? `<span class="club-pill">${safe(club)}</span>` : '',
       safe(r.region || r.city || ''),
-      r.team_name && r.team_name !== '--' ? safe(r.team_name) : ''
+      club ? `<span class="club-pill">${safe(club)}</span>` : ''
     ].filter(Boolean).join(' · ');
 
     html += `<tr><td>${safe(r.place_label || fmt(r.place))}</td><td>${safe(r.full_name)}${flag}<div class="meta2">${metaHtml}</div></td>` +
@@ -122,28 +115,30 @@ function renderTable(){
 }
 
 function renderTeamsInline(){
-  const rows = cache.clubs?.rows || cache.teams?.rows || [];
+  const rows = cache.clubs?.rows || [];
+  const scored = rows.filter(r => Number(r.points || 0) > 0);
   let html = `<h3>Клубный зачёт</h3><table><thead><tr><th>#</th><th>Клуб</th><th class="points">Очки</th><th class="points">Участ.</th><th class="points">1х</th></tr></thead><tbody>`;
 
   rows.forEach((r, idx) => {
-    const clubName = r.club_name || r.team_name || r.club || r.team || `Клуб ${idx + 1}`;
-    const contributors = Number(r.contributors || r.scoring_results_count || 0);
-    html += `<tr><td>${fmt(r.place)}</td><td>${safe(clubName)}<div class="meta2">${contributors} ${pluralResults(contributors)}</div></td><td class="points">${fmt(r.points)}</td><td class="points">${fmt(r.participants_count)}</td><td class="points">${fmt(r.first_places)}</td></tr>`;
+    const clubName = r.club_name || r.club || `Клуб ${idx + 1}`;
+    const flag = r.club_flag ? `<img class="flag" src="${r.club_flag}" />` : '';
+    html += `<tr><td>${fmt(r.place)}</td><td>${safe(clubName)}${flag}<div class="meta2">${safe(r.club_city || '')}</div></td><td class="points">${fmt(r.points)}</td><td class="points">${fmt(r.participants_count)}</td><td class="points">${fmt(r.first_places)}</td></tr>`;
   });
 
   html += `</tbody></table>`;
 
-  if(rows[0]?.breakdown?.length){
-    const topClub = rows[0].club_name || rows[0].team_name || rows[0].club || rows[0].team || '—';
-    html += `<div class="muted" style="margin-top:8px;">Топ-клуб: ${safe(topClub)}</div>`;
-    rows[0].breakdown.slice(0,5).forEach(item => {
-      html += `<div class="meta2" style="margin-top:4px;">${safe(item.full_name)} · ${safe(item.division_title)} · место ${safe(item.place_label)} · +${fmt(item.awarded_points)}</div>`;
+  if(scored.length){
+    html += `<div class="muted" style="margin-top:8px;">Клубы, которые принесли очки</div>`;
+    scored.forEach(team => {
+      html += `<div class="meta2" style="margin-top:6px;"><strong>${safe(team.club_name)}</strong>${team.club_city ? ` · ${safe(team.club_city)}` : ''}</div>`;
+      (team.breakdown || []).forEach(item => {
+        html += `<div class="meta2" style="margin-top:4px;">${safe(item.full_name)} · ${safe(item.division_title)} · место ${safe(item.place_label)} · +${fmt(item.awarded_points)}</div>`;
+      });
     });
   }
 
   document.getElementById('tableBox').innerHTML = html;
 }
-
 function renderHeats(){
   const divId = divSel.value;
   const wodId = wodSel.value;

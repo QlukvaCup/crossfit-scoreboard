@@ -58,11 +58,9 @@ def _public_result_text(score_def: Dict[str, Any], result: Optional[Dict[str, An
 
     if status == "wd":
         return "Снялся"
-
     if status == "capped":
         pretty = display_result_value({"type": "reps"}, value)
         return f"CAP {pretty}" if pretty else "CAP"
-
     return display_result_value(score_def, value)
 
 
@@ -118,7 +116,6 @@ def build_public_payload() -> Dict[str, Any]:
                 "full_name": p.get("full_name", ""),
                 "age": participant_age(p),
                 "club": p.get("club", ""),
-                "team_name": p.get("club", ""),
                 "region": p.get("region", "") or p.get("city", ""),
                 "city": p.get("city", ""),
                 "category": p.get("category", ""),
@@ -156,10 +153,10 @@ def build_public_payload() -> Dict[str, Any]:
     club_payload = build_club_ranking(db)
     div_titles = _division_title_map()
     for row in club_payload.get("rows", []):
+        row["club_flag"] = _flag_data_uri(row.get("club_flag"))
         for item in row.get("breakdown", []):
             item["division_title"] = div_titles.get(item.get("division_id"), item.get("division_id"))
     payload["clubs"] = club_payload
-    payload["teams"] = payload["clubs"]
     return payload
 
 
@@ -175,12 +172,9 @@ def copy_flags_to_docs() -> None:
     for p in db.get("participants", []):
         if p.get("deleted", False) or not p.get("flag_path"):
             continue
-
         src = Path(p["flag_path"])
-        if not src.exists():
-            continue
-
-        shutil.copyfile(src, DOCS_FLAGS_DIR / f"athlete_{p['id']}.png")
+        if src.exists():
+            shutil.copyfile(src, DOCS_FLAGS_DIR / f"athlete_{p['id']}.png")
 
 
 def write_public_results(payload: Dict[str, Any]) -> None:
