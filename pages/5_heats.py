@@ -405,7 +405,8 @@ def render_editor(db: Dict[str, Any], division_id: str, heats_list: List[Dict[st
                     type="secondary",
                     use_container_width=True,
                 ):
-                    smaller = [h for j, h in enumerate(normalized_source) if j != idx]
+                    current = materialize_heats_from_session(key_prefix, normalized_source)
+                    smaller = [h for j, h in enumerate(current) if j != idx]
                     st.session_state[f"pending_heats::{key_prefix}"] = smaller
                     st.rerun()
 
@@ -414,7 +415,7 @@ def render_editor(db: Dict[str, Any], division_id: str, heats_list: List[Dict[st
                     key=f"{key_prefix}_move_{idx}",
                     use_container_width=True,
                 ):
-                    moved = normalize_heats(copy.deepcopy(normalized_source))
+                    moved = materialize_heats_from_session(key_prefix, normalized_source)
                     item = moved.pop(idx)
                     moved.append(item)
                     st.session_state[f"pending_heats::{key_prefix}"] = moved
