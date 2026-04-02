@@ -60,7 +60,7 @@ options = []
 id_by_label = {}
 for p in participants:
     region = p.get("region", "") or p.get("city", "")
-    label = f"{p['full_name']} ({p.get('club','')}, {region}) [ID:{p['id']}]"
+    label = f"{p['full_name']} ({p.get('club', '')}, {region}) [ID:{p['id']}]"
     options.append(label)
     id_by_label[label] = int(p["id"])
 
@@ -164,7 +164,6 @@ if st.button("✅ Ввести результат", type="primary"):
                     st.error("Для TIME введи корректное значение в формате mm:ss.")
                     st.stop()
                 db["results"][str(ath_id)][score_id] = {"status": "ok", "value": int(parsed_time)}
-                st.session_state[time_key] = format_time_mmss(parsed_time)
             elif stype == "reps":
                 db["results"][str(ath_id)][score_id] = {"status": "ok", "value": int(value)}
             else:
@@ -172,6 +171,7 @@ if st.button("✅ Ввести результат", type="primary"):
 
     save_db(db)
     st.success("Результат сохранён.")
+    st.rerun()
 
 st.divider()
 st.subheader("Ввод результата через таблицу")
@@ -258,3 +258,4 @@ if st.button("💾 Сохранить таблицу результатов"):
 
     save_db(db)
     st.success("Таблица результатов сохранена.")
+    st.rerun()
