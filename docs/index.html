@@ -106,7 +106,7 @@
   </div>
 
 <script>
-const SCENE_DURATION_MS = 10000;
+let sceneDurationMs = 10000;
 const DATA_REFRESH_MS = 5000;
 const SCENES = [
   { id: 'scene-begscal-f', label: 'Women BEG/SCAL', divId: 'BEGSCAL_F' },
@@ -132,7 +132,12 @@ function fmt(v) {
 function metaLine(parts) { return parts.filter(Boolean).join(' · '); }
 function athleteCell(r) {
   const flag = r.flag ? `<img class="flag" src="${r.flag}" alt="flag" />` : '';
-  const meta = metaLine([r.age ? `${r.age}` : '', r.club || '', r.city || '', r.team_name && r.team_name !== '--' ? r.team_name : '']);
+  const clubBits = [];
+  if (r.age) clubBits.push(`${r.age}`);
+  if (r.club) clubBits.push(`<strong>${safe(r.club)}</strong>`);
+  if (r.city) clubBits.push(safe(r.city));
+  if (r.team_name && r.team_name !== '--' && r.team_name !== r.club) clubBits.push(safe(r.team_name));
+  const meta = clubBits.join(' · ');
   return `<div class="athlete-line"><span>${safe(r.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
 }
 function heatAthleteCell(a) {
@@ -316,6 +321,7 @@ function renderAll() {
   if (!cache) return;
   applyDisplaySettings();
   document.getElementById('meta').textContent = `Обновлено: ${cache.generated_at}`;
+  sceneDurationMs = Math.max(3000, Number(cache?.tv_scene_duration_sec || 10) * 1000);
   renderDivisionScene('scene-begscal-f', 'BEGSCAL_F');
   renderDivisionScene('scene-begscal-m', 'BEGSCAL_M');
   renderDivisionScene('scene-int-f', 'INT_F');
@@ -335,9 +341,22 @@ async function load() {
   cache = await res.json();
   renderAll();
 }
-load();
-setInterval(load, DATA_REFRESH_MS);
-setInterval(nextScene, SCENE_DURATION_MS);
+let sceneTimer = null;
+let appliedSceneDurationMs = null;
+function restartSceneTimer() {
+  if (sceneTimer) clearInterval(sceneTimer);
+  sceneTimer = setInterval(() => nextScene(), sceneDurationMs);
+  appliedSceneDurationMs = sceneDurationMs;
+}
+async function initialLoad() {
+  await load();
+  restartSceneTimer();
+}
+initialLoad();
+setInterval(async () => {
+  await load();
+  if (appliedSceneDurationMs !== sceneDurationMs) restartSceneTimer();
+}, DATA_REFRESH_MS);
 </script>
 </body>
 </html>
