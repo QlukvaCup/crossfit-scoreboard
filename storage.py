@@ -9,9 +9,6 @@ from utils import birth_date_to_storage
 PODIUM_PLACES = (1, 2, 3)
 
 
-WORKOUT_TYPES = ["FOR TIME", "AMRAP", "EMOM", "MAX LOAD", "REPS"]
-
-
 def default_display_settings() -> Dict[str, Any]:
     return {
         "main": {
@@ -22,7 +19,6 @@ def default_display_settings() -> Dict[str, Any]:
             "row_height": 4,
             "block_gap": 8,
             "container_scale": 1.0,
-            "scene_duration_sec": 10,
         },
         "mobile": {
             "section_title_size": 22,
@@ -34,15 +30,6 @@ def default_display_settings() -> Dict[str, Any]:
             "container_scale": 1.0,
         },
     }
-
-
-def default_workouts() -> Dict[str, Any]:
-    structure = [
-        {"base": "WOD1", "parts": 1},
-        {"base": "WOD2", "parts": 2},
-        {"base": "WOD3", "parts": 1},
-    ]
-    return {"structure": structure, "entries": {}}
 
 
 def ensure_dirs() -> None:
@@ -76,9 +63,8 @@ def default_db() -> Dict[str, Any]:
             "scores": DEFAULT_SCORES,
             "display": default_display_settings(),
             "clubs": [],
-            "club_profiles": {},
             "team_scoring": default_team_scoring(),
-            "workouts": default_workouts(),
+            "tv_scene_duration_sec": 10,
         },
         "participants": [],
         "results": {},
@@ -209,9 +195,12 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
     scores = settings.get("scores") if isinstance(settings.get("scores"), list) and settings.get("scores") else DEFAULT_SCORES
     display = settings.get("display") if isinstance(settings.get("display"), dict) else {}
     clubs = _normalize_clubs(settings.get("clubs"))
-    club_profiles = settings.get("club_profiles") if isinstance(settings.get("club_profiles"), dict) else {}
     team_scoring = _normalize_team_scoring(settings.get("team_scoring"), scores)
-    workouts = settings.get("workouts") if isinstance(settings.get("workouts"), dict) else default_workouts()
+    try:
+        tv_scene_duration_sec = int(settings.get("tv_scene_duration_sec", 10) or 10)
+    except (TypeError, ValueError):
+        tv_scene_duration_sec = 10
+    tv_scene_duration_sec = min(60, max(3, tv_scene_duration_sec))
 
     participants_raw = db.get("participants") if isinstance(db.get("participants"), list) else []
     participants = []
@@ -225,12 +214,9 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
     clubs = _normalize_clubs(clubs)
 
     merged_display = default_display_settings()
-    for screen_key, screen_defaults in list(merged_display.items()):
-        if isinstance(screen_defaults, dict):
-            raw_screen = display.get(screen_key) if isinstance(display.get(screen_key), dict) else {}
-            merged_display[screen_key] = {**screen_defaults, **raw_screen}
-        else:
-            merged_display[screen_key] = display.get(screen_key, screen_defaults)
+    for screen_key, screen_defaults in merged_display.items():
+        raw_screen = display.get(screen_key) if isinstance(display.get(screen_key), dict) else {}
+        merged_display[screen_key] = {**screen_defaults, **raw_screen}
 
     normalized = {
         "settings": {
@@ -238,9 +224,8 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
             "scores": scores,
             "display": merged_display,
             "clubs": clubs,
-            "club_profiles": club_profiles,
             "team_scoring": team_scoring,
-            "workouts": workouts,
+            "tv_scene_duration_sec": tv_scene_duration_sec,
         },
         "participants": participants,
         "results": db.get("results") if isinstance(db.get("results"), dict) else {},

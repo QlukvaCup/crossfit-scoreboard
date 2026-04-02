@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 from storage import load_db
 from config import DIVISIONS
@@ -20,9 +21,10 @@ def display_value_for_public(sdef, res):
     status = res.get("status")
     val = res.get("value")
     if status == "wd":
-        return "СНЯЛСЯ"
+        return "Снялся"
     if status == "capped":
-        return "CAP"
+        pretty = display_result_value({"type": "reps"}, val)
+        return f"CAP {pretty}" if pretty else "CAP"
     return display_result_value(sdef, val)
 
 
@@ -59,7 +61,7 @@ for div in DIVISIONS:
             "Возраст": participant_age(p),
             "DIV": p.get("category", ""),
             "Регион": p.get("region", "") or p.get("city", ""),
-            "Клуб": p.get("club", ""),
+            "Клуб": p.get("club", "") or "—",
             "Флаг": "✅" if p.get("flag_path") else "—",
         }
         for s in scores:
@@ -83,7 +85,10 @@ for div in DIVISIONS:
         )
     else:
         table_rows.sort(key=lambda r: r["ФИО"].lower())
-    st.dataframe(table_rows, use_container_width=True, hide_index=True)
+
+    df = pd.DataFrame(table_rows)
+    styled = df.style.set_properties(subset=["Клуб"], **{"font-weight": "700"})
+    st.dataframe(styled, use_container_width=True, hide_index=True)
     st.divider()
 
 st.subheader("Клубный зачёт")

@@ -47,10 +47,11 @@ def _public_result_text(score_def: Dict[str, Any], result: Optional[Dict[str, An
     value = result.get("value")
 
     if status == "wd":
-        return "СНЯЛСЯ"
+        return "Снялся"
 
     if status == "capped":
-        return "CAP"
+        pretty = display_result_value({"type": "reps"}, value)
+        return f"CAP {pretty}" if pretty else "CAP"
 
     return display_result_value(score_def, value)
 
@@ -68,11 +69,11 @@ def build_public_payload() -> Dict[str, Any]:
 
     payload: Dict[str, Any] = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "tv_scene_duration_sec": int(settings.get("tv_scene_duration_sec", 10) or 10),
         "divisions": {},
         "scores": scores,
         "heats": serialize_heats_for_public(db),
         "display": display,
-        "workouts": settings.get("workouts", {}),
         "tie_break_mode": "priority_score",
         "priority_score_id": team_scoring.get("priority_score_id"),
     }
@@ -107,7 +108,7 @@ def build_public_payload() -> Dict[str, Any]:
                 "full_name": p.get("full_name", ""),
                 "age": participant_age(p),
                 "club": p.get("club", ""),
-                "team_name": "",
+                "team_name": p.get("club", ""),
                 "region": p.get("region", "") or p.get("city", ""),
                 "city": p.get("city", ""),
                 "category": p.get("category", ""),

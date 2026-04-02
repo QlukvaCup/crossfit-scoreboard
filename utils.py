@@ -1,7 +1,58 @@
 from __future__ import annotations
 
 import html
+import re
 from datetime import date, datetime
+
+
+def parse_time_mmss(value):
+    if value is None:
+        return None
+
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        total_seconds = int(float(value))
+        return max(0, total_seconds)
+
+    raw = str(value).strip()
+    if not raw:
+        return None
+
+    if ":" in raw:
+        parts = raw.split(":")
+        if len(parts) != 2:
+            return None
+        minutes_raw, seconds_raw = parts
+        if not minutes_raw.isdigit() or not seconds_raw.isdigit():
+            return None
+        minutes = int(minutes_raw)
+        seconds = int(seconds_raw)
+        if seconds < 0 or seconds > 59:
+            return None
+        return minutes * 60 + seconds
+
+    digits = re.sub(r"\D", "", raw)
+    if not digits:
+        return None
+
+    if len(digits) <= 2:
+        minutes = 0
+        seconds = int(digits)
+    else:
+        minutes = int(digits[:-2])
+        seconds = int(digits[-2:])
+
+    if seconds > 59:
+        return None
+    return minutes * 60 + seconds
+
+
+def format_time_mmss(value) -> str:
+    total_seconds = parse_time_mmss(value)
+    if total_seconds is None:
+        return ""
+    minutes = total_seconds // 60
+    seconds = total_seconds % 60
+    return f"{minutes}:{seconds:02d}"
 
 
 def display_result_value(score: dict, value) -> str:
@@ -11,14 +62,8 @@ def display_result_value(score: dict, value) -> str:
     score_type = score.get("type")
 
     if score_type == "time":
-        try:
-            total_seconds = int(float(value))
-        except (TypeError, ValueError):
-            return str(value)
-
-        minutes = total_seconds // 60
-        seconds = total_seconds % 60
-        return f"{minutes}:{seconds:02d}"
+        pretty = format_time_mmss(value)
+        return pretty or str(value)
 
     if score_type == "weight":
         try:
@@ -131,31 +176,3 @@ def participant_age(participant: dict, on_date=None):
         return int(raw_age)
     except (TypeError, ValueError):
         return raw_age
-
-
-def parse_time_to_seconds(value):
-    raw = "" if value is None else str(value).strip()
-    if not raw or ":" not in raw:
-        return None
-    parts = raw.split(":")
-    if len(parts) != 2:
-        return None
-    mm, ss = parts
-    if not mm.isdigit() or not ss.isdigit():
-        return None
-    sec = int(ss)
-    if sec < 0 or sec > 59:
-        return None
-    return int(mm) * 60 + sec
-
-
-def format_time_input_value(value) -> str:
-    if value in (None, ""):
-        return ""
-    try:
-        total_seconds = int(float(value))
-    except (TypeError, ValueError):
-        return str(value)
-    minutes = total_seconds // 60
-    seconds = total_seconds % 60
-    return f"{minutes}:{seconds:02d}"

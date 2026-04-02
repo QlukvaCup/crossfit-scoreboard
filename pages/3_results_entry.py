@@ -3,11 +3,11 @@ import streamlit as st
 
 from storage import load_db, save_db
 from config import DIVISIONS
-from utils import compact_page_style, parse_time_to_seconds, format_time_input_value
+from utils import compact_page_style, parse_time_mmss, format_time_mmss, display_result_value
 
-st.set_page_config(page_title="Ввод результатов", layout="wide")
+st.set_page_config(page_title="Results Entry", layout="wide")
 compact_page_style()
-st.title("🧾 Ввод результатов")
+st.title("🧾 Results Entry")
 
 db = load_db()
 settings = db["settings"]
@@ -16,7 +16,21 @@ scores = settings["scores"]
 div_titles = {d["title"]: d["id"] for d in DIVISIONS}
 score_titles = {f"{s['id']} — {s['title']}": s["id"] for s in scores}
 STATUS_LABELS = {"ok": "Зачтено", "capped": "CAP", "wd": "Снялся"}
-STATUS_CODES = {v: k for k, v in STATUS_LABELS.items()}
+LABEL_TO_STATUS = {v: k for k, v in STATUS_LABELS.items()}
+
+
+def display_result_for_entry(score_def, res):
+    if res is None:
+        return ""
+    status = res.get("status")
+    value = res.get("value")
+    if status == "wd":
+        return "Снялся"
+    if status == "capped":
+        reps_text = display_result_value({"type": "reps"}, value)
+        return f"CAP {reps_text}" if reps_text else "CAP"
+    return display_result_value(score_def, value)
+
 
 colA, colB = st.columns(2)
 with colA:
@@ -53,26 +67,47 @@ for p in participants:
 st.subheader("Ввод результата через форму")
 ath_label = st.selectbox("Атлет", options)
 ath_id = id_by_label[ath_label]
-current_result = db.get("results", {}).get(str(ath_id), {}).get(score_id, {})
+existing = db.get("results", {}).get(str(ath_id), {}).get(score_id) or {}
+
+def _time_key():
+    return f"time_input_{division_id}_{score_id}_{ath_id}"
+
+if stype == "time" and _time_key() not in st.session_state:
+    st.session_state[_time_key()] = format_time_mmss(existing.get("value")) if existing.get("status") == "ok" else ""
 
 col1, col2 = st.columns(2)
 with col1:
-    withdrawn = st.checkbox("Снялся", value=current_result.get("status") == "wd")
+    withdrawn = st.checkbox("Снялся", value=existing.get("status") == "wd")
 with col2:
-    capped = st.checkbox("CAP", value=current_result.get("status") == "capped", disabled=not (stype == "time" and cap_enabled or withdrawn))
+    capped = st.checkbox("CAP", value=existing.get("status") == "capped", disabled=not (stype == "time" and cap_enabled))
 
-if withdrawn:
-    capped = False
-
-disabled_input = withdrawn or (stype == "time" and capped and cap_enabled)
+disabled_input = withdrawn
 value = None
+raw_time_value = ""
+
 if stype == "time":
-    default_time = format_time_input_value(current_result.get("value")) if current_result.get("status") == "ok" else ""
-    value = st.text_input("Время (мм:сс)", value=default_time, disabled=disabled_input, placeholder="например 8:34")
+    if capped and cap_enabled:
+        value = st.number_input("Повторы при CAP", min_value=0, step=1, value=int(existing.get("value") or 0) if existing.get("status") == "capped" else 0, disabled=disabled_input)
+        st.caption("Для CAP время рядом не показывается — только CAP и повторения.")
+    else:
+        raw_time_value = st.text_input(
+            "Время (mm:ss)",
+            value=st.session_state.get(_time_key(), ""),
+            placeholder="Например: 534 → станет 5:34",
+            disabled=disabled_input,
+            key=_time_key(),
+        )
+        parsed_preview = parse_time_mmss(raw_time_value)
+        if raw_time_value and parsed_preview is not None:
+            formatted = format_time_mmss(parsed_preview)
+            if formatted != raw_time_value:
+                st.session_state[_time_key()] = formatted
+                st.rerun()
+        st.caption("Можно вводить без двоеточия: 534 → 5:34, 6214 → 62:14")
 elif stype == "reps":
-    value = st.number_input("Повторы", min_value=0, step=1, value=int(current_result.get("value") or 0), disabled=disabled_input)
+    value = st.number_input("Повторы", min_value=0, step=1, value=int(existing.get("value") or 0) if existing.get("status") == "ok" else 0, disabled=disabled_input)
 elif stype == "weight":
-    value = st.number_input("Вес (кг)", min_value=0.0, step=0.5, value=float(current_result.get("value") or 0.0), disabled=disabled_input)
+    value = st.number_input("Вес (кг)", min_value=0.0, step=0.5, value=float(existing.get("value") or 0.0) if existing.get("status") == "ok" else 0.0, disabled=disabled_input)
 
 if st.button("✅ Ввести результат", type="primary"):
     db.setdefault("results", {})
@@ -80,64 +115,69 @@ if st.button("✅ Ввести результат", type="primary"):
 
     if withdrawn:
         db["results"][str(ath_id)][score_id] = {"status": "wd", "value": 0}
-    elif stype == "time" and capped and cap_enabled:
-        db["results"][str(ath_id)][score_id] = {"status": "capped", "value": None}
     else:
-        if stype == "time":
-            seconds = parse_time_to_seconds(value)
-            if seconds is None:
-                st.error("Для time укажи время в формате мм:сс, например 7:45.")
-                st.stop()
-            db["results"][str(ath_id)][score_id] = {"status": "ok", "value": int(seconds)}
-        elif stype == "reps":
-            db["results"][str(ath_id)][score_id] = {"status": "ok", "value": int(value)}
+        if stype == "time" and capped and cap_enabled:
+            db["results"][str(ath_id)][score_id] = {"status": "capped", "value": int(value)}
         else:
-            db["results"][str(ath_id)][score_id] = {"status": "ok", "value": float(value)}
+            if stype == "time":
+                parsed_time = parse_time_mmss(raw_time_value)
+                if parsed_time is None:
+                    st.error("Для TIME введи корректное значение в формате mm:ss.")
+                    st.stop()
+                db["results"][str(ath_id)][score_id] = {"status": "ok", "value": int(parsed_time)}
+            elif stype == "reps":
+                db["results"][str(ath_id)][score_id] = {"status": "ok", "value": int(value)}
+            else:
+                db["results"][str(ath_id)][score_id] = {"status": "ok", "value": float(value)}
 
     save_db(db)
     st.success("Результат сохранён.")
-    st.rerun()
 
 st.divider()
 st.subheader("Ввод результата через таблицу")
+st.caption("Для TIME можно вводить как mm:ss, так и без двоеточия: 534 → 5:34, 6214 → 62:14")
 
-status_options = ["Зачтено", "Снялся"]
+status_options = [STATUS_LABELS["ok"], STATUS_LABELS["wd"]]
 if stype == "time" and cap_enabled:
-    status_options = ["Зачтено", "CAP", "Снялся"]
+    status_options = [STATUS_LABELS["ok"], STATUS_LABELS["capped"], STATUS_LABELS["wd"]]
 
 rows = []
 for p in participants:
     res = db.get("results", {}).get(str(p["id"]), {}).get(score_id)
-    raw_status = (res or {}).get("status", "ok")
-    raw_value = (res or {}).get("value", None)
-    if stype == "time" and raw_status == "ok":
-        value_display = format_time_input_value(raw_value)
-    elif raw_status == "capped":
-        value_display = ""
-    else:
-        value_display = raw_value
+    display_value = None
+    if res is not None:
+        if stype == "time" and res.get("status") == "ok":
+            display_value = format_time_mmss(res.get("value"))
+        else:
+            display_value = res.get("value", None)
     rows.append({
         "athlete_id": int(p["id"]),
         "athlete": p.get("full_name", ""),
         "club": p.get("club", ""),
         "region": p.get("region", "") or p.get("city", ""),
-        "status": STATUS_LABELS.get(raw_status, "Зачтено"),
-        "value": value_display,
+        "status": STATUS_LABELS.get((res or {}).get("status", "ok"), "Зачтено"),
+        "value": display_value,
+        "preview": display_result_for_entry(sdef, res),
     })
 
 editor_df = pd.DataFrame(rows)
+value_column = st.column_config.NumberColumn("Значение", step=0.5 if stype == "weight" else 1)
+if stype == "time":
+    value_column = st.column_config.TextColumn("Время / повторы")
+
 edited_df = st.data_editor(
     editor_df,
     use_container_width=True,
     hide_index=True,
-    disabled=["athlete_id", "athlete", "club", "region"],
+    disabled=["athlete_id", "athlete", "club", "region", "preview"],
     column_config={
         "athlete_id": st.column_config.NumberColumn("ID", format="%d"),
         "athlete": st.column_config.TextColumn("Атлет"),
-        "club": st.column_config.TextColumn("Клуб"),
+        "club": st.column_config.TextColumn("Клуб / команда"),
         "region": st.column_config.TextColumn("Регион"),
         "status": st.column_config.SelectboxColumn("Статус", options=status_options, required=True),
-        "value": st.column_config.TextColumn("Значение" if stype != "time" else "Время (мм:сс)"),
+        "value": value_column,
+        "preview": st.column_config.TextColumn("Будет показано"),
     },
     key=f"results_editor_{division_id}_{score_id}",
 )
@@ -146,8 +186,8 @@ if st.button("💾 Сохранить таблицу результатов"):
     db.setdefault("results", {})
     for _, row in edited_df.iterrows():
         athlete_id = int(row["athlete_id"])
-        status_display = str(row["status"] or "Зачтено")
-        status = STATUS_CODES.get(status_display, "ok")
+        status_label = str(row["status"] or "Зачтено")
+        status = LABEL_TO_STATUS.get(status_label, "ok")
         raw_value = row["value"]
 
         db["results"].setdefault(str(athlete_id), {})
@@ -155,22 +195,22 @@ if st.button("💾 Сохранить таблицу результатов"):
         if status == "wd":
             db["results"][str(athlete_id)][score_id] = {"status": "wd", "value": 0}
             continue
-        if status == "capped":
-            db["results"][str(athlete_id)][score_id] = {"status": "capped", "value": None}
-            continue
 
         if pd.isna(raw_value) or raw_value in ("", None):
             db["results"][str(athlete_id)].pop(score_id, None)
             continue
 
-        if stype == "time":
-            seconds = parse_time_to_seconds(raw_value)
-            if seconds is None:
-                st.error(f"У атлета ID {athlete_id} неверный формат времени. Используй мм:сс.")
-                st.stop()
-            value_to_save = int(seconds)
-        elif stype == "weight":
+        if stype == "weight":
             value_to_save = float(raw_value)
+        elif stype == "time":
+            if status == "capped":
+                value_to_save = int(float(raw_value))
+            else:
+                parsed_time = parse_time_mmss(raw_value)
+                if parsed_time is None:
+                    st.error(f"Некорректное TIME-значение у athlete_id={athlete_id}. Используй mm:ss или ввод без двоеточия.")
+                    st.stop()
+                value_to_save = int(parsed_time)
         else:
             value_to_save = int(float(raw_value))
 
@@ -178,4 +218,3 @@ if st.button("💾 Сохранить таблицу результатов"):
 
     save_db(db)
     st.success("Таблица результатов сохранена.")
-    st.rerun()
