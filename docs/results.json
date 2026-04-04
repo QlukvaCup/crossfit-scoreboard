@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-04T09:18:58.007452+00:00",
+  "generated_at": "2026-04-04T09:42:15.896922+00:00",
   "tv_scene_duration_sec": 3,
   "divisions": {
     "BEGSCAL_F": {
@@ -52,11 +52,11 @@
           "place_label": "2",
           "sport_place": 2,
           "sport_place_label": "2",
-          "id": 47,
-          "full_name": "Степаненко Юлия",
-          "age": 32,
-          "club": "Iron heart",
-          "region": "СТА, Ставрополь",
+          "id": 25,
+          "full_name": "Агабекян Жанна",
+          "age": 40,
+          "club": "Rise up",
+          "region": "СТА, Курсавка",
           "city": "",
           "category": "BEGSCAL",
           "division_id": "BEGSCAL_F",
@@ -66,9 +66,9 @@
               "points": 87.5,
               "result": {
                 "status": "ok",
-                "value": 404
+                "value": 383
               },
-              "result_text": "6:44"
+              "result_text": "6:23"
             },
             "WOD2A": {
               "points": null,
@@ -94,11 +94,11 @@
           "place_label": "3",
           "sport_place": 3,
           "sport_place_label": "3",
-          "id": 25,
-          "full_name": "Агабекян Жанна",
-          "age": 40,
-          "club": "Rise up",
-          "region": "СТА, Курсавка",
+          "id": 47,
+          "full_name": "Степаненко Юлия",
+          "age": 32,
+          "club": "Iron heart",
+          "region": "СТА, Ставрополь",
           "city": "",
           "category": "BEGSCAL",
           "division_id": "BEGSCAL_F",
@@ -108,9 +108,9 @@
               "points": 75.0,
               "result": {
                 "status": "ok",
-                "value": 452
+                "value": 404
               },
-              "result_text": "7:32"
+              "result_text": "6:44"
             },
             "WOD2A": {
               "points": null,
@@ -2852,11 +2852,11 @@
         "place": 1
       },
       {
-        "club_name": "Iron heart",
+        "club_name": "Rise up",
         "club_city": "",
         "club_flag": null,
         "points": 5.0,
-        "participants_count": 4,
+        "participants_count": 10,
         "contributors": 1,
         "first_places": 0,
         "second_places": 1,
@@ -2864,8 +2864,8 @@
         "priority_sum": 0.0,
         "breakdown": [
           {
-            "athlete_id": 47,
-            "full_name": "Степаненко Юлия",
+            "athlete_id": 25,
+            "full_name": "Агабекян Жанна",
             "division_id": "BEGSCAL_F",
             "division_title": "Beginners/Scaled — ЖЕНЩИНЫ",
             "place": 2,
@@ -2877,11 +2877,11 @@
         "place": 2
       },
       {
-        "club_name": "Rise up",
+        "club_name": "Iron heart",
         "club_city": "",
         "club_flag": null,
         "points": 3.0,
-        "participants_count": 10,
+        "participants_count": 4,
         "contributors": 1,
         "first_places": 0,
         "second_places": 0,
@@ -2889,8 +2889,8 @@
         "priority_sum": 0.0,
         "breakdown": [
           {
-            "athlete_id": 25,
-            "full_name": "Агабекян Жанна",
+            "athlete_id": 47,
+            "full_name": "Степаненко Юлия",
             "division_id": "BEGSCAL_F",
             "division_title": "Beginners/Scaled — ЖЕНЩИНЫ",
             "place": 3,
