@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-04T10:06:54.270270+00:00",
+  "generated_at": "2026-04-04T10:27:16.422148+00:00",
   "tv_scene_duration_sec": 3,
   "divisions": {
     "BEGSCAL_F": {
@@ -2824,6 +2824,179 @@
   },
   "tie_break_mode": "priority_score",
   "priority_score_id": "WOD2B",
+  "workouts": {
+    "structure": [
+      {
+        "base": "WOD1",
+        "parts": [
+          ""
+        ]
+      },
+      {
+        "base": "WOD2",
+        "parts": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "base": "WOD3",
+        "parts": [
+          ""
+        ]
+      }
+    ],
+    "divisions": {
+      "BEGSCAL_F": {
+        "title": "Beginners/Scaled — ЖЕНЩИНЫ",
+        "rows": [
+          {
+            "code": "WOD1",
+            "label": "WOD1",
+            "type": "FOR TIME",
+            "time_cap": "8 min",
+            "description": "15 рывков\n50 двойных\n20 взятие - толчок\n50 двойных\n25 фронтальных приседов\n50 двойных",
+            "base": "WOD1"
+          },
+          {
+            "code": "WOD2A",
+            "label": "WOD2A",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD2B",
+            "label": "WOD2B",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD3",
+            "label": "WOD3",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD3"
+          }
+        ]
+      },
+      "BEGSCAL_M": {
+        "title": "Beginners/Scaled — МУЖЧИНЫ",
+        "rows": [
+          {
+            "code": "WOD1",
+            "label": "WOD1",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD1"
+          },
+          {
+            "code": "WOD2A",
+            "label": "WOD2A",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD2B",
+            "label": "WOD2B",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD3",
+            "label": "WOD3",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD3"
+          }
+        ]
+      },
+      "INT_F": {
+        "title": "Intermediate — ЖЕНЩИНЫ",
+        "rows": [
+          {
+            "code": "WOD1",
+            "label": "WOD1",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD1"
+          },
+          {
+            "code": "WOD2A",
+            "label": "WOD2A",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD2B",
+            "label": "WOD2B",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD3",
+            "label": "WOD3",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD3"
+          }
+        ]
+      },
+      "INT_M": {
+        "title": "Intermediate — МУЖЧИНЫ",
+        "rows": [
+          {
+            "code": "WOD1",
+            "label": "WOD1",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD1"
+          },
+          {
+            "code": "WOD2A",
+            "label": "WOD2A",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD2B",
+            "label": "WOD2B",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD2"
+          },
+          {
+            "code": "WOD3",
+            "label": "WOD3",
+            "type": "",
+            "time_cap": "",
+            "description": "",
+            "base": "WOD3"
+          }
+        ]
+      }
+    }
+  },
   "clubs": {
     "rows": [
       {
