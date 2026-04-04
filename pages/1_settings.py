@@ -3,13 +3,26 @@ import hashlib
 import streamlit as st
 from PIL import Image
 
-from storage import load_db, save_db, default_display_settings, clear_results, clear_all_data, default_team_scoring
+from storage import (
+    load_db,
+    save_db,
+    default_display_settings,
+    clear_results,
+    clear_all_data,
+    default_team_scoring,
+    default_workout_structure,
+    workout_code_list,
+    default_workouts_for_structure,
+)
 from config import DIVISIONS, DATA_FLAGS_DIR, MAX_FLAG_UPLOAD_BYTES, MAX_FLAG_DIMENSION
 from utils import compact_page_style
 
 st.set_page_config(page_title="Settings", layout="wide")
 compact_page_style()
 st.title("⚙️ Settings")
+
+WORKOUT_TYPES = ["", "FOR TIME", "AMRAP", "EMOM", "INTERVALS", "STRENGTH", "SKILL", "CHIPPER", "OTHER"]
+DIVISION_LABELS = {d["id"]: d["title"] for d in DIVISIONS}
 
 
 def save_club_flag_image(flag_file, club_name: str) -> str:
@@ -41,6 +54,46 @@ def club_option_label(club_name: str, club_settings: dict) -> str:
     return f"{club_name} — {city}" if city else club_name
 
 
+def structure_rows_from_inputs(total_count: int) -> list[dict]:
+    rows: list[dict] = []
+    for i in range(1, total_count + 1):
+        raw_parts = st.session_state.get(f"workout_parts_{i}", "")
+        parts = []
+        for token in [x.strip().upper() for x in str(raw_parts).split(",")]:
+            if token and token not in parts:
+                parts.append(token)
+        rows.append({"base": f"WOD{i}", "parts": parts or [""]})
+    return rows
+
+
+def format_structure_preview(structure: list[dict]) -> str:
+    codes = workout_code_list(structure)
+    return ", ".join(codes) if codes else "—"
+
+
+def render_workouts_summary(settings: dict) -> None:
+    structure = settings.get("workout_structure") or default_workout_structure()
+    workouts = settings.get("workouts") or default_workouts_for_structure(structure)
+    codes = workout_code_list(structure)
+
+    st.markdown("### Сохранённые комплексы")
+    for div in DIVISIONS:
+        div_id = div["id"]
+        st.markdown(f"**{div['title']}**")
+        rows = []
+        div_workouts = workouts.get(div_id, {}) if isinstance(workouts, dict) else {}
+        for code in codes:
+            item = div_workouts.get(code, {}) if isinstance(div_workouts.get(code), dict) else {}
+            rows.append({
+                "Код": code,
+                "Имя": item.get("label") or code,
+                "Тип": item.get("type") or "—",
+                "Лимит": item.get("time_cap") or "—",
+                "Описание": item.get("description") or "—",
+            })
+        st.dataframe(rows, width='stretch', hide_index=True)
+
+
 db = load_db()
 settings = db["settings"]
 
@@ -54,6 +107,8 @@ settings.setdefault("clubs", [])
 settings.setdefault("club_settings", {})
 settings.setdefault("team_scoring", default_team_scoring())
 settings.setdefault("tv_scene_duration_sec", 10)
+settings.setdefault("workout_structure", default_workout_structure())
+settings.setdefault("workouts", default_workouts_for_structure(settings["workout_structure"]))
 
 st.subheader("Лимиты участников по дивизионам")
 limits = settings["division_limits"]
@@ -225,6 +280,92 @@ for s in score_rows:
         if new_cap != bool(s.get("time_cap_enabled", False)):
             s["time_cap_enabled"] = bool(new_cap)
             changed = True
+
+st.divider()
+st.subheader("Комплексы / WOD")
+st.caption("Это отдельная сущность для описания комплексов. Сначала задаётся структура WOD, потом вручную заполняются комплексы по каждой категории и полу.")
+
+structure = settings.setdefault("workout_structure", default_workout_structure())
+workouts = settings.setdefault("workouts", default_workouts_for_structure(structure))
+
+st.markdown("### Структура комплексов")
+current_count = len(structure)
+new_count = st.number_input("Количество базовых WOD", min_value=1, max_value=8, value=current_count, step=1)
+for i in range(1, int(new_count) + 1):
+    existing_row = structure[i - 1] if i - 1 < len(structure) else {"base": f"WOD{i}", "parts": [""]}
+    existing_parts = ", ".join([p for p in existing_row.get("parts", [""]) if p])
+    st.text_input(
+        f"Дробление для WOD{i}",
+        value=existing_parts,
+        key=f"workout_parts_{i}",
+        help="Оставь пустым для обычного WOD. Если нужен разбор, введи буквы через запятую: A,B",
+    )
+
+preview_structure = structure_rows_from_inputs(int(new_count))
+st.caption(f"Будут доступны коды: {format_structure_preview(preview_structure)}")
+
+if st.button("Сохранить структуру комплексов", type="secondary"):
+    settings["workout_structure"] = preview_structure
+    settings["workouts"] = default_workouts_for_structure(preview_structure) | {
+        div_id: {
+            **default_workouts_for_structure(preview_structure).get(div_id, {}),
+            **(workouts.get(div_id, {}) if isinstance(workouts.get(div_id), dict) else {}),
+        }
+        for div_id in DIVISION_LABELS
+    }
+    save_db(db)
+    st.success("Структура комплексов сохранена.")
+    st.rerun()
+
+st.markdown("### Ввод комплекса")
+structure = settings.setdefault("workout_structure", default_workout_structure())
+workouts = settings.setdefault("workouts", default_workouts_for_structure(structure))
+code_options = workout_code_list(structure)
+selected_division = st.selectbox("Категория и пол", list(DIVISION_LABELS.keys()), format_func=lambda x: DIVISION_LABELS[x], key="workout_division_select")
+selected_code = st.selectbox("WOD", code_options, key="workout_code_select")
+entry = workouts.setdefault(selected_division, {}).setdefault(selected_code, {
+    "label": selected_code,
+    "type": "",
+    "time_cap": "",
+    "description": "",
+})
+
+wc1, wc2 = st.columns(2)
+with wc1:
+    workout_label = st.text_input("Обозначение / имя", value=entry.get("label") or selected_code, key="workout_label_input")
+with wc2:
+    current_type = entry.get("type") or ""
+    workout_type = st.selectbox("Тип комплекса", WORKOUT_TYPES, index=WORKOUT_TYPES.index(current_type) if current_type in WORKOUT_TYPES else 0, key="workout_type_input")
+
+wc3, = st.columns(1)
+with wc3:
+    workout_cap = st.text_input("Лимит времени", value=entry.get("time_cap") or "", key="workout_cap_input", placeholder="Например: 10:00 или 12 мин")
+
+workout_description = st.text_area("Текст описания", value=entry.get("description") or "", key="workout_description_input", height=120)
+
+wbtn1, wbtn2 = st.columns(2)
+if wbtn1.button("Сохранить комплекс", type="secondary"):
+    workouts.setdefault(selected_division, {})[selected_code] = {
+        "label": workout_label.strip() or selected_code,
+        "type": workout_type.strip(),
+        "time_cap": workout_cap.strip(),
+        "description": workout_description.strip(),
+    }
+    save_db(db)
+    st.success("Комплекс сохранён.")
+    st.rerun()
+if wbtn2.button("Очистить комплекс"):
+    workouts.setdefault(selected_division, {})[selected_code] = {
+        "label": selected_code,
+        "type": "",
+        "time_cap": "",
+        "description": "",
+    }
+    save_db(db)
+    st.warning("Комплекс очищен.")
+    st.rerun()
+
+render_workouts_summary(settings)
 
 st.divider()
 st.subheader("ТВ-ротация")

@@ -26,6 +26,18 @@
     .selector select { min-width:160px; padding:10px 12px; border:2px solid #4f8cff; border-radius:10px; background:#eef5ff; color:#111827; font-weight:700; box-shadow:0 1px 0 rgba(0,0,0,.04); }
     .selector select:focus { outline:none; border-color:#1d4ed8; background:#e0edff; box-shadow:0 0 0 3px rgba(79,140,255,.18); }
     .selector select:hover { background:#e8f0ff; }
+
+    .workouts-box { display:flex; flex-direction:column; gap:8px; }
+    .wod-item { border:1px solid #e5e7eb; border-left:4px solid #9ca3af; border-radius:10px; padding:10px 12px; background:#fff; }
+    .wod-item.wod1 { border-left-color:#7aaef7; }
+    .wod-item.wod2 { border-left-color:#7cd790; }
+    .wod-item.wod3 { border-left-color:#ffb56a; }
+    .wod-item.wod4, .wod-item.wod5, .wod-item.wod6, .wod-item.wod7, .wod-item.wod8 { border-left-color:#c8b5ff; }
+    .wod-head { display:flex; justify-content:space-between; gap:8px; align-items:flex-start; }
+    .wod-code { font-weight:700; font-size:14px; }
+    .wod-type { color:#666; font-size:11px; white-space:nowrap; }
+    .wod-cap { margin-top:4px; font-size:12px; }
+    .wod-desc { margin-top:6px; color:#666; font-size:11px; white-space:pre-wrap; line-height:1.25; }
   </style>
 </head>
 <body>
@@ -42,6 +54,7 @@
   </div>
   <div class="box" id="tableBox"></div>
   <div class="box" id="heatsBox"></div>
+  <div class="box" id="workoutsBox"></div>
 <script>
 const DIVS = ["BEGSCAL_F","BEGSCAL_M","INT_F","INT_M","CLUBS"];
 let cache = null;
@@ -139,6 +152,32 @@ function renderTeamsInline(){
 
   document.getElementById('tableBox').innerHTML = html;
 }
+
+function workoutClass(code){
+  const m = safe(code).match(/WOD(\d+)/);
+  return m ? `wod${m[1]}` : '';
+}
+function renderWorkouts(){
+  const divId = divSel.value;
+  const div = cache?.workouts?.divisions?.[divId];
+  if(!div || divId === 'CLUBS'){
+    document.getElementById('workoutsBox').innerHTML = '';
+    return;
+  }
+  const rows = div.rows || [];
+  let html = `<h3>Комплексы</h3><div class="muted">Все WOD текущей категории на одном экране</div>`;
+  if(!rows.length){
+    document.getElementById('workoutsBox').innerHTML = html + '<div class="muted" style="margin-top:8px;">Комплексы ещё не заполнены</div>';
+    return;
+  }
+  html += `<div class="workouts-box">`;
+  rows.forEach(row => {
+    html += `<div class="wod-item ${workoutClass(row.code)}"><div class="wod-head"><div class="wod-code">${safe(row.label || row.code)}</div><div class="wod-type">${safe(row.type || '')}</div></div>${row.time_cap ? `<div class="wod-cap">Лимит: ${safe(row.time_cap)}</div>` : ''}${row.description ? `<div class="wod-desc">${safe(row.description)}</div>` : ''}</div>`;
+  });
+  html += `</div>`;
+  document.getElementById('workoutsBox').innerHTML = html;
+}
+
 function renderHeats(){
   const divId = divSel.value;
   const wodId = wodSel.value;
@@ -188,9 +227,10 @@ async function load(){
   applyDisplaySettings();
   renderTable();
   renderHeats();
+  renderWorkouts();
 }
 
-divSel.onchange = () => { if(cache){ renderTable(); renderHeats(); } };
+divSel.onchange = () => { if(cache){ renderTable(); renderHeats(); renderWorkouts(); } };
 wodSel.onchange = () => { if(cache){ renderHeats(); } };
 
 load();

@@ -86,6 +86,19 @@
     .breakdown-item { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 6px 8px; }
     .breakdown-item strong { font-size: calc(var(--table-text-size) + 1px); }
     .breakdown-item .meta2 { margin-top: 3px; font-size: var(--meta-text-size); color: var(--muted); line-height: 1.2; }
+
+    .workouts-grid { height: calc(100% - 28px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: max(6px, calc(var(--block-gap) * 0.8)); }
+    .workout-list { padding: 8px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+    .wod-item { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 8px 10px; }
+    .wod-item.wod1 { border-left: 5px solid #7aaef7; }
+    .wod-item.wod2 { border-left: 5px solid #7cd790; }
+    .wod-item.wod3 { border-left: 5px solid #ffb56a; }
+    .wod-item.wod4, .wod-item.wod5, .wod-item.wod6, .wod-item.wod7, .wod-item.wod8 { border-left: 5px solid #c8b5ff; }
+    .wod-top { display:flex; justify-content:space-between; gap:8px; align-items:flex-start; }
+    .wod-code { font-size: calc(var(--table-text-size) + 1px); font-weight: 800; }
+    .wod-type { color: var(--muted); font-size: var(--meta-text-size); white-space: nowrap; }
+    .wod-cap { margin-top: 4px; font-size: var(--meta-text-size); color: var(--text); }
+    .wod-desc { margin-top: 6px; font-size: var(--meta-text-size); color: var(--muted); line-height: 1.25; white-space: pre-wrap; }
   </style>
 </head>
 <body>
@@ -103,6 +116,7 @@
     <section class="scene" id="scene-begscal-m"></section>
     <section class="scene" id="scene-int-f"></section>
     <section class="scene" id="scene-int-m"></section>
+    <section class="scene" id="scene-workouts"></section>
     <section class="scene" id="scene-teams"></section>
   </div>
 
@@ -115,7 +129,8 @@ const SCENES = [
   { id: 'scene-begscal-m', label: 'Men BEG/SCAL', divId: 'BEGSCAL_M' },
   { id: 'scene-int-f', label: 'Women Intermediate', divId: 'INT_F' },
   { id: 'scene-int-m', label: 'Men Intermediate', divId: 'INT_M' },
-  { id: 'scene-teams', label: 'Командный зачёт' },
+  { id: 'scene-workouts', label: 'Комплексы' },
+  { id: 'scene-teams', label: 'Клубный зачёт' },
 ];
 const DIV_SHORT = {
   BEGSCAL_F: 'Beginners/Scaled — ЖЕНЩИНЫ',
@@ -248,6 +263,44 @@ function renderDivisionScene(sceneId, divId) {
     </div>
     <div class="scene-split">${renderDivisionTable(div)}${renderDivisionHeats(divId)}</div>`;
 }
+
+function workoutClass(code) {
+  const m = safe(code).match(/WOD(\d+)/);
+  return m ? `wod${m[1]}` : '';
+}
+function renderWorkoutsScene() {
+  const root = document.getElementById('scene-workouts');
+  const divisions = cache?.workouts?.divisions || {};
+  const cards = ['BEGSCAL_F','BEGSCAL_M','INT_F','INT_M'].map(divId => {
+    const div = divisions?.[divId];
+    const rows = div?.rows || [];
+    return `<div class="card">
+      <div class="card-head">
+        <h3>${safe(div?.title || DIV_SHORT[divId] || divId)}</h3>
+        <div class="caption">Все комплексы по дивизиону</div>
+      </div>
+      <div class="table-wrap workout-list">
+        ${rows.length ? rows.map(row => `
+          <div class="wod-item ${workoutClass(row.code)}">
+            <div class="wod-top">
+              <div class="wod-code">${safe(row.label || row.code)}</div>
+              <div class="wod-type">${safe(row.type || '')}</div>
+            </div>
+            ${row.time_cap ? `<div class="wod-cap">Лимит: ${safe(row.time_cap)}</div>` : ''}
+            ${row.description ? `<div class="wod-desc">${safe(row.description)}</div>` : ''}
+          </div>
+        `).join('') : '<div class="empty">Комплексы ещё не заполнены</div>'}
+      </div>
+    </div>`;
+  }).join('');
+  root.innerHTML = `
+    <div class="scene-header">
+      <h2>Комплексы</h2>
+      <div class="scene-sub">Все WOD на одном экране</div>
+    </div>
+    <div class="workouts-grid">${cards}</div>`;
+}
+
 function renderTeamsScene() {
   const root = document.getElementById('scene-teams');
   const rows = cache?.clubs?.rows || [];
@@ -329,6 +382,7 @@ function renderAll() {
   renderDivisionScene('scene-begscal-m', 'BEGSCAL_M');
   renderDivisionScene('scene-int-f', 'INT_F');
   renderDivisionScene('scene-int-m', 'INT_M');
+  renderWorkoutsScene();
   renderTeamsScene();
   renderSceneState();
 }

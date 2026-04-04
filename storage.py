@@ -1,6 +1,7 @@
 import json
 import os
 from typing import Dict, Any, List
+import re
 
 from config import DATA_DIR, DB_FILE, DATA_FLAGS_DIR, DIVISIONS, DEFAULT_SCORES
 from utils import birth_date_to_storage
@@ -31,6 +32,119 @@ def default_display_settings() -> Dict[str, Any]:
         },
     }
 
+
+
+
+def default_workout_structure() -> List[Dict[str, Any]]:
+    return [
+        {"base": "WOD1", "parts": [""]},
+        {"base": "WOD2", "parts": ["A", "B"]},
+        {"base": "WOD3", "parts": [""]},
+    ]
+
+
+def _score_ids_to_workout_structure(scores: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    grouped: Dict[str, List[str]] = {}
+    order: List[str] = []
+    for score in scores or []:
+        score_id = str(score.get("id") or "").strip()
+        match = re.fullmatch(r"(WOD\d+)([A-Z]*)", score_id)
+        if not match:
+            continue
+        base, suffix = match.group(1), match.group(2)
+        if base not in grouped:
+            grouped[base] = []
+            order.append(base)
+        grouped[base].append(suffix)
+    structure: List[Dict[str, Any]] = []
+    for base in order:
+        parts = grouped.get(base) or [""]
+        cleaned: List[str] = []
+        for item in parts:
+            part = str(item or "").strip().upper()
+            if part not in cleaned:
+                cleaned.append(part)
+        if not cleaned:
+            cleaned = [""]
+        structure.append({"base": base, "parts": cleaned})
+    return structure or default_workout_structure()
+
+
+def workout_code_list(structure: List[Dict[str, Any]]) -> List[str]:
+    codes: List[str] = []
+    for row in structure or []:
+        base = str(row.get("base") or "").strip().upper()
+        if not base:
+            continue
+        parts = row.get("parts") if isinstance(row.get("parts"), list) else [""]
+        if not parts:
+            parts = [""]
+        for part in parts:
+            suffix = str(part or "").strip().upper()
+            code = f"{base}{suffix}"
+            if code not in codes:
+                codes.append(code)
+    return codes
+
+
+def default_workouts_for_structure(structure: List[Dict[str, Any]]) -> Dict[str, Dict[str, Dict[str, Any]]]:
+    codes = workout_code_list(structure)
+    result: Dict[str, Dict[str, Dict[str, Any]]] = {}
+    for div in DIVISIONS:
+        div_id = div["id"]
+        result[div_id] = {}
+        for code in codes:
+            result[div_id][code] = {
+                "label": code,
+                "type": "",
+                "time_cap": "",
+                "description": "",
+            }
+    return result
+
+
+def _normalize_workout_structure(raw: Any, scores: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    if not isinstance(raw, list) or not raw:
+        return _score_ids_to_workout_structure(scores)
+
+    normalized: List[Dict[str, Any]] = []
+    seen = set()
+    for idx, item in enumerate(raw, start=1):
+        item = item if isinstance(item, dict) else {}
+        base = str(item.get("base") or f"WOD{idx}").strip().upper()
+        match = re.fullmatch(r"WOD\d+", base)
+        if not match or base in seen:
+            continue
+        seen.add(base)
+        parts_raw = item.get("parts") if isinstance(item.get("parts"), list) else [""]
+        parts: List[str] = []
+        for part in parts_raw:
+            suffix = str(part or "").strip().upper()
+            if suffix and not re.fullmatch(r"[A-Z]{1,3}", suffix):
+                continue
+            if suffix not in parts:
+                parts.append(suffix)
+        if not parts:
+            parts = [""]
+        normalized.append({"base": base, "parts": parts})
+
+    return normalized or _score_ids_to_workout_structure(scores)
+
+
+def _normalize_workouts(raw: Any, structure: List[Dict[str, Any]]) -> Dict[str, Dict[str, Dict[str, Any]]]:
+    raw = raw if isinstance(raw, dict) else {}
+    base = default_workouts_for_structure(structure)
+    for div in DIVISIONS:
+        div_id = div["id"]
+        current = raw.get(div_id) if isinstance(raw.get(div_id), dict) else {}
+        for code in list(base[div_id].keys()):
+            saved = current.get(code) if isinstance(current.get(code), dict) else {}
+            entry = base[div_id][code]
+            entry["label"] = str(saved.get("label") or entry["label"]).strip() or code
+            entry["type"] = str(saved.get("type") or "").strip()
+            entry["time_cap"] = str(saved.get("time_cap") or "").strip()
+            entry["description"] = str(saved.get("description") or "").strip()
+    return base
 
 def ensure_dirs() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -66,6 +180,8 @@ def default_db() -> Dict[str, Any]:
             "club_settings": {},
             "team_scoring": default_team_scoring(),
             "tv_scene_duration_sec": 10,
+            "workout_structure": default_workout_structure(),
+            "workouts": default_workouts_for_structure(default_workout_structure()),
         },
         "participants": [],
         "results": {},
@@ -214,6 +330,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
     except (TypeError, ValueError):
         tv_scene_duration_sec = 10
     tv_scene_duration_sec = min(60, max(3, tv_scene_duration_sec))
+    workout_structure = _normalize_workout_structure(settings.get("workout_structure"), scores)
 
     participants_raw = db.get("participants") if isinstance(db.get("participants"), list) else []
     participants = []
@@ -228,6 +345,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
                 seen_clubs.add(club_name.casefold())
     clubs = _normalize_clubs(clubs)
     club_settings = _normalize_club_settings(settings.get("club_settings"), clubs)
+    workouts = _normalize_workouts(settings.get("workouts"), workout_structure)
 
     merged_display = default_display_settings()
     for screen_key, screen_defaults in merged_display.items():
@@ -243,6 +361,8 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
             "club_settings": club_settings,
             "team_scoring": team_scoring,
             "tv_scene_duration_sec": tv_scene_duration_sec,
+            "workout_structure": workout_structure,
+            "workouts": workouts,
         },
         "participants": participants,
         "results": db.get("results") if isinstance(db.get("results"), dict) else {},
@@ -250,7 +370,7 @@ def _normalize_db(db: Dict[str, Any]) -> Dict[str, Any]:
         "meta": db.get("meta") if isinstance(db.get("meta"), dict) else {},
     }
 
-    normalized["meta"].setdefault("version", 7)
+    normalized["meta"].setdefault("version", 8)
     return normalized
 
 
