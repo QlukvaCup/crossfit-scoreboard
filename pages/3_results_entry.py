@@ -205,24 +205,27 @@ value_column = st.column_config.NumberColumn("Значение", step=0.5 if sty
 if stype == "time":
     value_column = st.column_config.TextColumn("Время / повторы")
 
-edited_df = st.data_editor(
-    editor_df,
-    use_container_width=True,
-    hide_index=True,
-    disabled=["athlete_id", "athlete", "club", "region", "preview"],
-    column_config={
-        "athlete_id": st.column_config.NumberColumn("ID", format="%d"),
-        "athlete": st.column_config.TextColumn("Атлет"),
-        "club": st.column_config.TextColumn("Клуб / команда"),
-        "region": st.column_config.TextColumn("Регион"),
-        "status": st.column_config.SelectboxColumn("Статус", options=status_options, required=True),
-        "value": value_column,
-        "preview": st.column_config.TextColumn("Будет показано"),
-    },
-    key=f"results_editor_{division_id}_{score_id}",
-)
+editor_key = f"results_editor_{division_id}_{score_id}"
+with st.form(key=f"results_editor_form_{division_id}_{score_id}"):
+    edited_df = st.data_editor(
+        editor_df,
+        use_container_width=True,
+        hide_index=True,
+        disabled=["athlete_id", "athlete", "club", "region", "preview"],
+        column_config={
+            "athlete_id": st.column_config.NumberColumn("ID", format="%d"),
+            "athlete": st.column_config.TextColumn("Атлет"),
+            "club": st.column_config.TextColumn("Клуб"),
+            "region": st.column_config.TextColumn("Регион"),
+            "status": st.column_config.SelectboxColumn("Статус", options=status_options, required=True),
+            "value": value_column,
+            "preview": st.column_config.TextColumn("Будет показано"),
+        },
+        key=editor_key,
+    )
+    save_table = st.form_submit_button("💾 Сохранить таблицу результатов", type="primary")
 
-if st.button("💾 Сохранить таблицу результатов"):
+if save_table:
     db.setdefault("results", {})
     for _, row in edited_df.iterrows():
         athlete_id = int(row["athlete_id"])
@@ -258,4 +261,5 @@ if st.button("💾 Сохранить таблицу результатов"):
 
     save_db(db)
     st.success("Таблица результатов сохранена.")
+    st.rerun()
     st.rerun()

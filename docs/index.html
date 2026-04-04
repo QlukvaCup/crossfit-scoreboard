@@ -107,7 +107,7 @@
   </div>
 
 <script>
-const SCENE_DURATION_MS = 10000;
+const DEFAULT_SCENE_DURATION_MS = 10000;
 const DATA_REFRESH_MS = 5000;
 const SCENES = [
   { id: 'scene-begscal-f', label: 'Women BEG/SCAL', divId: 'BEGSCAL_F' },
@@ -124,6 +124,7 @@ const DIV_SHORT = {
 };
 let cache = null;
 let sceneIndex = 0;
+let sceneTimer = null;
 
 function safe(v) { return v === null || v === undefined ? '' : String(v); }
 function fmt(v) {
@@ -131,24 +132,27 @@ function fmt(v) {
   return (typeof v === 'number') ? String(Number(v.toFixed ? v.toFixed(2) : v)).replace(/\.00$/, '') : String(v);
 }
 function metaLine(parts) { return parts.filter(Boolean).join(' · '); }
+function buildMetaHtml(parts) {
+  return parts.filter(Boolean).join(' · ');
+}
 function athleteCell(r) {
   const flag = r.flag ? `<img class="flag" src="${r.flag}" alt="flag" />` : '';
   const club = (r.club || '').trim();
-  const meta = [
-    r.age ? `${r.age}` : '',
+  const meta = buildMetaHtml([
+    r.age ? safe(r.age) : '',
     safe(r.region || r.city || ''),
-    club ? safe(club) : ''
-  ].filter(Boolean).join(' · ');
-  return `<div class="athlete-line"><span>${safe(r.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
+    club ? `<span class="club-strong">${safe(club)}</span>` : ''
+  ]);
+  return `<div class="athlete-line"><span>${safe(r.full_name)}</span>${flag}</div><div class="athlete-meta">${meta}</div>`;
 }
 function heatAthleteCell(a) {
   const flag = a.flag ? `<img class="flag" src="${a.flag}" alt="flag" />` : '';
   const club = (a.club || '').trim();
-  const meta = [
+  const meta = buildMetaHtml([
     safe(a.region || a.city || ''),
-    club ? safe(club) : ''
-  ].filter(Boolean).join(' · ');
-  return `<div class="athlete-line"><span>${safe(a.full_name)}</span>${flag}</div><div class="athlete-meta">${safe(meta)}</div>`;
+    club ? `<span class="club-strong">${safe(club)}</span>` : ''
+  ]);
+  return `<div class="athlete-line"><span>${safe(a.full_name)}</span>${flag}</div><div class="athlete-meta">${meta}</div>`;
 }
 function scoreCell(scoreObj) {
   return `<div class="score-main">${fmt(scoreObj?.points)}</div><div class="score-sub">${safe(scoreObj?.result_text || '')}</div>`;
@@ -341,14 +345,19 @@ function renderSceneState() {
   document.getElementById('sceneMeta').textContent = `${SCENES[sceneIndex].label} · экран ${sceneIndex + 1} из ${SCENES.length}`;
 }
 function nextScene() { sceneIndex = (sceneIndex + 1) % SCENES.length; renderSceneState(); }
+function restartSceneRotation() {
+  const durationMs = Math.max(3000, Number(cache?.tv_scene_duration_sec || 0) * 1000 || DEFAULT_SCENE_DURATION_MS);
+  if (sceneTimer) clearInterval(sceneTimer);
+  sceneTimer = setInterval(nextScene, durationMs);
+}
 async function load() {
   const res = await fetch(`results.json?ts=${Date.now()}`);
   cache = await res.json();
   renderAll();
+  restartSceneRotation();
 }
 load();
 setInterval(load, DATA_REFRESH_MS);
-setInterval(nextScene, SCENE_DURATION_MS);
 </script>
 </body>
 </html>
