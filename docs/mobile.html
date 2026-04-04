@@ -26,18 +26,19 @@
     .selector select { min-width:160px; padding:10px 12px; border:2px solid #4f8cff; border-radius:10px; background:#eef5ff; color:#111827; font-weight:700; box-shadow:0 1px 0 rgba(0,0,0,.04); }
     .selector select:focus { outline:none; border-color:#1d4ed8; background:#e0edff; box-shadow:0 0 0 3px rgba(79,140,255,.18); }
     .selector select:hover { background:#e8f0ff; }
-    .hidden { display:none !important; }
 
-    .workout-single { border:1px solid #e5e7eb; border-left:4px solid #9ca3af; border-radius:10px; padding:10px 12px; background:#fff; }
-    .workout-single.wod1 { border-left-color:#7aaef7; }
-    .workout-single.wod2 { border-left-color:#7cd790; }
-    .workout-single.wod3 { border-left-color:#ffb56a; }
-    .workout-single.wod4, .workout-single.wod5, .workout-single.wod6, .workout-single.wod7, .workout-single.wod8 { border-left-color:#c8b5ff; }
+    .workouts-box { display:flex; flex-direction:column; gap:8px; }
+    .wod-item { border:1px solid #e5e7eb; border-left:4px solid #9ca3af; border-radius:10px; padding:10px 12px; background:#fff; }
+    .wod-item.wod1 { border-left-color:#7aaef7; }
+    .wod-item.wod2 { border-left-color:#7cd790; }
+    .wod-item.wod3 { border-left-color:#ffb56a; }
+    .wod-item.wod4, .wod-item.wod5, .wod-item.wod6, .wod-item.wod7, .wod-item.wod8 { border-left-color:#c8b5ff; }
     .wod-head { display:flex; justify-content:space-between; gap:8px; align-items:flex-start; }
     .wod-code { font-weight:700; font-size:14px; }
     .wod-type { color:#666; font-size:11px; white-space:nowrap; }
     .wod-cap { margin-top:4px; font-size:12px; }
     .wod-desc { margin-top:6px; color:#666; font-size:11px; white-space:pre-wrap; line-height:1.25; }
+    .hidden { display:none; }
   </style>
 </head>
 <body>
@@ -51,31 +52,44 @@
         <option value="workouts">Комплексы</option>
       </select>
     </label>
-    <label class="selector" id="divWrap">
+    <label class="selector">
       <span>Категория</span>
       <select id="divSel"></select>
     </label>
-    <label class="selector hidden" id="wodWrap">
-      <span id="wodLabel">WOD</span>
+    <label class="selector" id="wodSelectorWrap">
+      <span id="wodLabel">Заходы</span>
       <select id="wodSel"></select>
     </label>
   </div>
-  <div class="box" id="contentBox"></div>
+  <div class="box" id="tableBox"></div>
+  <div class="box hidden" id="heatsBox"></div>
+  <div class="box hidden" id="workoutsBox"></div>
 <script>
 const DIVS = ["BEGSCAL_F","BEGSCAL_M","INT_F","INT_M","CLUBS"];
 let cache = null;
 const viewSel = document.getElementById('viewSel');
 const divSel = document.getElementById('divSel');
 const wodSel = document.getElementById('wodSel');
-const contentBox = document.getElementById('contentBox');
-const wodWrap = document.getElementById('wodWrap');
 const wodLabel = document.getElementById('wodLabel');
+const wodSelectorWrap = document.getElementById('wodSelectorWrap');
+const tableBox = document.getElementById('tableBox');
+const heatsBox = document.getElementById('heatsBox');
+const workoutsBox = document.getElementById('workoutsBox');
 
 function fmt(v){
   if(v===null||v===undefined||v==='') return '—';
   return (typeof v==='number') ? String(Number(v.toFixed ? v.toFixed(2) : v)).replace(/\.00$/,'') : String(v);
 }
 function safe(s){ return s===null||s===undefined ? '' : String(s); }
+
+function pluralResults(n){
+  const value = Number(n) || 0;
+  const mod10 = value % 10;
+  const mod100 = value % 100;
+  if(mod10 === 1 && mod100 !== 11) return 'зачётный результат';
+  if(mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) return 'зачётных результата';
+  return 'зачётных результатов';
+}
 
 DIVS.forEach(id => {
   const opt = document.createElement('option');
@@ -84,16 +98,68 @@ DIVS.forEach(id => {
   divSel.appendChild(opt);
 });
 
+function currentWorkoutRows(){
+  const divId = divSel.value;
+  const div = cache?.workouts?.divisions?.[divId];
+  return div?.rows || [];
+}
+
+function refreshWodOptions(){
+  const view = viewSel.value;
+  const prev = wodSel.value;
+  wodSel.innerHTML = '';
+
+  let ids = [];
+  if(view === 'heats'){
+    ids = Object.keys(cache?.heats || {}).filter(Boolean);
+    wodLabel.textContent = 'Заходы';
+  } else if(view === 'workouts'){
+    ids = currentWorkoutRows().map(r => r.code).filter(Boolean);
+    wodLabel.textContent = 'Комплекс';
+  }
+
+  ids.forEach(id => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = id;
+    wodSel.appendChild(opt);
+  });
+
+  if(ids.includes(prev)) {
+    wodSel.value = prev;
+  } else if(ids.length) {
+    wodSel.value = ids[0];
+  }
+
+  const needWod = view === 'heats' || view === 'workouts';
+  wodSelectorWrap.classList.toggle('hidden', !needWod || divSel.value === 'CLUBS');
+}
+
 function renderTable(){
   const id = divSel.value;
-  if(id === 'CLUBS') return renderClubs();
+
+  if(id === 'CLUBS'){
+    renderTeamsInline();
+    return;
+  }
+
   const div = cache.divisions?.[id];
-  if(!div){ contentBox.innerHTML='Нет данных'; return; }
+  if(!div){
+    tableBox.innerHTML='Нет данных';
+    return;
+  }
+
   let html = `<h3>${safe(div.title)}</h3><div class="muted">ПР — место определено по приоритетному комплексу (${safe(cache.priority_score_id)})</div><table><thead><tr><th>#</th><th>Атлет</th><th class="points">W1</th><th class="points">W2A</th><th class="points">W2B</th><th class="points">W3</th><th class="points">Σ</th></tr></thead><tbody>`;
+
   (div.rows||[]).forEach(r => {
     const flag = r.flag ? `<img class="flag" src="${r.flag}" />` : '';
     const club = (r.club || r.club_name || '').trim();
-    const metaHtml = [r.age ? `${r.age}` : '', safe(r.region || r.city || ''), club ? `<span class="club-pill">${safe(club)}</span>` : ''].filter(Boolean).join(' · ');
+    const metaHtml = [
+      r.age ? `${r.age}` : '',
+      safe(r.region || r.city || ''),
+      club ? `<span class="club-pill">${safe(club)}</span>` : ''
+    ].filter(Boolean).join(' · ');
+
     html += `<tr><td>${safe(r.place_label || fmt(r.place))}</td><td>${safe(r.full_name)}${flag}<div class="meta2">${metaHtml}</div></td>` +
       `<td class="points">${fmt(r.scores?.WOD1?.points)}<span class="res">${safe(r.scores?.WOD1?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.scores?.WOD2A?.points)}<span class="res">${safe(r.scores?.WOD2A?.result_text)}</span></td>` +
@@ -101,20 +167,24 @@ function renderTable(){
       `<td class="points">${fmt(r.scores?.WOD3?.points)}<span class="res">${safe(r.scores?.WOD3?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.total)}</td></tr>`;
   });
+
   html += '</tbody></table>';
-  contentBox.innerHTML = html;
+  tableBox.innerHTML = html;
 }
 
-function renderClubs(){
+function renderTeamsInline(){
   const rows = cache.clubs?.rows || [];
   const scored = rows.filter(r => Number(r.points || 0) > 0);
   let html = `<h3>Клубный зачёт</h3><table><thead><tr><th>#</th><th>Клуб</th><th class="points">Очки</th><th class="points">Участ.</th><th class="points">1х</th></tr></thead><tbody>`;
+
   rows.forEach((r, idx) => {
     const clubName = r.club_name || r.club || `Клуб ${idx + 1}`;
     const flag = r.club_flag ? `<img class="flag" src="${r.club_flag}" />` : '';
     html += `<tr><td>${fmt(r.place)}</td><td>${safe(clubName)}${flag}<div class="meta2">${safe(r.club_city || '')}</div></td><td class="points">${fmt(r.points)}</td><td class="points">${fmt(r.participants_count)}</td><td class="points">${fmt(r.first_places)}</td></tr>`;
   });
+
   html += `</tbody></table>`;
+
   if(scored.length){
     html += `<div class="muted" style="margin-top:8px;">Клубы, которые принесли очки</div>`;
     scored.forEach(team => {
@@ -124,16 +194,56 @@ function renderClubs(){
       });
     });
   }
-  contentBox.innerHTML = html;
+
+  tableBox.innerHTML = html;
+}
+
+function workoutClass(code){
+  const m = safe(code).match(/WOD(\d+)/);
+  return m ? `wod${m[1]}` : '';
+}
+
+function renderWorkoutSingle(){
+  const divId = divSel.value;
+  if(divId === 'CLUBS'){
+    workoutsBox.innerHTML = '';
+    return;
+  }
+
+  const rows = currentWorkoutRows();
+  let html = `<h3>Комплексы</h3>`;
+  if(!rows.length){
+    workoutsBox.innerHTML = html + '<div class="muted" style="margin-top:8px;">Комплексы ещё не заполнены</div>';
+    return;
+  }
+
+  const selected = rows.find(r => r.code === wodSel.value) || rows[0];
+  if(!selected){
+    workoutsBox.innerHTML = html + '<div class="muted" style="margin-top:8px;">Комплексы ещё не заполнены</div>';
+    return;
+  }
+
+  html += `<div class="workouts-box"><div class="wod-item ${workoutClass(selected.code)}"><div class="wod-head"><div class="wod-code">${safe(selected.label || selected.code)}</div><div class="wod-type">${safe(selected.type || '')}</div></div>${selected.time_cap ? `<div class="wod-cap">Лимит: ${safe(selected.time_cap)}</div>` : ''}${selected.description ? `<div class="wod-desc">${safe(selected.description)}</div>` : ''}</div></div>`;
+  workoutsBox.innerHTML = html;
 }
 
 function renderHeats(){
   const divId = divSel.value;
   const wodId = wodSel.value;
-  if(divId === 'CLUBS'){ contentBox.innerHTML = 'Для клубного зачёта заходов нет'; return; }
+
+  if(divId === 'CLUBS'){
+    heatsBox.innerHTML = '';
+    return;
+  }
+
   const heats = cache.heats?.[wodId]?.divisions?.[divId] || [];
   let html = `<h3>${safe(cache.heats?.[wodId]?.title || wodId)} — заходы</h3>`;
-  if(!heats.length){ contentBox.innerHTML = html + 'Нет заходов'; return; }
+
+  if(!heats.length){
+    heatsBox.innerHTML = html + 'Нет заходов';
+    return;
+  }
+
   html += `<div class="heats-row">`;
   heats.forEach(h => {
     html += `<div class="heat-col"><div class="heat-title">Заход ${h.heat}</div>`;
@@ -144,73 +254,7 @@ function renderHeats(){
     html += `</div>`;
   });
   html += `</div>`;
-  contentBox.innerHTML = html;
-}
-
-function workoutClass(code){
-  const m = safe(code).match(/WOD(\d+)/);
-  return m ? `wod${m[1]}` : '';
-}
-
-function currentWorkoutRows(){
-  const divId = divSel.value;
-  return cache?.workouts?.divisions?.[divId]?.rows || [];
-}
-
-function refreshWodOptions(){
-  const view = viewSel.value;
-  wodSel.innerHTML = '';
-  if(view === 'heats'){
-    ['WOD1','WOD2','WOD3'].forEach(id => {
-      const opt = document.createElement('option');
-      opt.value = id;
-      opt.textContent = id;
-      wodSel.appendChild(opt);
-    });
-    wodLabel.textContent = 'Заходы';
-    return;
-  }
-  if(view === 'workouts'){
-    const rows = currentWorkoutRows();
-    if(!rows.length) return;
-    rows.forEach(row => {
-      const opt = document.createElement('option');
-      opt.value = row.code;
-      opt.textContent = row.label || row.code;
-      wodSel.appendChild(opt);
-    });
-    wodLabel.textContent = 'Комплекс';
-  }
-}
-
-function renderWorkoutSingle(){
-  const divId = divSel.value;
-  if(divId === 'CLUBS'){ contentBox.innerHTML = 'Для клубного зачёта комплексов нет'; return; }
-  const div = cache?.workouts?.divisions?.[divId];
-  const rows = div?.rows || [];
-  let html = `<h3>Комплексы</h3>`;
-  if(!rows.length){ contentBox.innerHTML = html + '<div class="muted">Комплексы ещё не заполнены</div>'; return; }
-  const selected = rows.find(r => r.code === wodSel.value) || rows[0];
-  html += `<div class="muted" style="margin-bottom:8px;">${safe(div.title || '')}</div>`;
-  html += `<div class="workout-single ${workoutClass(selected.code)}"><div class="wod-head"><div class="wod-code">${safe(selected.label || selected.code)}</div><div class="wod-type">${safe(selected.type || '')}</div></div>${selected.time_cap ? `<div class="wod-cap">Лимит: ${safe(selected.time_cap)}</div>` : ''}${selected.description ? `<div class="wod-desc">${safe(selected.description)}</div>` : ''}</div>`;
-  contentBox.innerHTML = html;
-}
-
-function updateControls(){
-  const view = viewSel.value;
-  wodWrap.classList.toggle('hidden', view === 'table');
-  if(view === 'table' && divSel.value === 'CLUBS'){
-    // ok
-  }
-  if(view === 'heats' || view === 'workouts') refreshWodOptions();
-}
-
-function renderCurrent(){
-  updateControls();
-  const view = viewSel.value;
-  if(view === 'table') renderTable();
-  else if(view === 'heats') renderHeats();
-  else renderWorkoutSingle();
+  heatsBox.innerHTML = html;
 }
 
 function applyDisplaySettings(){
@@ -225,23 +269,55 @@ function applyDisplaySettings(){
   root.style.setProperty('--container-scale', `${display.container_scale || 1}`);
 }
 
+function renderCurrent(){
+  if(!cache) return;
+
+  refreshWodOptions();
+
+  const view = viewSel.value;
+  const clubsMode = divSel.value === 'CLUBS';
+
+  tableBox.classList.toggle('hidden', view !== 'table');
+  heatsBox.classList.toggle('hidden', view !== 'heats');
+  workoutsBox.classList.toggle('hidden', view !== 'workouts');
+
+  if(view === 'table'){
+    renderTable();
+  } else if(view === 'heats'){
+    if(clubsMode){
+      heatsBox.innerHTML = '<h3>Заходы</h3><div class="muted">Для клубного зачёта заходы не используются</div>';
+    } else {
+      renderHeats();
+    }
+  } else if(view === 'workouts'){
+    if(clubsMode){
+      workoutsBox.innerHTML = '<h3>Комплексы</h3><div class="muted">Для клубного зачёта комплексы не используются</div>';
+    } else {
+      renderWorkoutSingle();
+    }
+  }
+}
+
 async function load(){
-  const currentView = viewSel.value;
   const currentDiv = divSel.value;
+  const currentView = viewSel.value;
   const currentWod = wodSel.value;
+
   const res = await fetch(`results.json?ts=${Date.now()}`);
   cache = await res.json();
   document.getElementById('meta').textContent = `Обновлено: ${cache.generated_at}`;
   applyDisplaySettings();
-  if(currentDiv) divSel.value = currentDiv;
+
+  if(currentDiv && [...divSel.options].some(o => o.value === currentDiv)) divSel.value = currentDiv;
   if(currentView) viewSel.value = currentView;
   refreshWodOptions();
-  if([...wodSel.options].some(o => o.value === currentWod)) wodSel.value = currentWod;
+  if(currentWod && [...wodSel.options].some(o => o.value === currentWod)) wodSel.value = currentWod;
+
   renderCurrent();
 }
 
-viewSel.onchange = renderCurrent;
 divSel.onchange = renderCurrent;
+viewSel.onchange = renderCurrent;
 wodSel.onchange = renderCurrent;
 
 load();
