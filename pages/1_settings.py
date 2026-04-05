@@ -71,27 +71,69 @@ def format_structure_preview(structure: list[dict]) -> str:
     return ", ".join(codes) if codes else "—"
 
 
-def render_workouts_summary(settings: dict) -> None:
+def render_workouts_summary(db: dict, settings: dict) -> None:
     structure = settings.get("workout_structure") or default_workout_structure()
-    workouts = settings.get("workouts") or default_workouts_for_structure(structure)
+    workouts = settings.setdefault("workouts", default_workouts_for_structure(structure))
     codes = workout_code_list(structure)
 
     st.markdown("### Сохранённые комплексы")
+    st.caption("Ниже можно править комплексы прямо в табличном виде. Формат оставлен максимально простым.")
+
+    st.markdown(
+        """
+        <style>
+        .workout-edit-table-wrap{overflow-x:auto;margin-bottom:10px;}
+        .workout-edit-table{width:100%;border-collapse:collapse;font-size:14px;}
+        .workout-edit-table th,.workout-edit-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.10);text-align:left;vertical-align:top;white-space:nowrap;}
+        .workout-edit-table th{background:rgba(255,255,255,0.04);font-weight:700;color:#fff;}
+        .workout-edit-table td{color:#f3f4f6;}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     for div in DIVISIONS:
         div_id = div["id"]
         st.markdown(f"**{div['title']}**")
-        rows = []
-        div_workouts = workouts.get(div_id, {}) if isinstance(workouts, dict) else {}
+        st.markdown(
+            """
+            <div class="workout-edit-table-wrap">
+              <table class="workout-edit-table">
+                <thead>
+                  <tr>
+                    <th style="width:90px;">Код</th>
+                    <th style="width:180px;">Имя</th>
+                    <th style="width:170px;">Тип</th>
+                    <th style="width:140px;">Лимит</th>
+                    <th>Описание</th>
+                    <th style="width:120px;">Действие</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        div_workouts = workouts.setdefault(div_id, {})
         for code in codes:
-            item = div_workouts.get(code, {}) if isinstance(div_workouts.get(code), dict) else {}
-            rows.append({
-                "Код": code,
-                "Имя": item.get("label") or code,
-                "Тип": item.get("type") or "—",
-                "Лимит": item.get("time_cap") or "—",
-                "Описание": item.get("description") or "—",
-            })
-        st.dataframe(rows, width='stretch', hide_index=True)
+            item = div_workouts.setdefault(code, {"label": code, "type": "", "time_cap": "", "description": ""})
+            row_cols = st.columns([0.8, 1.4, 1.3, 1.1, 3.2, 1.0])
+            row_cols[0].markdown(f"<div style='padding-top:8px;font-weight:700'>{code}</div>", unsafe_allow_html=True)
+            label_val = row_cols[1].text_input("Имя", value=item.get("label") or code, key=f"tbl_workout_label_{div_id}_{code}", label_visibility="collapsed")
+            type_val = row_cols[2].selectbox("Тип", WORKOUT_TYPES, index=WORKOUT_TYPES.index(item.get("type") or "") if (item.get("type") or "") in WORKOUT_TYPES else 0, key=f"tbl_workout_type_{div_id}_{code}", label_visibility="collapsed")
+            cap_val = row_cols[3].text_input("Лимит", value=item.get("time_cap") or "", key=f"tbl_workout_cap_{div_id}_{code}", label_visibility="collapsed", placeholder="10:00")
+            desc_val = row_cols[4].text_area("Описание", value=item.get("description") or "", key=f"tbl_workout_desc_{div_id}_{code}", label_visibility="collapsed", height=68)
+            if row_cols[5].button("Сохранить", key=f"tbl_workout_save_{div_id}_{code}"):
+                div_workouts[code] = {
+                    "label": (label_val or code).strip() or code,
+                    "type": (type_val or "").strip(),
+                    "time_cap": (cap_val or "").strip(),
+                    "description": (desc_val or "").strip(),
+                }
+                save_db(db)
+                st.success(f"Сохранён {div['title']} · {code}")
+                st.rerun()
+        st.divider()
 
 
 db = load_db()
@@ -365,7 +407,7 @@ if wbtn2.button("Очистить комплекс"):
     st.warning("Комплекс очищен.")
     st.rerun()
 
-render_workouts_summary(settings)
+render_workouts_summary(db, settings)
 
 st.divider()
 st.subheader("ТВ-ротация")
