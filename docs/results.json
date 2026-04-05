@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-05T19:22:27.591026+00:00",
+  "generated_at": "2026-04-05T19:24:48.279084+00:00",
   "tv_scene_duration_sec": 3,
   "divisions": {
     "BEGSCAL_F": {
@@ -169,61 +169,8 @@
           "place_label": "4",
           "sport_place": 4,
           "sport_place_label": "4",
-          "tie_break_code": "priority",
-          "tie_break_marker": "*",
-          "id": 43,
-          "full_name": "Мостиева Мадина",
-          "age": 30,
-          "club": "Qlukva",
-          "region": "РСО-А, Владикавказ",
-          "city": "",
-          "category": "BEGSCAL",
-          "division_id": "BEGSCAL_F",
-          "flag": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAEACAYAAADFkM5nAAADqUlEQVR42u3asRFAUBBF0f1GoANK0oAqFKkLqSYEIqsCAumeU8KL7uxsy8wMAKCUzgQAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAA4FPblzXNAADFAmCLSQAAQDF9F4MVACD8AAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAA/9Xc0KwBAtQAY59MKAFBMyyPSDABQ7AIQlxEAIDwBAgACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAABAAJgAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAACAdw8sBhCdPeeb1wAAAABJRU5ErkJggg==",
-          "scores": {
-            "WOD1": {
-              "points": 62.5,
-              "result": {
-                "status": "ok",
-                "value": 720
-              },
-              "result_text": "12:00"
-            },
-            "WOD2A": {
-              "points": 50.0,
-              "result": {
-                "status": "ok",
-                "value": 75
-              },
-              "result_text": "75"
-            },
-            "WOD2B": {
-              "points": 50.0,
-              "result": {
-                "status": "ok",
-                "value": 35.0
-              },
-              "result_text": "35"
-            },
-            "WOD3": {
-              "points": 62.5,
-              "result": {
-                "status": "ok",
-                "value": 720
-              },
-              "result_text": "12:00"
-            }
-          },
-          "priority_points": 50.0,
-          "total": 225.0
-        },
-        {
-          "place": 5,
-          "place_label": "5",
-          "sport_place": 5,
-          "sport_place_label": "5",
-          "tie_break_code": "priority",
-          "tie_break_marker": "*",
+          "tie_break_code": "age",
+          "tie_break_marker": "***",
           "id": 41,
           "full_name": "Кусраева Кристина",
           "age": 33,
@@ -251,12 +198,12 @@
               "result_text": "80"
             },
             "WOD2B": {
-              "points": 37.5,
+              "points": 50.0,
               "result": {
                 "status": "ok",
-                "value": 30.0
+                "value": 35.0
               },
-              "result_text": "30"
+              "result_text": "35"
             },
             "WOD3": {
               "points": 62.5,
@@ -267,8 +214,61 @@
               "result_text": "12:00"
             }
           },
-          "priority_points": 37.5,
-          "total": 225.0
+          "priority_points": 50.0,
+          "total": 237.5
+        },
+        {
+          "place": 5,
+          "place_label": "5",
+          "sport_place": 5,
+          "sport_place_label": "5",
+          "tie_break_code": "age",
+          "tie_break_marker": "***",
+          "id": 43,
+          "full_name": "Мостиева Мадина",
+          "age": 30,
+          "club": "Qlukva",
+          "region": "РСО-А, Владикавказ",
+          "city": "",
+          "category": "BEGSCAL",
+          "division_id": "BEGSCAL_F",
+          "flag": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAEACAYAAADFkM5nAAADqUlEQVR42u3asRFAUBBF0f1GoANK0oAqFKkLqSYEIqsCAumeU8KL7uxsy8wMAKCUzgQAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAA4FPblzXNAADFAmCLSQAAQDF9F4MVACD8AAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAA/9Xc0KwBAtQAY59MKAFBMyyPSDABQ7AIQlxEAIDwBAgACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAABAAJgAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAACAdw8sBhCdPeeb1wAAAABJRU5ErkJggg==",
+          "scores": {
+            "WOD1": {
+              "points": 62.5,
+              "result": {
+                "status": "ok",
+                "value": 720
+              },
+              "result_text": "12:00"
+            },
+            "WOD2A": {
+              "points": 62.5,
+              "result": {
+                "status": "ok",
+                "value": 80
+              },
+              "result_text": "80"
+            },
+            "WOD2B": {
+              "points": 50.0,
+              "result": {
+                "status": "ok",
+                "value": 35.0
+              },
+              "result_text": "35"
+            },
+            "WOD3": {
+              "points": 62.5,
+              "result": {
+                "status": "ok",
+                "value": 720
+              },
+              "result_text": "12:00"
+            }
+          },
+          "priority_points": 50.0,
+          "total": 237.5
         },
         {
           "place": 6,
@@ -431,7 +431,8 @@
         }
       ],
       "tie_break_notes": [
-        "* место определено по приоритетному комплексу"
+        "* место определено по приоритетному комплексу",
+        "*** место определено по возрасту"
       ]
     },
     "BEGSCAL_M": {
