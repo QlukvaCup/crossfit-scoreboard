@@ -159,6 +159,9 @@ for div in DIVISIONS:
         row = {
             "Место": overall.get("display_place_label") or overall.get("place_label") or "—",
             "TB_CODE": overall.get("tie_break_code"),
+            "_PLACE_NUM": overall.get("place"),
+            "_TOTAL_NUM": total_value,
+            "_PRIORITY_NUM": priority_value,
             "ФИО": p.get("full_name", ""),
             "Возраст": participant_age(p),
             "DIV": p.get("category", ""),
@@ -180,14 +183,15 @@ for div in DIVISIONS:
     if has_live_places:
         table_rows.sort(
             key=lambda r: (
-                0 if isinstance(r["ИТОГО"], (int, float)) else 1,
-                -float(r["ИТОГО"] if isinstance(r["ИТОГО"], (int, float)) else 0.0),
-                -float(r["Приоритет"]) if isinstance(r["Приоритет"], (int, float)) else 1,
-                r["ФИО"].lower(),
+                0 if isinstance(r.get("_PLACE_NUM"), int) else 1,
+                int(r.get("_PLACE_NUM") or 9999),
+                -float(r.get("_TOTAL_NUM") or 0.0),
+                -float(r.get("_PRIORITY_NUM") or 0.0),
+                str(r.get("ФИО") or "").lower(),
             )
         )
     else:
-        table_rows.sort(key=lambda r: r["ФИО"].lower())
+        table_rows.sort(key=lambda r: str(r.get("ФИО") or "").lower())
 
     render_admin_table(table_rows, [s["id"] for s in scores])
     render_tie_break_notes(table_rows)
