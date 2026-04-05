@@ -308,20 +308,26 @@ def build_division_overall(db: Dict[str, Any], division_id: str) -> List[Dict[st
     for group in total_groups.values():
         if len(group) <= 1:
             continue
-        priority_keys = {float(r["priority_points"] if r["priority_points"] is not None else -1.0) for r in group}
-        if len(priority_keys) > 1:
-            for r in group:
-                r["tie_break_code"] = "priority"
-            continue
-        heat_keys = {int(r["priority_heat"] if r["priority_heat"] is not None else 9999) for r in group}
-        if len(heat_keys) > 1:
-            for r in group:
-                r["tie_break_code"] = "heat"
-            continue
-        age_keys = {int(r["age"] or 0) for r in group}
-        if len(age_keys) > 1:
-            for r in group:
-                r["tie_break_code"] = "age"
+        for i in range(len(group) - 1):
+            upper = group[i]
+            lower = group[i + 1]
+
+            upper_priority = float(upper["priority_points"] if upper["priority_points"] is not None else -1.0)
+            lower_priority = float(lower["priority_points"] if lower["priority_points"] is not None else -1.0)
+            if upper_priority != lower_priority:
+                upper["tie_break_code"] = "priority"
+                continue
+
+            upper_heat = int(upper["priority_heat"] if upper["priority_heat"] is not None else 9999)
+            lower_heat = int(lower["priority_heat"] if lower["priority_heat"] is not None else 9999)
+            if upper_heat != lower_heat:
+                upper["tie_break_code"] = "heat"
+                continue
+
+            upper_age = int(upper["age"] or 0)
+            lower_age = int(lower["age"] or 0)
+            if upper_age != lower_age:
+                upper["tie_break_code"] = "age"
 
     place = 0
     placed_index = 0
