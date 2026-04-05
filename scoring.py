@@ -343,9 +343,10 @@ def build_division_overall(db: Dict[str, Any], division_id: str) -> List[Dict[st
         row["place"] = place
         marker = _place_marker(row.get("tie_break_code"))
         row["tie_break_marker"] = marker
-        row["place_label"] = f"{place}{marker}"
+        row["place_label"] = str(place)
         row["display_place"] = place
-        row["display_place_label"] = f"{place}{marker}"
+        row["display_place_label"] = str(place)
+        row["total_label"] = f"{row['total']}{marker}" if row.get("total") is not None and marker else row.get("total")
         prev_key = tie_key
 
     next_display_place = placed_index
@@ -355,6 +356,7 @@ def build_division_overall(db: Dict[str, Any], division_id: str) -> List[Dict[st
         next_display_place += 1
         row["display_place"] = next_display_place
         row["display_place_label"] = str(next_display_place)
+        row["total_label"] = row.get("total")
     return rows
 
 

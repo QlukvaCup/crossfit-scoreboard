@@ -149,12 +149,10 @@ function renderTable(){
     return;
   }
 
-  const notes = [];
-  if (cache.priority_score_id) notes.push(`* место определено по приоритетному комплексу (${safe(cache.priority_score_id)})`);
-  (div.tie_break_notes || []).forEach(item => notes.push(safe(item)));
-  const notesHtml = notes.length ? `<div class="muted">${notes.join(' · ')}</div>` : '';
+  const notes = (div.tie_break_notes || []).map(item => safe(item));
+  const notesHtml = notes.length ? `<div class="muted" style="margin-top:10px">${notes.join('<br>')}</div>` : '';
 
-  let html = `<h3>${safe(div.title)}</h3>${notesHtml}<table><thead><tr><th>#</th><th>Атлет</th><th class="points">W1</th><th class="points">W2A</th><th class="points">W2B</th><th class="points">W3</th><th class="points">Σ</th></tr></thead><tbody>`;
+  let html = `<h3>${safe(div.title)}</h3><table><thead><tr><th>#</th><th>Атлет</th><th class="points">W1</th><th class="points">W2A</th><th class="points">W2B</th><th class="points">W3</th><th class="points">Σ</th></tr></thead><tbody>`;
 
   (div.rows||[]).forEach(r => {
     const flag = r.flag ? `<img class="flag" src="${r.flag}" />` : '';
@@ -170,10 +168,10 @@ function renderTable(){
       `<td class="points">${fmt(r.scores?.WOD2A?.points)}<span class="res">${safe(r.scores?.WOD2A?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.scores?.WOD2B?.points)}<span class="res">${safe(r.scores?.WOD2B?.result_text)}</span></td>` +
       `<td class="points">${fmt(r.scores?.WOD3?.points)}<span class="res">${safe(r.scores?.WOD3?.result_text)}</span></td>` +
-      `<td class="points">${fmt(r.total)}</td></tr>`;
+      `<td class="points">${fmt(r.total)}${safe(r.tie_break_marker || '')}</td></tr>`;
   });
 
-  html += '</tbody></table>';
+  html += '</tbody></table>' + notesHtml;
   tableBox.innerHTML = html;
 }
 

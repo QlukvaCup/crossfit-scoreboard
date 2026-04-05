@@ -175,9 +175,8 @@ function buildWorkoutNameMap() {
   };
 }
 function renderDivisionTable(div) {
-  const note = cache?.tie_break_mode === 'priority_score'
-    ? `ПР — место определено по приоритетному комплексу (${safe(cache?.priority_score_id)})`
-    : 'Одинаковые суммы остаются на одинаковом месте';
+  const notes = Array.isArray(div.tie_break_notes) ? div.tie_break_notes : [];
+  const notesHtml = notes.length ? `<div class="note">${notes.map(n => safe(n)).join('<br>')}</div>` : '';
   return `
     <div class="card">
       <div class="card-head">
@@ -205,13 +204,13 @@ function renderDivisionTable(div) {
                 <td class="col-score points">${scoreCell(r.scores?.WOD2A)}</td>
                 <td class="col-score points">${scoreCell(r.scores?.WOD2B)}</td>
                 <td class="col-score points">${scoreCell(r.scores?.WOD3)}</td>
-                <td class="col-total total-points"><div class="score-main">${fmt(r.total)}</div></td>
+                <td class="col-total total-points"><div class="score-main">${fmt(r.total)}${safe(r.tie_break_marker || '')}</div></td>
               </tr>
             `).join('')}
           </tbody>
         </table>
       </div>
-      <div class="note">${note}</div>
+      ${notesHtml}
     </div>`;
 }
 function renderDivisionHeats(divId) {

@@ -131,7 +131,7 @@ def render_tie_break_notes(rows):
     if "age" in codes:
         notes.append("*** место определено по возрасту")
     if notes:
-        st.caption(" · ".join(notes))
+        st.markdown("<div style='margin:8px 0 18px 0; font-size:13px; color:#cbd5e1;'>" + "<br>".join(notes) + "</div>", unsafe_allow_html=True)
 
 
 for div in DIVISIONS:
@@ -173,7 +173,8 @@ for div in DIVISIONS:
             row[f"{sid}"] = "—" if pts is None else pts
             row[f"{sid}_res"] = display_value_for_public(s, res)
         row["Приоритет"] = priority_value if priority_value is not None else "—"
-        row["ИТОГО"] = total_value if total_value is not None else "—"
+        marker = overall.get("tie_break_marker") or ""
+        row["ИТОГО"] = (f"{total_value}{marker}" if total_value is not None and marker else (total_value if total_value is not None else "—"))
         table_rows.append(row)
 
     if has_live_places:
