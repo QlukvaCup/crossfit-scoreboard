@@ -306,33 +306,40 @@ def _draw_header_grid(c: canvas.Canvas, row: JudgeSheetRow, wod_id: str):
     y = PAGE_H - 68 * mm
     w = PAGE_W - 30 * mm
     h = 28 * mm
+    mid_y = y + h / 2
     _box(c, x, y, w, h)
 
-    # vertical splits
-    col1 = 94 * mm
-    col2 = 46 * mm
-    _line(c, x + col1, y, x + col1, y + h)
-    _line(c, x + col1 + col2, y, x + col1 + col2, y + h)
-    _line(c, x, y + h/2, x + w, y + h/2)
+    # Верхняя и нижняя строки имеют разные разбиения.
+    # Так длинный формат WOD2 не заезжает на линию лимита.
+    left_col = 94 * mm
+    top_heat_col = 46 * mm
+    bottom_format_col = 54 * mm
+
+    _line(c, x, mid_y, x + w, mid_y)
+    _line(c, x + left_col, y, x + left_col, y + h)
+    _line(c, x + left_col + top_heat_col, mid_y, x + left_col + top_heat_col, y + h)
+    _line(c, x + left_col + bottom_format_col, y, x + left_col + bottom_format_col, mid_y)
 
     _text(c, x + 4 * mm, y + h - 8 * mm, "Категория:", 10, True)
-    _fit_text(c, x + 24 * mm, y + h - 8 * mm, col1 - 28 * mm, row.division_title, 10)
+    _fit_text(c, x + 24 * mm, y + h - 8 * mm, left_col - 28 * mm, row.division_title, 10)
 
-    _text(c, x + col1 + 4 * mm, y + h - 8 * mm, "Заход:", 10, True)
-    _text(c, x + col1 + 26 * mm, y + h - 8 * mm, str(row.heat_no), 10)
+    _text(c, x + left_col + 4 * mm, y + h - 8 * mm, "Заход:", 10, True)
+    _text(c, x + left_col + 26 * mm, y + h - 8 * mm, str(row.heat_no), 10)
 
-    _text(c, x + col1 + col2 + 4 * mm, y + h - 8 * mm, "Дорожка:", 10, True)
-    _text(c, x + col1 + col2 + 28 * mm, y + h - 8 * mm, str(row.lane_no), 10)
+    _text(c, x + left_col + top_heat_col + 4 * mm, y + h - 8 * mm, "Дорожка:", 10, True)
+    _text(c, x + left_col + top_heat_col + 28 * mm, y + h - 8 * mm, str(row.lane_no), 10)
 
     _text(c, x + 4 * mm, y + 8 * mm, "Атлет:", 10, True)
-    _fit_text(c, x + 21 * mm, y + 8 * mm, col1 - 25 * mm, row.athlete_name, 12, True)
+    _fit_text(c, x + 21 * mm, y + 8 * mm, left_col - 25 * mm, row.athlete_name, 12, True)
 
-    # moved format left and made fit
-    _text(c, x + col1 + 4 * mm, y + 8 * mm, "Формат:", 10, True)
-    _fit_text(c, x + col1 + 27 * mm, y + 8 * mm, col2 - 30 * mm + 20 * mm, info["format"], 9)
+    _text(c, x + left_col + 4 * mm, y + 8 * mm, "Формат:", 9, True)
+    display_format = info["format"].replace(" + ", "+")
+    _fit_text(c, x + left_col + 24 * mm, y + 8 * mm, bottom_format_col - 26 * mm, display_format, 8, min_size=6.5)
 
-    _text(c, x + col1 + col2 + 4 * mm, y + 8 * mm, "Лимит:", 10, True)
-    _text(c, x + col1 + col2 + 24 * mm, y + 8 * mm, info["cap"], 10)
+    limit_x = x + left_col + bottom_format_col
+    limit_w = w - left_col - bottom_format_col
+    _text(c, limit_x + 3 * mm, y + 8 * mm, "Лимит:", 9, True)
+    _fit_text(c, limit_x + 18 * mm, y + 8 * mm, limit_w - 20 * mm, info["cap"], 8, min_size=6.5)
 
     if row.athlete_meta:
         _fit_text(c, x + 21 * mm, y - 3 * mm, w - 24 * mm, row.athlete_meta, 8)
@@ -419,34 +426,66 @@ def _draw_wod1(c: canvas.Canvas, row: JudgeSheetRow):
 
 # ---------- WOD2 ----------
 def _wod2_rounds(division_id: str) -> List[Dict[str, str]]:
-    if division_id.startswith("INT"):
-        start_pull = 5
-        max_rounds = 10
-    elif division_id == "BEGSCAL_M":
-        start_pull = 4
-        max_rounds = 10
-    else:
-        start_pull = 3
-        max_rounds = 10
-    rows = []
+    """Rows for WOD2A judge sheet.
+
+    Intermediate: repetitions in pull-ups and toes-to-bar increase by 1 each round.
+    Beginners/Scaled: fixed AMRAP circle, repetitions do not increase.
+    """
+    max_rounds = 14
+    rows: List[Dict[str, str]] = []
     total = 0
+
+    if division_id == "BEGSCAL_F":
+        fixed = {"d1": 2, "pull": 3, "d2": 2, "core": 7}
+        for rnd in range(1, max_rounds + 1):
+            total += fixed["d1"] + fixed["pull"] + fixed["d2"] + fixed["core"]
+            rows.append({
+                "rnd": str(rnd),
+                "d1": str(fixed["d1"]),
+                "pull": str(fixed["pull"]),
+                "d2": str(fixed["d2"]),
+                "core": str(fixed["core"]),
+                "sum": str(total),
+            })
+        return rows
+
+    if division_id == "BEGSCAL_M":
+        fixed = {"d1": 2, "pull": 5, "d2": 2, "core": 5}
+        for rnd in range(1, max_rounds + 1):
+            total += fixed["d1"] + fixed["pull"] + fixed["d2"] + fixed["core"]
+            rows.append({
+                "rnd": str(rnd),
+                "d1": str(fixed["d1"]),
+                "pull": str(fixed["pull"]),
+                "d2": str(fixed["d2"]),
+                "core": str(fixed["core"]),
+                "sum": str(total),
+            })
+        return rows
+
+    # Intermediate: 2 devil presses + pull-ups + 2 devil presses + toes-to-bar,
+    # then +1 rep in pull-ups and toes-to-bar each next round.
+    start_pull = 5
     for rnd in range(1, max_rounds + 1):
         devil = 2
         pull = start_pull + rnd - 1
-        total += devil + pull + devil + pull
+        core = start_pull + rnd - 1
+        total += devil + pull + devil + core
         rows.append({
             "rnd": str(rnd),
             "d1": str(devil),
             "pull": str(pull),
             "d2": str(devil),
-            "core": str(pull),
+            "core": str(core),
             "sum": str(total),
         })
     return rows
 
 
-def _wod2_pull_label(division_id: str) -> str:
-    return "НКП" if division_id.startswith("INT") else "под.ия"
+def _wod2_labels(division_id: str) -> tuple[str, str]:
+    if division_id == "BEGSCAL_F":
+        return "подт.", "колени"
+    return "подт.", "НКП"
 
 
 def _draw_wod2(c: canvas.Canvas, row: JudgeSheetRow):
@@ -456,52 +495,61 @@ def _draw_wod2(c: canvas.Canvas, row: JudgeSheetRow):
 
     x = 15 * mm
     w = PAGE_W - 30 * mm
-    y_top = PAGE_H - 112 * mm
-    h = 102 * mm
+    y_top = PAGE_H - 88 * mm
+    h = 170 * mm
     _box(c, x, y_top - h, w, h)
-    _text(c, x + 3 * mm, y_top - 7 * mm, "Часть A — раунды", 10, True)
 
-    table_y = y_top - 14 * mm
-    row_h = 8 * mm
-    pull_label = _wod2_pull_label(row.division_id)
-    cols = [12 * mm, 20 * mm, 20 * mm, 20 * mm, 20 * mm, 16 * mm, 22 * mm, w - (12+20+20+20+20+16+22) * mm]
-    cur = x
-    table_rows = len(_wod2_rounds(row.division_id)) + 1  # header + round rows
-    for cw in cols[:-1]:
-        cur += cw
-        _line(c, cur, table_y - table_rows * row_h, cur, table_y)
-    for i in range(table_rows + 1):
-        _line(c, x, table_y - i * row_h, x + w, table_y - i * row_h)
-    headers = ["Rnd", "дьяв", pull_label, "дьяв", pull_label, "✓", "Сумма", "Прим."]
-    cur = x
-    for head, cw in zip(headers, cols):
-        _fit_text(c, cur + 1.8 * mm, table_y - 5 * mm, cw - 3 * mm, head, 9, True)
-        cur += cw
+    part_a_title = "Часть A — AMRAP по кругу" if row.division_id.startswith("BEGSCAL") else "Часть A — раунды (+1)"
+    _text(c, x + 3 * mm, y_top - 6.5 * mm, part_a_title, 10, True)
+
+    table_y = y_top - 13 * mm
+    row_h = 6.2 * mm
+    checkbox_size = 4.3 * mm
+    pull_label, core_label = _wod2_labels(row.division_id)
+    cols = [12 * mm, 19 * mm, 19 * mm, 19 * mm, 19 * mm, 14 * mm, 21 * mm, w - (12+19+19+19+19+14+21) * mm]
 
     rounds = _wod2_rounds(row.division_id)
+    table_rows = len(rounds) + 1
+    table_bottom = table_y - table_rows * row_h
+
+    cur = x
+    for cw in cols[:-1]:
+        cur += cw
+        _line(c, cur, table_bottom, cur, table_y)
+    for i in range(table_rows + 1):
+        _line(c, x, table_y - i * row_h, x + w, table_y - i * row_h)
+
+    headers = ["Rnd", "дьяв", pull_label, "дьяв", core_label, "✓", "Сумма", "Прим."]
+    cur = x
+    for head, cw in zip(headers, cols):
+        _fit_text(c, cur + 1.5 * mm, table_y - 4.3 * mm, cw - 3 * mm, head, 8, True, min_size=6.5)
+        cur += cw
+
     y = table_y - row_h
     for r in rounds:
         values = [r["rnd"], r["d1"], r["pull"], r["d2"], r["core"]]
         cur_x = x
         for val, cw in zip(values, cols[:5]):
-            _text(c, cur_x + 2 * mm, y - 5 * mm, val, 9)
+            _text(c, cur_x + 2 * mm, y - 4.2 * mm, val, 8)
             cur_x += cw
-        _checkbox(c, x + sum(cols[:5]) + 4 * mm, y - 6.2 * mm, 5 * mm)
-        _text(c, x + sum(cols[:6]) + 2 * mm, y - 5 * mm, r["sum"], 9, True)
+        _checkbox(c, x + sum(cols[:5]) + 4.6 * mm, y - 5.0 * mm, checkbox_size)
+        _text(c, x + sum(cols[:6]) + 2 * mm, y - 4.2 * mm, r["sum"], 8, True)
         y -= row_h
 
-    # Part B
-    part_b_y = y_top - 14 * mm - 10 * row_h - 10 * mm
+    # Part B. Позиция считается от фактического конца таблицы,
+    # поэтому заголовок не залезает на линии после расширения до 14 раундов.
+    part_b_y = table_bottom - 8 * mm
     _text(c, x + 3 * mm, part_b_y, "Часть B — max clean + hang clean", 10, True)
     ay = part_b_y - 6 * mm
     labels = ["Попытка 1", "Попытка 2", "Попытка 3", "Лучший вес"]
     for label in labels:
-        _box(c, x + 3 * mm, ay - 6 * mm, 44 * mm, 8 * mm)
-        _text(c, x + 5 * mm, ay - 1 * mm, label, 9, True)
-        _box(c, x + 47 * mm, ay - 6 * mm, 28 * mm, 8 * mm)
-        ay -= 10 * mm
+        _box(c, x + 3 * mm, ay - 5.8 * mm, 44 * mm, 7.5 * mm)
+        _text(c, x + 5 * mm, ay - 1.0 * mm, label, 8, True)
+        _box(c, x + 47 * mm, ay - 5.8 * mm, 30 * mm, 7.5 * mm)
+        ay -= 9 * mm
 
     _draw_footer(c, "WOD2")
+
 
 
 # ---------- WOD3 ----------
