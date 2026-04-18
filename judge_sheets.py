@@ -344,20 +344,21 @@ def _draw_footer(c: canvas.Canvas, wod_id: str):
     y = 18 * mm
     h = 16 * mm
     _box(c, x, y, w, h)
-    parts = [35 * mm, 40 * mm, 35 * mm]
+
+    # Общий нижний блок для всех WOD:
+    # Судья | Итоговый результат | Подпись атлета.
+    # Поля "Статус" и "Время / reps" убраны, потому что итоговый результат
+    # уже закрывает ввод времени/повторов.
+    parts = [38 * mm, 48 * mm]
     cur = x + parts[0]
     _line(c, cur, y, cur, y + h)
     cur += parts[1]
     _line(c, cur, y, cur, y + h)
-    cur += parts[2]
-    _line(c, cur, y, cur, y + h)
-    _line(c, x, y + h/2, x + w, y + h/2)
+    _line(c, x, y + h / 2, x + w, y + h / 2)
 
     _text(c, x + 2 * mm, y + h - 5 * mm, "Судья", 9, True)
     _text(c, x + parts[0] + 2 * mm, y + h - 5 * mm, "Итоговый результат", 9, True)
-    _text(c, x + parts[0] + parts[1] + 2 * mm, y + h - 5 * mm, "Статус", 9, True)
-    _text(c, x + parts[0] + parts[1] + parts[2] + 2 * mm, y + h - 5 * mm, "Время / reps", 9, True)
-
+    _text(c, x + parts[0] + parts[1] + 2 * mm, y + h - 5 * mm, "Подпись атлета", 9, True)
 
 def _draw_notes(c: canvas.Canvas, y_top: float, height: float = 30 * mm):
     x = 15 * mm
@@ -390,10 +391,11 @@ def _draw_wod1(c: canvas.Canvas, row: JudgeSheetRow):
     row_h = 8 * mm
     cols = [10 * mm, 45 * mm, 20 * mm, 14 * mm, 22 * mm, w - (10+45+20+14+22) * mm]
     cur = x
+    table_rows = len(stages) + 1  # header + movement rows
     for cw in cols[:-1]:
         cur += cw
-        _line(c, cur, table_y - 6 * row_h, cur, table_y)
-    for i in range(7):
+        _line(c, cur, table_y - table_rows * row_h, cur, table_y)
+    for i in range(table_rows + 1):
         _line(c, x, table_y - i * row_h, x + w, table_y - i * row_h)
 
     headers = ["#", "Движение", "Кол-во", "✓", "Сумма", "Прим."]
@@ -464,10 +466,11 @@ def _draw_wod2(c: canvas.Canvas, row: JudgeSheetRow):
     pull_label = _wod2_pull_label(row.division_id)
     cols = [12 * mm, 20 * mm, 20 * mm, 20 * mm, 20 * mm, 16 * mm, 22 * mm, w - (12+20+20+20+20+16+22) * mm]
     cur = x
+    table_rows = len(_wod2_rounds(row.division_id)) + 1  # header + round rows
     for cw in cols[:-1]:
         cur += cw
-        _line(c, cur, table_y - 10 * row_h, cur, table_y)
-    for i in range(11):
+        _line(c, cur, table_y - table_rows * row_h, cur, table_y)
+    for i in range(table_rows + 1):
         _line(c, x, table_y - i * row_h, x + w, table_y - i * row_h)
     headers = ["Rnd", "дьяв", pull_label, "дьяв", pull_label, "✓", "Сумма", "Прим."]
     cur = x
@@ -519,10 +522,11 @@ def _draw_wod3(c: canvas.Canvas, row: JudgeSheetRow):
     row_h = 8 * mm
     cols = [10 * mm, 52 * mm, 17 * mm, 14 * mm, 22 * mm, w - (10+52+17+14+22) * mm]
     cur = x
+    table_rows = len(stages) + 1  # header + movement rows
     for cw in cols[:-1]:
         cur += cw
-        _line(c, cur, table_y - 7 * row_h, cur, table_y)
-    for i in range(8):
+        _line(c, cur, table_y - table_rows * row_h, cur, table_y)
+    for i in range(table_rows + 1):
         _line(c, x, table_y - i * row_h, x + w, table_y - i * row_h)
 
     headers = ["#", "Движение", "Кол-во", "✓", "Сумма", "Прим."]
