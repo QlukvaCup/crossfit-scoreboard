@@ -301,30 +301,68 @@ function renderCurrent(){
   }
 }
 
+const MOBILE_STATE_KEYS = {
+  view: 'qlukva_mobile_view',
+  division: 'qlukva_mobile_division',
+  wod: 'qlukva_mobile_wod',
+};
+let userIsChoosing = false;
+let lastLoadStartedAt = 0;
+
+function saveMobileState(){
+  sessionStorage.setItem(MOBILE_STATE_KEYS.view, viewSel.value || 'table');
+  sessionStorage.setItem(MOBILE_STATE_KEYS.division, divSel.value || 'BEGSCAL_F');
+  sessionStorage.setItem(MOBILE_STATE_KEYS.wod, wodSel.value || '');
+}
+
+function restoreMobileState(){
+  const savedView = sessionStorage.getItem(MOBILE_STATE_KEYS.view);
+  const savedDivision = sessionStorage.getItem(MOBILE_STATE_KEYS.division);
+  const savedWod = sessionStorage.getItem(MOBILE_STATE_KEYS.wod);
+
+  if(savedView && [...viewSel.options].some(o => o.value === savedView)) {
+    viewSel.value = savedView;
+  }
+  if(savedDivision && [...divSel.options].some(o => o.value === savedDivision)) {
+    divSel.value = savedDivision;
+  }
+  refreshWodOptions();
+  if(savedWod && [...wodSel.options].some(o => o.value === savedWod)) {
+    wodSel.value = savedWod;
+  }
+}
+
 async function load(){
-  const currentDiv = divSel.value;
-  const currentView = viewSel.value;
-  const currentWod = wodSel.value;
+  if(userIsChoosing) return;
+
+  const loadStartedAt = Date.now();
+  lastLoadStartedAt = loadStartedAt;
+
+  saveMobileState();
 
   const res = await fetch(`results.json?ts=${Date.now()}`);
-  cache = await res.json();
+  const freshCache = await res.json();
+
+  if(loadStartedAt !== lastLoadStartedAt || userIsChoosing) return;
+
+  cache = freshCache;
   document.getElementById('meta').textContent = `Обновлено: ${cache.generated_at}`;
   applyDisplaySettings();
-
-  if(currentDiv && [...divSel.options].some(o => o.value === currentDiv)) divSel.value = currentDiv;
-  if(currentView) viewSel.value = currentView;
-  refreshWodOptions();
-  if(currentWod && [...wodSel.options].some(o => o.value === currentWod)) wodSel.value = currentWod;
-
+  restoreMobileState();
   renderCurrent();
 }
 
-divSel.onchange = renderCurrent;
-viewSel.onchange = renderCurrent;
-wodSel.onchange = renderCurrent;
+function handleSelectorChange(){
+  saveMobileState();
+  renderCurrent();
+}
 
+[divSel, viewSel, wodSel].forEach(sel => {
+  sel.addEventListener('focus', () => { userIsChoosing = true; });
+  sel.addEventListener('blur', () => { userIsChoosing = false; saveMobileState(); setTimeout(load, 150); });
+  sel.addEventListener('change', () => { userIsChoosing = false; handleSelectorChange(); });
+});
+
+restoreMobileState();
 load();
 setInterval(load, 5000);
-</script>
-</body>
-</html>
