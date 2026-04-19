@@ -393,8 +393,11 @@ function renderSceneState() {
 }
 function nextScene() { sceneIndex = (sceneIndex + 1) % SCENES.length; renderSceneState(); }
 function applySceneDuration() {
-  const sec = Number(cache?.tv_scene_duration_sec || cache?.display?.main?.scene_duration_sec || 10);
-  sceneDurationMs = Math.max(3, sec) * 1000;
+  const rawSec = Number(cache?.tv_scene_duration_sec || cache?.display?.main?.scene_duration_sec || 10);
+  const safeSec = Number.isFinite(rawSec) ? rawSec : 10;
+  const newDurationMs = Math.max(3, safeSec) * 1000;
+  if (nextSceneTimer && sceneDurationMs === newDurationMs) return;
+  sceneDurationMs = newDurationMs;
   if (nextSceneTimer) clearInterval(nextSceneTimer);
   nextSceneTimer = setInterval(nextScene, sceneDurationMs);
 }
